@@ -37,5 +37,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "jquery": "^3.5.1"
   }
 }

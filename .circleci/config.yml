@@ -5,7 +5,7 @@ jobs:
       - image: circleci/python:3.7-browsers
     steps:
       - checkout
-      - - run:
+      - run:
             name: update-npm
             command: 'sudo npm install -g npm@latest'
       - run:

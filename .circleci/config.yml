@@ -7,14 +7,14 @@ jobs:
       - checkout
       - run:
           name: update-npm
-          command: npm install -g npm@latest
+          command: sudo npm install -g npm@latest
       - run:
           name: install-dependencies
           command: npm install
       - run:
           name: Install Selenium
           command: npm install selenium-webdriver
-  
+
 workflows:
   version: 2
   build_and_test:

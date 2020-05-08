@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  browser-tools: circleci/browser-tools@1.0.0
+
 jobs:
   build:
     docker:
@@ -15,8 +19,20 @@ jobs:
           name: Install Selenium
           command: npm install selenium-webdriver
 
+  test:
+    docker:
+      - image: circleci/python:3.7-browsers
+    steps:
+      - checkout
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - run:
+          name: HelloWorld-test
+          command: python test/hello_world_tests.py
+
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
+      - test

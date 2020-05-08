@@ -5,10 +5,12 @@ jobs:
       - image: circleci/python:3.7-browsers
     steps:
       - checkout
+      - - run:
+            name: update-npm
+            command: 'sudo npm install -g npm@latest'
       - run:
-          name: "Install Selenium"
-          command: |
-            npm install selenium-webdriver
+          name: Install Selenium
+          command: 'sudo npm install selenium-webdriver'
 
 workflows:
   version: 2

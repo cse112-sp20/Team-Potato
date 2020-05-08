@@ -1,15 +1,19 @@
 from selenium import webdriver
 
 options = webdriver.ChromeOptions()
-options.add_extension('Team-Potato-master.zip')
+options.add_extension('./Team-Potato-master.crx')
+#options.add_argument("--headless")
 
-driver = webdriver.Chrome(options=options)
+
+driver = webdriver.Chrome("./test/chromedriver", options=options)
 
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 driver.get("chrome://extensions")
-uid = input("Enter UID Value")
+
+uid = 'flfgpjanhbdjakbkafipakpfjcmochnp'
 driver.get("chrome-extension://"+ uid +"/popup.html")
+
 
 # Test 1: Find Element Hello World
 hello_world = driver.find_element_by_id("greet")
@@ -27,3 +31,6 @@ test_3 = driver.find_element_by_id("greet")
 assert test_3.text == "Hello Test 3"
 
 print("All Tests Passed")
+
+
+

@@ -39,6 +39,8 @@
     }
   },
   "dependencies": {
-    "jquery": "^3.5.1"
+    "chromedriver": "^81.0.0",
+    "jquery": "^3.5.1",
+    "selenium-webdriver": "^4.0.0-alpha.7"
   }
 }

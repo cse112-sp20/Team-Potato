@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "PotatoTab",
-  "version": "1.1",
+  "version": "1.0",
   "description": "An all-in-one tab grouper, session manager, and concentration extension",
   "icons": {
     "16": "logo.png"
@@ -10,5 +10,5 @@
     "default_icon": "logo.png",
     "default_popup": "popup.html"
   },
-  "permissions": ["storage"]
+  "permissions": ["storage", "tabs"]
 }

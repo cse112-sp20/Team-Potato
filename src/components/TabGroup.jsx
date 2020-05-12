@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/TabGroup.css';
 import Card from 'react-bootstrap/Card';
+import { IoIosTimer } from 'react-icons/io';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { GrEdit } from 'react-icons/gr';
 
 const TabGroup = (props) => {
   const { name, tabs } = props;
@@ -13,8 +17,22 @@ const TabGroup = (props) => {
   return (
     <div>
       <Card>
-        <Card.Header as="h2">
+        <Card.Header as="h5">
           <strong>{name}</strong>
+
+          <div className="buttonGroup">
+            <button type="button">
+              <IoIosTimer />
+            </button>
+
+            <button type="button">
+              <RiDeleteBinLine />
+            </button>
+
+            <button type="button">
+              <GrEdit />
+            </button>
+          </div>
         </Card.Header>
         <Card.Body>
           <ul>

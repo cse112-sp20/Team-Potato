@@ -1,4 +1,5 @@
 import React from 'react';
+import PopupFocusMode from './PopupFocusMode';
 
 function openMenu() {
   const menuUrl = chrome.runtime.getURL('menu.html');
@@ -8,7 +9,7 @@ function openMenu() {
 function Popup() {
   return (
     <div className="Popup">
-      <h1>Hello world</h1>
+      <PopupFocusMode />
       <button type="button" onClick={openMenu}>
         Open Potato Tab
       </button>

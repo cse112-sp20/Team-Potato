@@ -8,6 +8,7 @@ import { GrEdit } from 'react-icons/gr';
 
 const TabGroup = (props) => {
   const { name, tabs } = props;
+  let idCounter = 1;
 
   TabGroup.propTypes = {
     name: PropTypes.string.isRequired,
@@ -37,7 +38,7 @@ const TabGroup = (props) => {
         <Card.Body>
           <ul>
             {tabs.map((tab) => (
-              <li>{tab}</li>
+              <li key={tab}>{tab}</li>
             ))}
           </ul>
         </Card.Body>

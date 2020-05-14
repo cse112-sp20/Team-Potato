@@ -29,7 +29,7 @@ class Menu extends React.Component {
     };
     tabgroups.push(newGroup);
     this.setState({ tabgroups });
-  }
+  };
 
   render() {
     const { tabgroups } = this.state;
@@ -37,7 +37,11 @@ class Menu extends React.Component {
       <div>
         <h1>Menu.jsx</h1>
         {tabgroups.map((tabgroup) => (
-          <TabGroup name={tabgroup.name} tabs={tabgroup.tabs} />
+          <TabGroup
+            key={tabgroup.name}
+            name={tabgroup.name}
+            tabs={tabgroup.tabs}
+          />
         ))}
 
         <button className="addGroup" type="button" onClick={this.addGroup}>

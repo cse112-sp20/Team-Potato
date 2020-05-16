@@ -5,10 +5,10 @@ import Card from 'react-bootstrap/Card';
 import { IoIosTimer } from 'react-icons/io';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { GrEdit } from 'react-icons/gr';
+import Tab from './Tab';
 
 const TabGroup = (props) => {
   const { name, tabs } = props;
-  let idCounter = 1;
 
   TabGroup.propTypes = {
     name: PropTypes.string.isRequired,
@@ -38,7 +38,9 @@ const TabGroup = (props) => {
         <Card.Body>
           <ul>
             {tabs.map((tab) => (
-              <li key={tab}>{tab}</li>
+              <Tab title={tab} key={tab}>
+                {tab}
+              </Tab>
             ))}
           </ul>
         </Card.Body>

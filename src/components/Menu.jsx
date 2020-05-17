@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import TabGroup from './TabGroup';
+import Tab from './Tab';
 import '../styles/Menu.css';
 
 class Menu extends React.Component {
@@ -99,17 +100,15 @@ class Menu extends React.Component {
   render() {
     const { addGroupModal, activeTabs, tabgroups } = this.state;
     return (
-      <div>
-        <div className="ActiveTabs">
+      <div className="menuContainer">
+        <div className="activeTabs">
           <h2>Active Tabs</h2>
-          <ul>
-            {activeTabs.map((tab) => (
-              <li key={tab.title}>{tab.title}</li>
-            ))}
-          </ul>
+          {activeTabs.map((tab) => (
+            <Tab title={tab.title} url={tab.url} key={tab.title} />
+          ))}
         </div>
-        <div className="TabGroups">
-          <h2>Menu.jsx</h2>
+        <div className="tabGroups">
+          <h2>Tab Groups</h2>
           {tabgroups.map((tabgroup) => (
             <TabGroup
               key={tabgroup.name}

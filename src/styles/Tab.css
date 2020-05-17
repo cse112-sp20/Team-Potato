@@ -4,8 +4,8 @@ body {font-family: "Lato", sans-serif;}
     background-color: #555;
     color: white;
     float: left;
-    border: solid;
-    border-radius: 15px;
+    border: none;
+    border-radius: 10px;
     outline: none;
     cursor: pointer;
     padding: 5px 5px;
@@ -15,6 +15,7 @@ body {font-family: "Lato", sans-serif;}
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin: 5px;
 }
 
 .tablink:hover {

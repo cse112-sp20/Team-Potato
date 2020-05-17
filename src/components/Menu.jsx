@@ -3,7 +3,6 @@ import { IoMdAddCircle } from 'react-icons/io';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import ActiveTabs from './ActiveTabs';
 import TabGroup from './TabGroup';
 import '../styles/Menu.css';
 
@@ -34,6 +33,22 @@ class Menu extends React.Component {
       ],
     };
   }
+
+  componentDidMount() {
+    this.getActiveTabs();
+  }
+
+  getActiveTabs = () => {
+    chrome.tabs.query({}, (tabs) => {
+      const tempTabs = [];
+
+      for (let i = 0; i < tabs.length; i += 1) {
+        tempTabs.push({ title: tabs[i].title, url: tabs[i].url });
+      }
+
+      this.setState({ activeTabs: tempTabs });
+    });
+  };
 
   addGroup = (e) => {
     if (e.type === 'submit') {
@@ -85,27 +100,36 @@ class Menu extends React.Component {
     const { addGroupModal, activeTabs, tabgroups } = this.state;
     return (
       <div>
-        <h1>Menu.jsx</h1>
-        <ActiveTabs />
-        {tabgroups.map((tabgroup) => (
-          <TabGroup
-            key={tabgroup.name}
-            name={tabgroup.name}
-            tabs={tabgroup.tabs}
-            deleteGroup={this.deleteGroup}
-            editGroup={this.editGroup}
-          />
-        ))}
+        <div className="ActiveTabs">
+          <h2>Active Tabs</h2>
+          <ul>
+            {activeTabs.map((tab) => (
+              <li key={tab.title}>{tab.title}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="TabGroups">
+          <h2>Menu.jsx</h2>
+          {tabgroups.map((tabgroup) => (
+            <TabGroup
+              key={tabgroup.name}
+              name={tabgroup.name}
+              tabs={tabgroup.tabs}
+              deleteGroup={this.deleteGroup}
+              editGroup={this.editGroup}
+            />
+          ))}
 
-        <button
-          className="addGroup"
-          type="button"
-          onClick={() => {
-            this.setState({ addGroupModal: true });
-          }}
-        >
-          <IoMdAddCircle />
-        </button>
+          <button
+            className="addGroup"
+            type="button"
+            onClick={() => {
+              this.setState({ addGroupModal: true });
+            }}
+          >
+            <IoMdAddCircle />
+          </button>
+        </div>
 
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>
@@ -118,7 +142,7 @@ class Menu extends React.Component {
                 <Form.Control type="text" placeholder="Enter Group Name..." />
               </Form.Group>
               <Form.Group controlId="selectedTabs">
-                <Form.Label>Select Tabs</Form.Label>
+                <Form.Label>Add Tabs to TabGroup</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (
                     <option key={tab.title}>{tab.title}</option>

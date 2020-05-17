@@ -3,6 +3,7 @@ import { IoMdAddCircle } from 'react-icons/io';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ActiveTabs from './ActiveTabs';
 import TabGroup from './TabGroup';
 import '../styles/Menu.css';
 
@@ -12,16 +13,7 @@ class Menu extends React.Component {
 
     this.state = {
       addGroupModal: false,
-      activeTabs: [
-        {
-          title: 'Slack',
-          url: 'https://slack.com',
-        },
-        {
-          title: 'Youtube',
-          url: 'https://youtube.com',
-        },
-      ],
+      activeTabs: [],
       tabgroups: [
         {
           name: 'work',
@@ -94,6 +86,7 @@ class Menu extends React.Component {
     return (
       <div>
         <h1>Menu.jsx</h1>
+        <ActiveTabs />
         {tabgroups.map((tabgroup) => (
           <TabGroup
             key={tabgroup.name}

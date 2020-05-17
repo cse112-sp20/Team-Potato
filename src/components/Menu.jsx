@@ -75,10 +75,7 @@ class Menu extends React.Component {
     if (e.type === 'submit') {
       e.preventDefault();
       const { activeTabs, tabgroups } = this.state;
-      let groupName = e.target[0].value;
-      if (groupName === '') {
-        groupName = 'Untitled';
-      }
+      const groupName = e.target[0].value;
       const { options } = e.target[1];
 
       const selectedTabs = [];

@@ -1,5 +1,6 @@
 import React from 'react';
 import { IoMdAddCircle } from 'react-icons/io';
+import ActiveTabs from './ActiveTabs';
 import TabGroup from './TabGroup';
 import '../styles/Menu.css';
 
@@ -36,6 +37,7 @@ class Menu extends React.Component {
     return (
       <div>
         <h1>Menu.jsx</h1>
+        <ActiveTabs />
         {tabgroups.map((tabgroup) => (
           <TabGroup
             key={tabgroup.name}

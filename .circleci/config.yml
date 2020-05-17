@@ -20,6 +20,8 @@ jobs:
           command: npm install selenium-webdriver
 
   test:
+    environment:
+      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
     docker:
       - image: circleci/python:3.7-browsers
     steps:
@@ -27,11 +29,27 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            # download test reporter as a static binary
+                     curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+                     chmod +x ./cc-test-reporter
+      - run:
+          name: Notify Code Climate of Pending Tests
+          command: |
+            sudo docker-php-ext-enable xdebug
+            ./cc-test-reporter before-build
+      - run:
           name: Selenium-setup
           command: sudo pip install selenium
       - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
+      - run:
+          name: Send Report to Code Climate
+          command: |
+            sudo vendor/bin/phpunit --coverage-clover clover.xml
+            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
 
 workflows:
   version: 2

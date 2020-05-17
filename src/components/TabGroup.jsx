@@ -7,48 +7,81 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { GrEdit } from 'react-icons/gr';
 import Tab from './Tab';
 
-const TabGroup = (props) => {
-  const { name, tabs, deleteGroup } = props;
+class TabGroup extends React.Component {
+  constructor(props) {
+    super(props);
 
-  TabGroup.propTypes = {
-    name: PropTypes.string.isRequired,
-    tabs: PropTypes.arrayOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    deleteGroup: PropTypes.func.isRequired,
+    TabGroup.propTypes = {
+      name: PropTypes.string.isRequired,
+      tabs: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          url: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+      deleteGroup: PropTypes.func.isRequired,
+      editGroup: PropTypes.func.isRequired,
+    };
+
+    this.state = {
+      editMode: false,
+      newName: '',
+    };
+  }
+
+  toggleEdit = () => {
+    this.setState({ editMode: true });
   };
 
-  return (
-    <div>
-      <Card>
-        <Card.Header as="h5">
-          <strong>{name}</strong>
+  render() {
+    const { name, tabs, deleteGroup, editGroup } = this.props;
+    const { editMode, newName } = this.state;
+    return (
+      <div>
+        <Card>
+          <Card.Header as="h5">
+            {editMode ? (
+              <input
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+                type="text"
+                defaultValue={name}
+                onChange={(e) => {
+                  this.setState({ newName: e.target.value });
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    editGroup(name, newName);
+                  }
+                }}
+              />
+            ) : (
+              <strong>{name}</strong>
+            )}
 
-          <div className="buttonGroup">
-            <button type="button">
-              <IoIosTimer />
-            </button>
+            <div className="buttonGroup">
+              <button type="button">
+                <IoIosTimer />
+              </button>
 
-            <button type="button" onClick={() => deleteGroup(name)}>
-              <RiDeleteBinLine />
-            </button>
+              <button type="button" onClick={() => deleteGroup(name)}>
+                <RiDeleteBinLine />
+              </button>
 
-            <button type="button">
-              <GrEdit />
-            </button>
-          </div>
-        </Card.Header>
-        <Card.Body>
-          {tabs.map((tab) => (
-            <Tab title={tab.title} url={tab.url} key={tab.title} />
-          ))}
-        </Card.Body>
-      </Card>
-    </div>
-  );
-};
+              <button type="button" onClick={this.toggleEdit}>
+                <GrEdit />
+              </button>
+            </div>
+          </Card.Header>
+          <Card.Body>
+            {tabs.map((tab) => (
+              <Tab title={tab.title} url={tab.url} key={tab.title} />
+            ))}
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  }
+}
 
 export default TabGroup;

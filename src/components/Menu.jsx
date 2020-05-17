@@ -47,7 +47,10 @@ class Menu extends React.Component {
     if (e.type === 'submit') {
       e.preventDefault();
       const { activeTabs, tabgroups } = this.state;
-      const groupName = e.target[0].value;
+      let groupName = e.target[0].value;
+      if (groupName === '') {
+        groupName = 'Untitled';
+      }
       const { options } = e.target[1];
 
       const selectedTabs = [];
@@ -75,6 +78,13 @@ class Menu extends React.Component {
     });
   };
 
+  editGroup = (target, newName) => {
+    const { tabgroups } = this.state;
+    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
+    tabgroups[index].name = newName;
+    this.setState({ tabgroups });
+  };
+
   modalClose = () => {
     this.setState({ addGroupModal: false });
   };
@@ -90,6 +100,7 @@ class Menu extends React.Component {
             name={tabgroup.name}
             tabs={tabgroup.tabs}
             deleteGroup={this.deleteGroup}
+            editGroup={this.editGroup}
           />
         ))}
 
@@ -109,11 +120,11 @@ class Menu extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.addGroup}>
-              <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Group controlId="groupName">
                 <Form.Label>Group Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter Group Name..." />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlSelect2">
+              <Form.Group controlId="selectedTabs">
                 <Form.Label>Select Tabs</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (

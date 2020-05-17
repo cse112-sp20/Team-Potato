@@ -8,11 +8,17 @@ import { GrEdit } from 'react-icons/gr';
 import Tab from './Tab';
 
 const TabGroup = (props) => {
-  const { name, tabs } = props;
+  const { name, tabs, deleteGroup } = props;
 
   TabGroup.propTypes = {
     name: PropTypes.string.isRequired,
-    tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
+    tabs: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    deleteGroup: PropTypes.func.isRequired,
   };
 
   return (
@@ -26,7 +32,7 @@ const TabGroup = (props) => {
               <IoIosTimer />
             </button>
 
-            <button type="button">
+            <button type="button" onClick={() => deleteGroup(name)}>
               <RiDeleteBinLine />
             </button>
 
@@ -36,13 +42,9 @@ const TabGroup = (props) => {
           </div>
         </Card.Header>
         <Card.Body>
-          <ul>
-            {tabs.map((tab) => (
-              <Tab title={tab} key={tab}>
-                {tab}
-              </Tab>
-            ))}
-          </ul>
+          {tabs.map((tab) => (
+            <Tab title={tab.title} url={tab.url} key={tab.title} />
+          ))}
         </Card.Body>
       </Card>
     </div>

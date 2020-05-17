@@ -1,5 +1,8 @@
 import React from 'react';
 import { IoMdAddCircle } from 'react-icons/io';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import TabGroup from './TabGroup';
 import '../styles/Menu.css';
 
@@ -8,31 +11,70 @@ class Menu extends React.Component {
     super();
 
     this.state = {
+      addGroupModal: false,
+      activeTabs: [
+        {
+          title: 'Slack',
+          url: 'https://slack.com',
+        },
+        {
+          title: 'Youtube',
+          url: 'https://youtube.com',
+        },
+      ],
       tabgroups: [
         {
           name: 'work',
-          tabs: ['slack', 'stackoverflow', 'canvas'],
+          tabs: [
+            { title: 'Slack', url: 'https://slack.com' },
+            { title: 'StackOverflow', url: 'https://stackoverflow' },
+            { title: 'Canvas', url: 'https://canvas.com' },
+          ],
         },
         {
           name: 'play',
-          tabs: ['youtube', 'netflix', 'hulu'],
+          tabs: [
+            { title: 'Youtube', url: 'https://youtube.com' },
+            { title: 'Netflix', url: 'https://netflix.com' },
+            { title: 'Hulu', url: 'https://hulu.com' },
+          ],
         },
       ],
     };
   }
 
-  addGroup = () => {
-    const { tabgroups } = this.state;
+  addGroup = (evt) => {
+    const { activeTabs, tabgroups } = this.state;
+    const groupName = evt.target[0].value;
+    const options = evt.target[1].options;
+
+    const selectedTabs = [];
+    for (let i = 0, l = options.length; i < l; i += 1) {
+      if (options[i].selected) {
+        selectedTabs.push(activeTabs[i]);
+      }
+    }
     const newGroup = {
-      name: 'test',
-      tabs: ['test1', 'test2'],
+      name: groupName,
+      tabs: selectedTabs,
     };
     tabgroups.push(newGroup);
     this.setState({ tabgroups });
   };
 
-  render() {
+  deleteGroup = (target) => {
     const { tabgroups } = this.state;
+    this.setState({
+      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
+    });
+  };
+
+  modalClose = () => {
+    this.setState({ addGroupModal: false });
+  };
+
+  render() {
+    const { addGroupModal, activeTabs, tabgroups } = this.state;
     return (
       <div>
         <h1>Menu.jsx</h1>
@@ -41,12 +83,44 @@ class Menu extends React.Component {
             key={tabgroup.name}
             name={tabgroup.name}
             tabs={tabgroup.tabs}
+            deleteGroup={this.deleteGroup}
           />
         ))}
 
-        <button className="addGroup" type="button" onClick={this.addGroup}>
+        <button
+          className="addGroup"
+          type="button"
+          onClick={() => {
+            this.setState({ addGroupModal: true });
+          }}
+        >
           <IoMdAddCircle />
         </button>
+
+        <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create a New Tabgroup</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={this.addGroup}>
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Label>Group Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter Group Name..." />
+              </Form.Group>
+              <Form.Group controlId="exampleForm.ControlSelect2">
+                <Form.Label>Select Tabs</Form.Label>
+                <Form.Control as="select" multiple>
+                  {activeTabs.map((tab) => (
+                    <option key={tab.title}>{tab.title}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+              <Button variant="primary" type="submit" onClick={this.addGroup}>
+                Create Group
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }

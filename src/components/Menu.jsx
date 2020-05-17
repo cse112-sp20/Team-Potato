@@ -43,23 +43,29 @@ class Menu extends React.Component {
     };
   }
 
-  addGroup = (evt) => {
-    const { activeTabs, tabgroups } = this.state;
-    const groupName = evt.target[0].value;
-    const options = evt.target[1].options;
+  addGroup = (e) => {
+    if (e.type === 'submit') {
+      e.preventDefault();
+      const { activeTabs, tabgroups } = this.state;
+      const groupName = e.target[0].value;
+      const { options } = e.target[1];
 
-    const selectedTabs = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        selectedTabs.push(activeTabs[i]);
+      const selectedTabs = [];
+      for (let i = 0, l = options.length; i < l; i += 1) {
+        if (options[i].selected) {
+          selectedTabs.push(activeTabs[i]);
+        }
       }
+      const newGroup = {
+        name: groupName,
+        tabs: selectedTabs,
+      };
+
+      tabgroups.push(newGroup);
+      this.setState({ tabgroups });
+
+      this.modalClose();
     }
-    const newGroup = {
-      name: groupName,
-      tabs: selectedTabs,
-    };
-    tabgroups.push(newGroup);
-    this.setState({ tabgroups });
   };
 
   deleteGroup = (target) => {

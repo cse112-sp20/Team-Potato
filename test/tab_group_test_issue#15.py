@@ -3,13 +3,8 @@ from selenium.webdriver.chrome.options import Options
 
 options = webdriver.ChromeOptions()
 
-<<<<<<< HEAD
 #options.add_argument("load-extension=./build/")
 options.add_extension('./build.crx')
-=======
-options.add_argument("load-extension=./build/")
-#options.add_extension('./build.crx')
->>>>>>> 1a0ed6347278ffa68e24dd8683786d4bda336942
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
 
@@ -18,11 +13,7 @@ driver = webdriver.Chrome(options=options)
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 driver.get("chrome://extensions")
 
-<<<<<<< HEAD
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
-=======
-uid = "ccinfmkhbhbanafijpnhbcgmlnchgbhi"
->>>>>>> 1a0ed6347278ffa68e24dd8683786d4bda336942
 driver.get("chrome-extension://"+ uid +"/popup.html")
 
 # Test 1: Checking if open tab button exists

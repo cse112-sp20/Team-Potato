@@ -6,11 +6,10 @@ print("loading packed extension")
 options = Options()
 
 options.add_argument("load-extension=./build/")
-options.add_argument('--headless')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
 print("loading chrome driver")
-driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome('./test/chromedriver',options=options)
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 print("opening tabs for testing")

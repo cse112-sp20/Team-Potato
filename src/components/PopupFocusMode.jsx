@@ -8,6 +8,7 @@ class PopupFocusMode extends React.Component {
     this.state = {
       isFocusModeOn: false,
       tabGroupName: 'CSE112',
+      defaultTime: 3600000,
     };
   }
 
@@ -20,14 +21,14 @@ class PopupFocusMode extends React.Component {
   };
 
   render() {
-    const { isFocusModeOn, tabGroupName } = this.state;
+    const { isFocusModeOn, tabGroupName, defaultTime } = this.state;
     const buttonText = isFocusModeOn ? 'End\nFocus' : 'Start\nFocus';
 
     return (
       <div className="popup-view-fm">
         <h1>Focus Mode</h1>
         <Timer
-          initialTime={3600000}
+          initialTime={defaultTime}
           direction="backward"
           startImmediately={false}
         >
@@ -42,27 +43,20 @@ class PopupFocusMode extends React.Component {
               </div>
               <h1>{tabGroupName}</h1>
               <div>
-                {isFocusModeOn ? (
-                  <button
-                    type="button"
-                    onClick={() => {
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (isFocusModeOn) {
                       this.clickEnd();
                       stop();
-                    }}
-                  >
-                    {buttonText}
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => {
+                    } else {
                       this.clickStart();
                       start();
-                    }}
-                  >
-                    {buttonText}
-                  </button>
-                )}
+                    }
+                  }}
+                >
+                  {buttonText}
+                </button>
               </div>
             </>
           )}

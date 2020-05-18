@@ -5,9 +5,10 @@ from selenium.webdriver.common.keys import Keys
 print("loading packed extension")
 options = Options()
 
-options.add_argument("load-extension=./build/");
-options.add_argument("--disable-dev-shm-usage"); # overcome limited resource problems
-options.add_argument("--no-sandbox"); # Bypass OS security model
+options.add_argument("load-extension=./build/")
+options.add_argument('--headless')
+options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
+options.add_argument("--no-sandbox") # Bypass OS security model
 print("loading chrome driver")
 driver = webdriver.Chrome(options=options)
 

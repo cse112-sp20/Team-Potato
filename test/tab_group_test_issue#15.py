@@ -9,7 +9,7 @@ options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
 
-driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome('test/chromedriver', options=options)
 print("loading extension page")
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 driver.get("chrome://extensions")
@@ -17,7 +17,6 @@ driver.get("chrome://extensions")
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 driver.get("chrome-extension://"+ uid +"/popup.html")
 
-print("Test 1: Checking if open tab button exists")
 # Test 1: Checking if open tab button exists
 open_tab_buttons = driver.find_elements_by_tag_name("button")
 for i in open_tab_buttons:
@@ -27,21 +26,16 @@ assert open_tab_button.text == "Open Potato Tab", "Should be 'Open Potato Tab'"
 
 
 # Test 2: Checking if open tab moves us to menu.html
-print("Test 2: Checking if open tab moves us to menu.html")
 open_tab_button.click()
 driver.switch_to.window(driver.window_handles[-1])
 post_press_title = driver.title
 assert post_press_title == "Potato Tab Menu", "Should be 'Potato Tab Menu'"
 
 # Test 3: Check if tab group button exists
-print("Test 3: Check if tab group button exists")
-open_tab_button.click()
 add_group_button = driver.find_element_by_class_name("addGroup")
 assert add_group_button is not None, "Add group button should exists"
 
 # Test 4: Check if tab group button creates a new group
-print("Test 4: Check if tab group button creates a new group")
-open_tab_button.click()
 add_group_button.click()
 cards = driver.find_elements_by_class_name("card")
 flag = 0
@@ -55,8 +49,6 @@ h3_header =  test_group.find_element_by_tag_name("h5")
 assert h3_header.text == "test", "Group Button Does not work"
 
 # Test 5: Check if hardcoded groups added to test group
-print("Test 5: Check if hardcoded groups added to test group")
-open_tab_button.click()
 listing_tabs = test_group.find_elements_by_class_name("tablink")
 second_flag = 0
 third_flag = 0

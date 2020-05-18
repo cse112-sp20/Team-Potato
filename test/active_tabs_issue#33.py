@@ -3,17 +3,17 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
 print("loading packed extension")
-options = Options()
-
-options.add_argument("load-extension=./build/")
+options = webdriver.ChromeOptions()
+options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
+
 print("loading chrome driver")
 driver = webdriver.Chrome(options=options)
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 print("opening tabs for testing")
-uid = "ccinfmkhbhbanafijpnhbcgmlnchgbhi"
+uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 driver.get("https://cse.ucsd.edu")
 driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[1])

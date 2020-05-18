@@ -68,15 +68,6 @@ class PopupFocusMode extends React.Component {
             </>
           )}
         </Timer>
-        {/* {isFocusModeOn ? (
-          <button type="button" onClick={this.clickEnd}>
-            {buttonText}
-          </button>
-        ) : (
-          <button type="button" onClick={this.clickStart}>
-            {buttonText}
-          </button>
-        )} */}
       </div>
     );
   }

@@ -5,7 +5,7 @@ options.add_extension('./Team-Potato-master.crx')
 #options.add_argument("--headless")
 
 
-driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome("./test/chromedriver", options=options)
 
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard

@@ -5,7 +5,7 @@ options = Options()
 
 options.add_argument("load-extension=./build/");
 
-driver = webdriver.Chrome("./test/chromedriver", options=options)
+driver = webdriver.Chrome(options=options)
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 driver.get("chrome://extensions")

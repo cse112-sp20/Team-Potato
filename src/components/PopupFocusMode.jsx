@@ -1,4 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import Timer from 'react-compound-timer';
 import '../styles/PopupFocusMode.css';

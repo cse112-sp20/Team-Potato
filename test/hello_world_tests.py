@@ -8,7 +8,7 @@ options.add_argument("--no-sandbox") # Bypass OS security model
 #options.add_argument("--headless")
 
 
-driver = webdriver.Chrome('./test/chromedriver',options=options)
+driver = webdriver.Chrome(options=options)
 
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard

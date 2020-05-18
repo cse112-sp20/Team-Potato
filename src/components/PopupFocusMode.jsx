@@ -1,40 +1,82 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-// import Popup from './Popup';
-
-function clickStartFocus() {
-  setInterval(() => {
-    // Set timer here
-  });
-}
-
-function clickEndFocus() {}
+import Timer from 'react-compound-timer';
+import '../styles/PopupFocusMode.css';
 
 class PopupFocusMode extends React.Component {
   constructor() {
     super();
     this.state = {
-      // Todo: set hours and minutes to numbers we can manipulate
+      isFocusModeOn: false,
       tabGroupName: 'CSE112',
-      hours: '01:',
-      minutes: '00',
     };
   }
 
+  clickStart = () => {
+    this.setState({ isFocusModeOn: true });
+  };
+
+  clickEnd = () => {
+    this.setState({ isFocusModeOn: false });
+  };
+
   render() {
-    const { tabGroupName, hours, minutes } = this.state;
+    const { isFocusModeOn, tabGroupName } = this.state;
+    const buttonText = isFocusModeOn ? 'End\nFocus' : 'Start\nFocus';
+
     return (
-      <div className="popup-view-fm-start">
+      <div className="popup-view-fm">
         <h1>Focus Mode</h1>
-        {/* Use timer react library below or implement own */}
-        <h1>
-          {hours}
-          {minutes}
-        </h1>
-        <h1>{tabGroupName}</h1>
-        <button type="button" onClick={clickStartFocus}>
-          Start
-        </button>
+        <Timer
+          initialTime={3600000}
+          direction="backward"
+          startImmediately={false}
+        >
+          {({ start, stop }) => (
+            <>
+              <div>
+                <Timer.Hours />
+                :
+                <Timer.Minutes />
+                :
+                <Timer.Seconds />
+              </div>
+              <h1>{tabGroupName}</h1>
+              <div>
+                {isFocusModeOn ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.clickEnd();
+                      stop();
+                    }}
+                  >
+                    {buttonText}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.clickStart();
+                      start();
+                    }}
+                  >
+                    {buttonText}
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+        </Timer>
+        {/* {isFocusModeOn ? (
+          <button type="button" onClick={this.clickEnd}>
+            {buttonText}
+          </button>
+        ) : (
+          <button type="button" onClick={this.clickStart}>
+            {buttonText}
+          </button>
+        )} */}
       </div>
     );
   }

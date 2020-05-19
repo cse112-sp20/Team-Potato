@@ -49,9 +49,7 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run: |
-          sudo npm install -g npm@latest
           sudo npm install
-          sudo npm audit fix
           sudo npm run build-dev
       - run:
           name: check-repo

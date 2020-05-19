@@ -49,19 +49,19 @@ jobs:
       - browser-tools/install-chromedriver
       - run:
           name: update-npm
-          command: sudo npm install -g npm@latest
+          command: 'sudo npm install -g npm@latest'
       - run:
           name: install-dependencies
-          command: sudo npm install
+          command: 'sudo npm install'
       - run:
           name: Fix Vulnerabilities
-          command: sudo npm audit fix
+          command: 'sudo npm audit fix'
       - run:
           name: Install Selenium
-          command: sudo npm install selenium-webdriver
+          command: 'sudo npm install selenium-webdriver'
       - run:
           name: Generate Build
-          command: sudo npm run build-dev
+          command: 'sudo npm run build-dev'
       - run:
           name: check-repo
           command: ls

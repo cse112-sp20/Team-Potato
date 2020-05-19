@@ -7,9 +7,8 @@
   "icons": {
     "16": "logo.png"
   },
-  "browser_action": {
-    "default_icon": "logo.png",
-    "default_popup": "popup.html"
+  "background": {
+    "scripts": ["background.bundle.js"]
   },
-  "permissions": ["storage", "tabs"]
+  "permissions": ["storage", "tabs", "activeTab", "http://*/", "https://*/"]
 }

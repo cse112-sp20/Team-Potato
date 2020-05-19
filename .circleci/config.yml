@@ -44,7 +44,13 @@ jobs:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
       - run:
-          name: Send Report to Code Climate
+          name: Copy test coverage report file 1
+          command: mv ./coverage/lcov.info ./lcov.info
+      - run:
+          name: Copy test coverage report file 2
+          command: mv ./coverage/lcov-report ./lcov-report
+      - run:
+          name: Pass test coverage files to cc
           command: ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
 
 workflows:

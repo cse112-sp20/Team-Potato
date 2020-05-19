@@ -14,11 +14,12 @@ executors:
 jobs:
   build:
     executor: nodejs
+    working_directory: ～/home/circleci/project
     steps:
       - checkout
       - run:
           name: update-npm
-          command: pwd
+          command: sudo npm install -g npm@latest
       - run:
           name: install-dependencies
           command: sudo npm install
@@ -34,7 +35,7 @@ jobs:
 
   test:
     executor: python
-    working_directory: ～/test
+    working_directory: ～/home/circleci/project
     steps:
       - checkout
       - browser-tools/install-chrome

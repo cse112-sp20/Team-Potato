@@ -14,12 +14,11 @@ executors:
 jobs:
   build:
     executor: nodejs
-    working_directory: ～/test
     steps:
       - checkout
       - run:
           name: update-npm
-          command: sudo npm install -g npm@latest
+          command: whoami
       - run:
           name: install-dependencies
           command: sudo npm install

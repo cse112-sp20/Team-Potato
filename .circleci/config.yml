@@ -32,6 +32,9 @@ jobs:
       - run:
           name: Fix Vulnerabilities
           command: sudo npm audit fix
+      - run:
+          name: check-repo
+          command: ls
 
   test:
     executor: python
@@ -40,6 +43,9 @@ jobs:
       - checkout
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
+      - run:
+          name: check-repo
+          command: ls
       - run:
           name: Selenium-setup
           command: sudo pip install selenium

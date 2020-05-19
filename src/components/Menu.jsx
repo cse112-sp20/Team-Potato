@@ -125,6 +125,7 @@ class Menu extends React.Component {
             onClick={() => {
               this.setState({ addGroupModal: true });
             }}
+            data-testid="add-button"
           >
             <IoMdAddCircle />
           </button>

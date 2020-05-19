@@ -22,6 +22,7 @@ const Tab = (props) => {
         onClick={() => {
           openTab(url);
         }}
+        data-testid="tab-button"
       >
         {title}
       </button>

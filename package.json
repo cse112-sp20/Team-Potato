@@ -38,6 +38,7 @@
     "html-webpack-plugin": "^4.3.0",
     "husky": "4.2.5",
     "jest": "^26.0.1",
+    "jest-webextension-mock": "^3.5.4",
     "lint-staged": "10.2.2",
     "prettier": "2.0.5",
     "webpack": "^4.43.0",
@@ -59,7 +60,10 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    },
+    "setupFiles": [
+      "jest-webextension-mock"
+    ]
   },
   "dependencies": {
     "bootstrap": "^4.5.0",

@@ -1,15 +1,14 @@
+version: '2'
 plugins:
   eslint:
     enabled: true
     config:
       config: .eslintrc.json
-  eslint-config-prettier:
-    enabled: true
-  eslint-plugin-import:
-    enabled: true
-  eslint-plugin-jsx-a11y:
-    enabled: true
-  eslint-plugin-prettier:
-    enabled: true
-  eslint-plugin-react:
-    enabled: true
+      extensions:
+        - .js
+        - .jsx
+      checks:
+        import/extensions:
+          enabled: false
+        prettier/prettier:
+          enabled: false

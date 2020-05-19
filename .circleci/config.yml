@@ -6,7 +6,7 @@ orbs:
 executors:
   nodejs:
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/node:latest
   python:
     docker:
       - image: circleci/python:3.7-browsers
@@ -41,14 +41,12 @@ jobs:
       # Primary container image where all steps run.
       - image: circleci/python:3.7-browsers
       # Secondary container image on common network.
-      - image: circleci/node:10.16.3
+      - image: circleci/node:latest
     working_directory: /home/circleci/project
     steps:
       - checkout
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
-      - run: |
-          curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'

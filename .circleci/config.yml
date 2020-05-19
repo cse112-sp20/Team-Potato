@@ -32,10 +32,10 @@ jobs:
       - run:
           name: Generate Build
           command: sudo npm run build-dev
+      - run: mkdir -p workspace
       - run:
           name: check-repo
           command: ls
-      #- run: mkdir -p workspace
       #- run: mv ./* workspace
       #- persist_to_workspace:
       # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
@@ -48,7 +48,6 @@ jobs:
   test:
     executor: nodejs
     docker:
-      - image: circleci/node:latest
       - image: circleci/python:3.7-browsers
     working_directory: /home/circleci/project
     steps:

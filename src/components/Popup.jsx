@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import TabGroup from './TabGroup';
 import '../styles/Popup.css';
 
@@ -7,14 +8,13 @@ class Popup extends React.Component {
     super();
 
     this.state = {
-      mode: 'home',
       tabgroups: [
         {
           name: 'work',
           tabs: [
             { title: 'Slack', url: 'https://slack.com' },
-            { title: 'StackOverflow', url: 'https://stackoverflow.com' },
-            { title: 'Canvas', url: 'https://canvas.ucsd.edu' },
+            { title: 'StackOverflow', url: 'https://stackoverflow' },
+            { title: 'Canvas', url: 'https://canvas.com' },
           ],
         },
         {
@@ -34,24 +34,38 @@ class Popup extends React.Component {
     chrome.tabs.create({ url: menuUrl });
   };
 
-  render() {
-    const { mode, tabgroups } = this.state;
-    return (
-      <div className="Popup">
-        <h1>PotatoTab</h1>
-        {mode === 'home'
-          ? tabgroups.map((tabgroup) => (
-            <TabGroup
-              name={tabgroup.name}
-              tabs={tabgroup.tabs}
-              key={tabgroup.name}
-            />
-            ))
-          : null}
+  deleteGroup = (target) => {
+    const { tabgroups } = this.state;
+    this.setState({
+      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
+    });
+  };
 
-        <button type="button" onClick={this.openMenu}>
-          Open Potato Tab
-        </button>
+  editGroup = (target, newName) => {
+    const { tabgroups } = this.state;
+    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
+    tabgroups[index].name = newName;
+    this.setState({ tabgroups });
+  };
+
+  render() {
+    const { tabgroups } = this.state;
+    return (
+      <div className="menuContainer">
+        {tabgroups.map((tabgroup) => (
+          <TabGroup
+            key={tabgroup.name}
+            name={tabgroup.name}
+            tabs={tabgroup.tabs}
+            deleteGroup={this.deleteGroup}
+            editGroup={this.editGroup}
+          />
+        ))}
+        <div className="btnContainer">
+          <Button type="button" className="menuBtn" onClick={this.openMenu}>
+            Open Potato Tab
+          </Button>
+        </div>
       </div>
     );
   }

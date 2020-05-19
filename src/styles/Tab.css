@@ -4,13 +4,18 @@ body {font-family: "Lato", sans-serif;}
     background-color: #555;
     color: white;
     float: left;
-    border: solid;
-    border-radius: 15px;
+    border: none;
+    border-radius: 10px;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
-    font-size: 16px;
-    width: 10%;
+    padding: 5px 5px;
+    font-size: 14px;
+    width: 8%;
+    min-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 5px;
 }
 
 .tablink:hover {

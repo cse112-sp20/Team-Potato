@@ -59,7 +59,7 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
-          name: check-repo
+          name: check-checkout-repo
           command: |
             ls
             pwd
@@ -78,6 +78,11 @@ jobs:
       - run:
           name: Generate Build
           command: sudo npm run build-dev
+      - run:
+          name: check-build-repo
+          command: |
+            ls
+            pwd
       - run:
           name: Selenium-setup
           command: sudo pip install selenium

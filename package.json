@@ -20,6 +20,7 @@
   "homepage": "https://github.com/cse112-sp20/Team-Potato#readme",
   "devDependencies": {
     "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@testing-library/jest-dom": "^5.7.0",
@@ -37,6 +38,7 @@
     "html-webpack-plugin": "^4.3.0",
     "husky": "4.2.5",
     "jest": "^26.0.1",
+    "jest-webextension-mock": "^3.5.4",
     "lint-staged": "10.2.2",
     "prettier": "2.0.5",
     "webpack": "^4.43.0",
@@ -58,7 +60,10 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    },
+    "setupFiles": [
+      "jest-webextension-mock"
+    ]
   },
   "dependencies": {
     "bootstrap": "^4.5.0",

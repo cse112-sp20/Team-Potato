@@ -3,28 +3,31 @@ import ReactDOM from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import Popup from '../src/components/Popup';
+import Menu from '../src/components/Menu';
 
 // Test 1
 test('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Popup />, div);
+  ReactDOM.render(<Menu />, div);
 });
 
 // Test 2
-test('renders popup correctly', () => {
-  const { getByRole, getAllByTestId } = render(<Popup />);
+test('renders menu correctly', () => {
+  const { getByTestId, getAllByTestId } = render(<Menu />);
+
+  // using webextension-mock module, so no need to manually mock chrome methods
+  expect(chrome.tabs.query).toHaveBeenCalled();
 
   const tabgroups = getAllByTestId('tab-group');
   expect(tabgroups.length).toEqual(2);
 
-  const menuButton = getByRole('button', { name: 'Open Potato Tab' });
-  expect(menuButton).toBeInTheDocument();
+  const button = getByTestId('add-button');
+  expect(button).toBeInTheDocument();
 });
 
 // Test 3
 test('deletes tab group correctly', () => {
-  const { getAllByTestId } = render(<Popup />);
+  const { getAllByTestId } = render(<Menu />);
 
   const deleteButton = getAllByTestId('delete-button')[0];
   fireEvent.click(deleteButton);
@@ -35,7 +38,7 @@ test('deletes tab group correctly', () => {
 
 // Test 4
 test('edits tab group correctly', () => {
-  const { getByRole, getAllByTestId } = render(<Popup />);
+  const { getByRole, getAllByTestId } = render(<Menu />);
 
   const group = getAllByTestId('tab-group')[0];
   expect(group).toHaveTextContent('work');
@@ -52,13 +55,15 @@ test('edits tab group correctly', () => {
 });
 
 // Test 5
-test('opens menu page when button clicked', () => {
-  const { getByRole } = render(<Popup />);
+test('adds tab group correctly', () => {
+  const { getByText, getByTestId, getAllByTestId } = render(<Menu />);
 
-  const menuButton = getByRole('button', { name: 'Open Potato Tab' });
-  fireEvent.click(menuButton);
+  const tabgroups = getAllByTestId('tab-group');
+  expect(tabgroups.length).toEqual(2);
 
-  // using webextension-mock module, so no need to manually mock chrome methods
-  expect(chrome.runtime.getURL).toHaveBeenCalledWith('menu.html');
-  expect(chrome.tabs.create).toHaveReturned();
+  const addButton = getByTestId('add-button');
+  fireEvent.click(addButton);
+  expect(getByText('Create a New Tabgroup')).toBeInTheDocument();
+
+  // TODO
 });

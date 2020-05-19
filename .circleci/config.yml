@@ -7,11 +7,11 @@ executors:
   nodejs:
     docker:
       - image: circleci/node:10.16.3
-    working_directory: ./
+    working_directory: ～/project
   python:
     docker:
       - image: circleci/python:3.7-browsers
-    working_directory: ./
+    working_directory: ~/project
 
 jobs:
   build:

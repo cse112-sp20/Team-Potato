@@ -1,6 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+import os
+
+print(os.getcwd())
 
 print("loading packed extension")
 options = webdriver.ChromeOptions()

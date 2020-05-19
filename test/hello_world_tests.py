@@ -1,5 +1,9 @@
 from selenium import webdriver
 
+import os
+
+print(os.getcwd())
+
 options = webdriver.ChromeOptions()
 options.add_extension('./Team-Potato-master.crx')
 

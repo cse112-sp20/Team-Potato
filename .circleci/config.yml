@@ -14,7 +14,7 @@ executors:
 jobs:
   build:
     executor: nodejs
-    working_directory: ./build
+    working_directory: ./test
     steps:
       - checkout
       - run:
@@ -35,7 +35,7 @@ jobs:
 
   test:
     executor: python
-    working_directory: ./build
+    working_directory: ./test
     steps:
       - checkout
       - browser-tools/install-chrome

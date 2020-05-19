@@ -14,7 +14,7 @@ executors:
 jobs:
   build:
     executor: nodejs
-    working_directory: ～/home/circleci/project
+    working_directory: /home/circleci/project
     steps:
       - checkout
       - run:
@@ -35,7 +35,7 @@ jobs:
 
   test:
     executor: python
-    working_directory: ～/home/circleci/project
+    working_directory: /home/circleci/project
     steps:
       - checkout
       - browser-tools/install-chrome

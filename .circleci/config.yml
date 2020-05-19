@@ -64,6 +64,21 @@ jobs:
             ls
             pwd
       - run:
+          name: update-npm
+          command: sudo npm install -g npm@latest
+      - run:
+          name: install-dependencies
+          command: sudo npm install
+      - run:
+          name: Fix Vulnerabilities
+          command: sudo npm audit fix
+      - run:
+          name: Install Selenium
+          command: sudo npm install selenium-webdriver
+      - run:
+          name: Generate Build
+          command: sudo npm run build-dev
+      - run:
           name: Selenium-setup
           command: sudo pip install selenium
       - run:

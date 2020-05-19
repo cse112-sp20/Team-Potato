@@ -7,3 +7,19 @@
     bottom: 10px;
     right: 10px;
 }
+
+.menuContainer {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.activeTabs {
+    margin: 1rem;
+    width: 20%;
+}
+
+.tabGroups {
+    margin: 1rem;
+    width: 80%;
+}

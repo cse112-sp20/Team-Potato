@@ -18,9 +18,16 @@ jobs:
       - run:
           name: Install Selenium
           command: npm install selenium-webdriver
+      - run:
+          name: Generate Build
+          command: npm run build-dev
+      - run:
+          name: Fix Vulnerabilities
+          command: npm audit fix
 
   test:
     docker:
+      - image: circleci/node:10.16.3
       - image: circleci/python:3.7-browsers
     steps:
       - checkout
@@ -29,6 +36,12 @@ jobs:
       - run:
           name: Selenium-setup
           command: sudo pip install selenium
+      - run:
+          name: install-dependencies
+          command: npm install
+      - run:
+          name: Generate Build-repo
+          command: npm run build-dev
       - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py

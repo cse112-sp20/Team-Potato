@@ -1,5 +1,4 @@
-version: '2'
-plugins:
+engines:
   eslint:
     enabled: true
     config:
@@ -8,7 +7,5 @@ plugins:
         - .js
         - .jsx
     checks:
-      import/extensions:
-        enabled: false
       prettier/prettier:
         enabled: false

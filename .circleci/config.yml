@@ -62,6 +62,9 @@ jobs:
             pwd
             cd project
             ls
+            pwd
+            cd build
+            ls
       - run:
           name: Selenium-setup
           command: sudo pip install selenium

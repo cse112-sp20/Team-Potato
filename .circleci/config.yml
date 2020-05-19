@@ -48,7 +48,7 @@ jobs:
   test:
     executor: nodejs
     docker:
-      # Primary container image where all steps run.
+      - image: circleci/node:latest
       - image: circleci/python:3.7-browsers
     working_directory: /home/circleci/project
     steps:

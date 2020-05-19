@@ -18,7 +18,7 @@ jobs:
       - checkout
       - run:
           name: update-npm
-          command: whoami
+          command: pwd
       - run:
           name: install-dependencies
           command: sudo npm install

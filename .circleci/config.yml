@@ -32,6 +32,12 @@ jobs:
       - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
+      - run:
+          name: Activetab-test
+          command: python test/active_tabs_issue\#33.py
+      - run:
+          name: Tabgroup-test
+          command: python test/tab_group_test_issue\#15.py
 
 workflows:
   version: 2

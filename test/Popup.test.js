@@ -15,8 +15,8 @@ test('renders without crashing', () => {
 test('renders popup correctly', () => {
   const { getByRole, getAllByTestId } = render(<Popup />);
 
-  const tabgroups = getAllByTestId('tab-group');
-  expect(tabgroups.length).toEqual(2);
+  const groups = getAllByTestId('tab-group');
+  expect(groups.length).toEqual(2);
 
   const menuButton = getByRole('button', { name: 'Open Potato Tab' });
   expect(menuButton).toBeInTheDocument();
@@ -26,19 +26,22 @@ test('renders popup correctly', () => {
 test('deletes tab group correctly', () => {
   const { getAllByTestId } = render(<Popup />);
 
+  const before = getAllByTestId('tab-group');
+  expect(before.length).toEqual(2);
+
   const deleteButton = getAllByTestId('delete-button')[0];
   fireEvent.click(deleteButton);
 
-  const tabgroups = getAllByTestId('tab-group');
-  expect(tabgroups.length).toEqual(1);
+  const after = getAllByTestId('tab-group');
+  expect(after.length).toEqual(1);
 });
 
 // Test 4
 test('edits tab group correctly', () => {
   const { getByRole, getAllByTestId } = render(<Popup />);
 
-  const group = getAllByTestId('tab-group')[0];
-  expect(group).toHaveTextContent('work');
+  const before = getAllByTestId('tab-group')[0];
+  expect(before).toHaveTextContent('work');
 
   const editButton = getAllByTestId('edit-button')[0];
   fireEvent.click(editButton);
@@ -47,8 +50,8 @@ test('edits tab group correctly', () => {
   fireEvent.change(input, { target: { value: 'test' } });
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
 
-  const edited = getAllByTestId('tab-group')[0];
-  expect(edited).toHaveTextContent('test');
+  const after = getAllByTestId('tab-group')[0];
+  expect(after).toHaveTextContent('test');
 });
 
 // Test 5

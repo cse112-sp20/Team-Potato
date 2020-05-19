@@ -22,6 +22,7 @@ test('renders tab group correctly', () => {
     { name: 'test1', url: 'test1url' },
     { name: 'test2', url: 'test2url' },
   ];
+
   const { getByText, getByTestId, getAllByTestId } = render(
     <TabGroup name="testgroup" tabs={tabslist} />
   );

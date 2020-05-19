@@ -14,9 +14,7 @@ test('renders without crashing', () => {
 // Test 2
 test('renders tab correctly', () => {
   const { getByRole } = render(<Tab title="test" url="testurl" />);
-
-  const button = getByRole('button');
-  expect(button).toHaveTextContent('test');
+  expect(getByRole('button')).toHaveTextContent('test');
 });
 
 // Test 3
@@ -26,6 +24,7 @@ test('triggers onClick handler when tab is clicked', () => {
   const { getByRole } = render(<Tab title="test" url="testurl" />);
 
   fireEvent.click(getByRole('button'));
+
   expect(window.open).toHaveBeenCalledWith('testurl', '_blank');
   expect(window.open).not.toHaveReturnedWith(null);
 });

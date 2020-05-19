@@ -1,11 +1,8 @@
 engines:
   eslint:
     enabled: true
-    config:
-      config: .eslintrc.json
-      extensions:
-        - .js
-        - .jsx
     checks:
+      import/extensions:
+        enabled: false
       prettier/prettier:
         enabled: false

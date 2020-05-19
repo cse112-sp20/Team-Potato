@@ -27,8 +27,8 @@ jobs:
 
   test:
     docker:
-      - image: circleci/node:10.16.3
       - image: circleci/python:3.7-browsers
+      - image: circleci/node:10.16.3
     steps:
       - checkout
       - browser-tools/install-chrome
@@ -38,10 +38,10 @@ jobs:
           command: sudo pip install selenium
       - run:
           name: install-dependencies
-          command: npm install
+          command: sudo npm install
       - run:
           name: Generate Build-repo
-          command: npm run build-dev
+          command: sudo npm run build-dev
       - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py

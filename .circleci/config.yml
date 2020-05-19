@@ -46,6 +46,7 @@ jobs:
       #      - echo-output
 
   test:
+    executor: nodejs
     docker:
       # Primary container image where all steps run.
       - image: circleci/python:3.7-browsers

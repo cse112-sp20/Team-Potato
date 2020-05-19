@@ -42,9 +42,7 @@ jobs:
       - image: circleci/python:3.7-browsers
       # Secondary container image on common network.
       - image: circleci/node:10.16.3
-        command: [sudo npm install]
-      - image: circleci/node:10.16.3
-        command: [sudo npm run build-dev]
+        command: [npm install, npm run build-dev]
     working_directory: /home/circleci/project
     steps:
       - checkout

@@ -3,10 +3,19 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.0.0
 
-jobs:
-  build:
+executors:
+  nodejs:
     docker:
       - image: circleci/node:10.16.3
+    working_directory: ./
+  python:
+    docker:
+      - image: circleci/python:3.7-browsers
+    working_directory: ./
+
+jobs:
+  build:
+    executor: nodejs
     steps:
       - checkout
       - run:
@@ -26,8 +35,7 @@ jobs:
           command: sudo npm audit fix
 
   test:
-    docker:
-      - image: circleci/python:3.7-browsers
+    executor: python
     steps:
       - checkout
       - browser-tools/install-chrome

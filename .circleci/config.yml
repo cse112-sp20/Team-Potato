@@ -35,7 +35,6 @@ jobs:
       - run:
           name: check-repo
           command: ls
-      - save_cache:
 
   test:
     docker:

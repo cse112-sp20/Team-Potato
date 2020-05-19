@@ -36,10 +36,7 @@ jobs:
           name: check-repo
           command: ls
       - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
-          # taken to be the root directory of the workspace.
           root: /home/circleci
-          # Must be relative path from root
           paths:
             - project
 
@@ -47,11 +44,9 @@ jobs:
     executor: nodejs
     docker:
       - image: circleci/python:3.7-browsers
-    #working_directory: /home/circleci/project
     steps:
       - checkout
       - attach_workspace:
-          # Must be absolute path or relative path from working_directory
           at: /home/circleci/project
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
@@ -60,11 +55,6 @@ jobs:
           command: |
             ls
             pwd
-            cd project
-            ls
-            pwd
-            cd build
-            ls
       - run:
           name: Selenium-setup
           command: sudo pip install selenium

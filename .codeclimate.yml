@@ -7,8 +7,8 @@ plugins:
       extensions:
         - .js
         - .jsx
-      checks:
-        import/extensions:
-          enabled: false
-        prettier/prettier:
-          enabled: false
+    checks:
+      import/extensions:
+        enabled: false
+      prettier/prettier:
+        enabled: false

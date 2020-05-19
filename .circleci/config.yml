@@ -3,10 +3,18 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.0.0
 
+executors:
+  nodejs:
+    docker:
+      - image: circleci/node:latest
+  python:
+    docker:
+      - image: circleci/python:3.7-browsers
+
 jobs:
   build:
-    docker:
-      - image: circleci/node:10.16.3
+    executor: nodejs
+    working_directory: /home/circleci/project
     steps:
       - checkout
       - run:
@@ -14,18 +22,39 @@ jobs:
           command: sudo npm install -g npm@latest
       - run:
           name: install-dependencies
-          command: npm install
+          command: sudo npm install
+      - run:
+          name: Fix Vulnerabilities
+          command: sudo npm audit fix
       - run:
           name: Install Selenium
-          command: npm install selenium-webdriver
+          command: sudo npm install selenium-webdriver
+      - run:
+          name: Generate Build
+          command: sudo npm run build-dev
+      - run:
+          name: check-repo
+          command: ls
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - project
 
   test:
+    executor: nodejs
     docker:
       - image: circleci/python:3.7-browsers
     steps:
       - checkout
+      - attach_workspace:
+          at: /home/circleci/project
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
+      - run:
+          name: check-checkout-repo
+          command: |
+            ls
+            pwd
       - run:
           name: Selenium-setup
           command: sudo pip install selenium
@@ -34,14 +63,17 @@ jobs:
           command: python test/hello_world_tests.py
       - run:
           name: Activetab-test
-          command: python test/active_tabs_issue\#33.py
+          command: |
+            python test/active_tabs_issue\#33.py
       - run:
           name: Tabgroup-test
-          command: python test/tab_group_test_issue\#15.py
+          command: python test/tabgroup_CRUD_issue#34.py
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - test
+      - test:
+          requires:
+            - build

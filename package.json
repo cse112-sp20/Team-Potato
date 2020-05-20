@@ -38,6 +38,7 @@
     "html-webpack-plugin": "^4.3.0",
     "husky": "4.2.5",
     "jest": "^26.0.1",
+    "jest-webextension-mock": "^3.5.4",
     "lint-staged": "10.2.2",
     "prettier": "2.0.5",
     "webpack": "^4.43.0",
@@ -59,19 +60,24 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    },
+    "setupFiles": [
+      "jest-webextension-mock"
+    ]
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
     "chromedriver": "^81.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
-    "selenium-webdriver": "^4.0.0-alpha.7"
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "uuid": "^8.0.0"
   }
 }

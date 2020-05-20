@@ -1,18 +1,22 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+import os
+
+print(os.getcwd())
+
+options = webdriver.ChromeOptions()
 
 print("loading packed extension")
-options = webdriver.ChromeOptions()
-options.add_extension('./build.crx')
+options.add_argument("load-extension=./project/build/")
+#options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
 
-print("loading chrome driver")
 driver = webdriver.Chrome(options=options)
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
-print("opening tabs for testing")
+
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 driver.get("https://cse.ucsd.edu")
 driver.execute_script("window.open('');")
@@ -28,14 +32,11 @@ driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[4])
 driver.get("https://piazza.com")
 driver.switch_to.window(driver.window_handles[4])
-driver.get("https://nba.com")
-driver.switch_to.window(driver.window_handles[4])
 driver.get("chrome-extension://"+ uid +"/menu.html")
 
-print("testing to check all tabs are well behaved")
 # Test to check if all the tabs opened and are being displayed correctly
-active_tabs = driver.find_element_by_class_name("ActiveTabs")
-list_of_active_tabs = driver.find_elements_by_tag_name("li")
+active_tabs = driver.find_element_by_class_name("activeTabs")
+list_of_active_tabs = active_tabs.find_elements_by_class_name("tablink")
 check_tab_1 = 0
 check_tab_2 = 0
 check_tab_3 = 0

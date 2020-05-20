@@ -1,7 +1,11 @@
 from selenium import webdriver
 
+import os
+
+print(os.getcwd())
+
 options = webdriver.ChromeOptions()
-options.add_extension('./Team-Potato-master.crx')
+options.add_extension('./test/Team-Potato-master.crx')
 
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model

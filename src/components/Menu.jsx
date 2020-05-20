@@ -7,7 +7,6 @@ import { v4 as uuid } from 'uuid';
 import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';
-import Card from 'react-bootstrap/Card';
 
 const drop = (e) => {
   const droppable = e.target.attributes.getNamedItem('droppable').value;

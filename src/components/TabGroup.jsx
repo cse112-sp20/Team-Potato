@@ -7,6 +7,21 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { GrEdit } from 'react-icons/gr';
 import Tab from './Tab';
 
+const drop = (e) => {
+  e.preventDefault();
+  const id = e.dataTransfer.getData('id');
+  // get the element by the id
+  const tab = document.getElementById(id);
+  console.log(id);
+  console.log(tab);
+  tab.style.display = 'block';
+  e.target.appendChild(tab);
+};
+
+const dragOver = (e) => {
+  e.preventDefault();
+};
+
 class TabGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +53,7 @@ class TabGroup extends React.Component {
     const { editMode, newName } = this.state;
     return (
       <div data-testid="tab-group">
-        <Card>
+        <Card id={name} onDrop={drop} onDragOver={dragOver}>
           <Card.Header as="h5">
             {editMode ? (
               <input

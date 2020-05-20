@@ -21,7 +21,6 @@ class Popup extends React.Component {
           name: 'play',
           tabs: [
             { title: 'Youtube', url: 'https://youtube.com' },
-            { title: 'Netflix', url: 'https://netflix.com' },
             { title: 'Hulu', url: 'https://hulu.com' },
           ],
         },

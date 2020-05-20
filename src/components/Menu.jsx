@@ -6,6 +6,20 @@ import Button from 'react-bootstrap/Button';
 import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';
+import Card from 'react-bootstrap/Card';
+
+const drop = (e) => {
+  e.preventDefault();
+  const id = e.dataTransfer.getData('id');
+  // get the element by the id
+  const tab = document.getElementById(id);
+  tab.style.display = 'block';
+  e.target.appendChild(tab);
+};
+
+const dragOver = (e) => {
+  e.preventDefault();
+};
 
 class Menu extends React.Component {
   constructor() {
@@ -101,8 +115,13 @@ class Menu extends React.Component {
     const { addGroupModal, activeTabs, tabgroups } = this.state;
     return (
       <div className="menuContainer">
-        <div className="activeTabs">
-          <h2>Active Tabs</h2>
+        <h2>Active Tabs</h2>
+        <div
+          id="activeTabs"
+          className="activeTabs"
+          onDrop={drop}
+          onDragOver={dragOver}
+        >
           {activeTabs.map((tab) => (
             <Tab title={tab.title} url={tab.url} key={tab.title} />
           ))}

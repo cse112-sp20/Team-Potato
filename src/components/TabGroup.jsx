@@ -51,7 +51,7 @@ class TabGroup extends React.Component {
     const { editMode, newName } = this.state;
     return (
       <div data-testid="tab-group">
-        <Card id={name} onDrop={drop} onDragOver={dragOver}>
+        <Card>
           <Card.Header as="h5">
             {editMode ? (
               <input
@@ -94,7 +94,12 @@ class TabGroup extends React.Component {
               </button>
             </div>
           </Card.Header>
-          <Card.Body>
+          <Card.Body
+            id={name}
+            onDrop={drop}
+            onDragOver={dragOver}
+            droppable="true"
+          >
             {tabs.map((tab) => (
               <Tab title={tab.title} url={tab.url} key={tab.title} />
             ))}

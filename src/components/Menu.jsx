@@ -1,52 +1,188 @@
 import React from 'react';
 import { IoMdAddCircle } from 'react-icons/io';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { v4 as uuid } from 'uuid';
 import TabGroup from './TabGroup';
+import Tab from './Tab';
 import '../styles/Menu.css';
+import Card from 'react-bootstrap/Card';
+
+const drop = (e) => {
+  const droppable = e.target.attributes.getNamedItem('droppable').value;
+  if (droppable !== 'true' || e.target === undefined) {
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = 'none';
+    e.dataTransfer.dropEffect = 'none';
+  } else {
+    e.preventDefault();
+    const id = e.dataTransfer.getData('id');
+    // get the element by the id
+    const tab = document.getElementById(id);
+    tab.style.display = 'block';
+    e.target.appendChild(tab);
+  }
+};
+
+const dragOver = (e) => {
+  e.preventDefault();
+};
 
 class Menu extends React.Component {
   constructor() {
     super();
 
     this.state = {
+      addGroupModal: false,
+      activeTabs: [],
       tabgroups: [
         {
           name: 'work',
-          tabs: ['slack', 'stackoverflow', 'canvas'],
+          tabs: [
+            { title: 'Slack', url: 'https://slack.com' },
+            { title: 'StackOverflow', url: 'https://stackoverflow' },
+            { title: 'Canvas', url: 'https://canvas.com' },
+          ],
         },
         {
           name: 'play',
-          tabs: ['youtube', 'netflix', 'hulu'],
+          tabs: [
+            { title: 'Youtube', url: 'https://youtube.com' },
+            { title: 'Netflix', url: 'https://netflix.com' },
+            { title: 'Hulu', url: 'https://hulu.com' },
+          ],
         },
       ],
     };
   }
 
-  addGroup = () => {
+  componentDidMount() {
+    this.getActiveTabs();
+  }
+
+  getActiveTabs = () => {
+    chrome.tabs.query({}, (tabs) => {
+      const tempTabs = [];
+
+      for (let i = 0; i < tabs.length; i += 1) {
+        tempTabs.push({ title: tabs[i].title, url: tabs[i].url });
+      }
+
+      this.setState({ activeTabs: tempTabs });
+    });
+  };
+
+  addGroup = (e) => {
+    if (e.type === 'submit') {
+      e.preventDefault();
+      const { activeTabs, tabgroups } = this.state;
+      let groupName = e.target[0].value;
+      if (groupName === '') {
+        groupName = 'Untitled';
+      }
+      const { options } = e.target[1];
+
+      const selectedTabs = [];
+      for (let i = 0, l = options.length; i < l; i += 1) {
+        if (options[i].selected) {
+          selectedTabs.push(activeTabs[i]);
+        }
+      }
+      const newGroup = {
+        name: groupName,
+        tabs: selectedTabs,
+      };
+
+      tabgroups.push(newGroup);
+      this.setState({ tabgroups });
+
+      this.modalClose();
+    }
+  };
+
+  deleteGroup = (target) => {
     const { tabgroups } = this.state;
-    const newGroup = {
-      name: 'test',
-      tabs: ['test1', 'test2'],
-    };
-    tabgroups.push(newGroup);
+    this.setState({
+      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
+    });
+  };
+
+  editGroup = (target, newName) => {
+    const { tabgroups } = this.state;
+    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
+    tabgroups[index].name = newName;
     this.setState({ tabgroups });
   };
 
-  render() {
-    const { tabgroups } = this.state;
-    return (
-      <div>
-        <h1>Menu.jsx</h1>
-        {tabgroups.map((tabgroup) => (
-          <TabGroup
-            key={tabgroup.name}
-            name={tabgroup.name}
-            tabs={tabgroup.tabs}
-          />
-        ))}
+  modalClose = () => {
+    this.setState({ addGroupModal: false });
+  };
 
-        <button className="addGroup" type="button" onClick={this.addGroup}>
-          <IoMdAddCircle />
-        </button>
+  render() {
+    const { addGroupModal, activeTabs, tabgroups } = this.state;
+    return (
+      <div className="menuContainer">
+        <h2>Active Tabs</h2>
+        <div
+          id="activeTabs"
+          className="activeTabs"
+          droppable="true"
+          onDrop={drop}
+          onDragOver={dragOver}
+        >
+          {activeTabs.map((tab) => (
+            <Tab title={tab.title} url={tab.url} key={uuid()} />
+          ))}
+        </div>
+        <div className="tabGroups">
+          <h2>Tab Groups</h2>
+          {tabgroups.map((tabgroup) => (
+            <TabGroup
+              key={tabgroup.name}
+              name={tabgroup.name}
+              tabs={tabgroup.tabs}
+              deleteGroup={this.deleteGroup}
+              editGroup={this.editGroup}
+            />
+          ))}
+
+          <button
+            className="addGroup"
+            type="button"
+            onClick={() => {
+              this.setState({ addGroupModal: true });
+            }}
+            data-testid="add-button"
+          >
+            <IoMdAddCircle />
+          </button>
+        </div>
+
+        <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create a New Tabgroup</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={this.addGroup}>
+              <Form.Group controlId="groupName">
+                <Form.Label>Group Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter Group Name..." />
+              </Form.Group>
+              <Form.Group controlId="selectedTabs">
+                <Form.Label>Add Tabs to TabGroup</Form.Label>
+                <Form.Control as="select" multiple>
+                  {activeTabs.map((tab) => (
+                    <option key={uuid()}>{tab.title}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+              <Button variant="primary" type="submit" onClick={this.addGroup}>
+                Create Group
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }

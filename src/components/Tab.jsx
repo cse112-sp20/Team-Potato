@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 const dragStart = (e) => {
   const { target } = e;
   e.dataTransfer.setData('id', target.id);
-  setTimeout(() => {
-    target.style.display = 'none';
-  }, 0);
+  // setTimeout(() => {
+  //  target.style.display = 'none';
+  // }, 0);
 };
 
 const dragOver = (e) => {

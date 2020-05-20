@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === 'production') {
   config.devtool = false;
 }
 
-if (process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'none') {
   config.entry = {
     popupRender: './instrumented/popupRender.js',
     menuRender: './instrumented/menuRender.js',

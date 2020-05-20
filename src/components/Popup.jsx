@@ -2,12 +2,14 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import TabGroup from './TabGroup';
 import '../styles/Popup.css';
+import PopupFocusMode from './PopupFocusMode';
 
 class Popup extends React.Component {
   constructor() {
     super();
 
     this.state = {
+      focusMode: false,
       tabgroups: [
         {
           name: 'work',
@@ -48,18 +50,23 @@ class Popup extends React.Component {
   };
 
   render() {
-    const { tabgroups } = this.state;
+    const { focusMode, tabgroups } = this.state;
     return (
       <div className="menuContainer">
-        {tabgroups.map((tabgroup) => (
-          <TabGroup
-            key={tabgroup.name}
-            name={tabgroup.name}
-            tabs={tabgroup.tabs}
-            deleteGroup={this.deleteGroup}
-            editGroup={this.editGroup}
-          />
-        ))}
+        {focusMode ? (
+          <PopupFocusMode />
+        ) : (
+          tabgroups.map((tabgroup) => (
+            <TabGroup
+              key={tabgroup.name}
+              name={tabgroup.name}
+              tabs={tabgroup.tabs}
+              deleteGroup={this.deleteGroup}
+              editGroup={this.editGroup}
+            />
+          ))
+        )}
+
         <div className="btnContainer">
           <Button type="button" className="menuBtn" onClick={this.openMenu}>
             Open Potato Tab

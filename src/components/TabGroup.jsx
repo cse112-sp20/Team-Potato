@@ -12,8 +12,6 @@ const drop = (e) => {
   const id = e.dataTransfer.getData('id');
   // get the element by the id
   const tab = document.getElementById(id);
-  console.log(id);
-  console.log(tab);
   tab.style.display = 'block';
   e.target.appendChild(tab);
 };

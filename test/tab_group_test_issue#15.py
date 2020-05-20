@@ -65,5 +65,5 @@ print("Passed All Tests")
 
 import json
 coverage_json_file = open("./raw_coverage/15.json","w+")
-coverage_json_file.write(json.dump(driver.execute_script("return window.__coverage__;")))
+json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()

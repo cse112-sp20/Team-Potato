@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import { IoIosTimer } from 'react-icons/io';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { GrEdit } from 'react-icons/gr';
+import { v4 as uuid } from 'uuid';
 import Tab from './Tab';
 
 const drop = (e) => {
@@ -102,13 +103,13 @@ class TabGroup extends React.Component {
             </div>
           </Card.Header>
           <Card.Body
-            id={name}
+            id={uuid()}
             onDrop={drop}
             onDragOver={dragOver}
             droppable="true"
           >
             {tabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} key={tab.title} />
+              <Tab title={tab.title} url={tab.url} key={uuid()} />
             ))}
           </Card.Body>
         </Card>

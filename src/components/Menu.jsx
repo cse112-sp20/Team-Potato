@@ -3,6 +3,7 @@ import { IoMdAddCircle } from 'react-icons/io';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { v4 as uuid } from 'uuid';
 import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';
@@ -131,7 +132,7 @@ class Menu extends React.Component {
           onDragOver={dragOver}
         >
           {activeTabs.map((tab) => (
-            <Tab title={tab.title} url={tab.url} key={tab.title} />
+            <Tab title={tab.title} url={tab.url} key={uuid()} />
           ))}
         </div>
         <div className="tabGroups">
@@ -172,7 +173,7 @@ class Menu extends React.Component {
                 <Form.Label>Add Tabs to TabGroup</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (
-                    <option key={tab.title}>{tab.title}</option>
+                    <option key={uuid()}>{tab.title}</option>
                   ))}
                 </Form.Control>
               </Form.Group>

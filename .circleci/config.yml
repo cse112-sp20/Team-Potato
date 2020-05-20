@@ -30,8 +30,16 @@ jobs:
           name: Install Selenium
           command: sudo npm install selenium-webdriver
       - run:
+          name: Download cc-test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          name: Generate nyc-instrumented code
+          command: sudo npm run instrument
+      - run:
           name: Generate Build
-          command: sudo npm run build-dev
+          command: sudo npm run build-test
       - run:
           name: check-repo
           command: ls
@@ -42,6 +50,8 @@ jobs:
 
   test:
     executor: nodejs
+    environment:
+      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
     docker:
       - image: circleci/python:3.7-browsers
     steps:
@@ -59,6 +69,9 @@ jobs:
           name: Selenium-setup
           command: sudo pip install selenium
       - run:
+          name: Notify CC before tests
+          command: ./cc-test-reporter before-build
+      - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
       - run:
@@ -68,6 +81,12 @@ jobs:
       - run:
           name: Tabgroup-test
           command: python test/tabgroup_CRUD_issue#34.py
+      - run:
+          name: Generate coverage report
+          command: sudo npm run report
+      - run:
+          name: Upload test report
+          command: ./cc-test-reporter after-build -t lcov
 
 workflows:
   version: 2

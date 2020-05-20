@@ -6,7 +6,10 @@
     "start": "react-scripts start",
     "test": "jest",
     "build-dev": "webpack --mode development",
-    "build-prod": "webpack --mode production"
+    "build-test": "webpack --mode test",
+    "build-prod": "webpack --mode production",
+    "instrument": "nyc instrument ./src ./instrumented",
+    "report": "nyc report --include ./raw_coverage"
   },
   "repository": {
     "type": "git",
@@ -40,6 +43,7 @@
     "jest": "^26.0.1",
     "jest-webextension-mock": "^3.5.4",
     "lint-staged": "10.2.2",
+    "nyc": "^15.0.1",
     "prettier": "2.0.5",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
@@ -63,6 +67,16 @@
     },
     "setupFiles": [
       "jest-webextension-mock"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".js",
+      "jsx"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
     ]
   },
   "dependencies": {

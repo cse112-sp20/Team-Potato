@@ -72,6 +72,9 @@ jobs:
           name: Notify CC before tests
           command: ./cc-test-reporter before-build
       - run:
+          name: Create a directory for raw coverage files
+          command: mkdir raw_coverage
+      - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
       - run:

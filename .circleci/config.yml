@@ -30,11 +30,6 @@ jobs:
           name: Install Selenium
           command: sudo npm install selenium-webdriver
       - run:
-          name: Download cc-test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run:
           name: Generate nyc-instrumented code
           command: sudo npm run instrument
       - run:
@@ -68,6 +63,11 @@ jobs:
       - run:
           name: Selenium-setup
           command: sudo pip install selenium
+      - run:
+          name: Download cc-test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - run:
           name: Notify CC before tests
           command: ./cc-test-reporter before-build

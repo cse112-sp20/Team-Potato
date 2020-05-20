@@ -35,29 +35,19 @@ class Menu extends React.Component {
     this.state = {
       addGroupModal: false,
       activeTabs: [],
-      tabgroups: [
-        {
-          name: 'work',
-          tabs: [
-            { title: 'Slack', url: 'https://slack.com' },
-            { title: 'StackOverflow', url: 'https://stackoverflow' },
-            { title: 'Canvas', url: 'https://canvas.com' },
-          ],
-        },
-        {
-          name: 'play',
-          tabs: [
-            { title: 'Youtube', url: 'https://youtube.com' },
-            { title: 'Netflix', url: 'https://netflix.com' },
-            { title: 'Hulu', url: 'https://hulu.com' },
-          ],
-        },
-      ],
+      tabgroups: [],
     };
   }
 
   componentDidMount() {
     this.getActiveTabs();
+    chrome.storage.sync.get('tabgroups', (obj) => {
+      const { tabgroups } = obj;
+      if (tabgroups.length === 0) {
+        chrome.storage.sync.set({ tabgroups: [] });
+      }
+      this.setState({ tabgroups });
+    });
   }
 
   getActiveTabs = () => {
@@ -96,15 +86,17 @@ class Menu extends React.Component {
       tabgroups.push(newGroup);
       this.setState({ tabgroups });
 
+      chrome.storage.sync.set({ tabgroups }, () => {});
+
       this.modalClose();
     }
   };
 
   deleteGroup = (target) => {
-    const { tabgroups } = this.state;
-    this.setState({
-      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
-    });
+    let { tabgroups } = this.state;
+    tabgroups = tabgroups.filter((tabgroup) => tabgroup.name !== target);
+    this.setState({ tabgroups });
+    chrome.storage.sync.set({ tabgroups });
   };
 
   editGroup = (target, newName) => {
@@ -112,6 +104,7 @@ class Menu extends React.Component {
     const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
     tabgroups[index].name = newName;
     this.setState({ tabgroups });
+    chrome.storage.sync.set({ tabgroups });
   };
 
   modalClose = () => {

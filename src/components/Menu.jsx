@@ -7,6 +7,27 @@ import Button from 'react-bootstrap/Button';
 import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';
+import Card from 'react-bootstrap/Card';
+
+const drop = (e) => {
+  const droppable = e.target.attributes.getNamedItem('droppable').value;
+  if (droppable !== 'true' || e.target === undefined) {
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = 'none';
+    e.dataTransfer.dropEffect = 'none';
+  } else {
+    e.preventDefault();
+    const id = e.dataTransfer.getData('id');
+    // get the element by the id
+    const tab = document.getElementById(id);
+    tab.style.display = 'block';
+    e.target.appendChild(tab);
+  }
+};
+
+const dragOver = (e) => {
+  e.preventDefault();
+};
 
 class Menu extends React.Component {
   constructor() {
@@ -131,7 +152,7 @@ class Menu extends React.Component {
           onDragOver={this.dragOver}
         >
           {activeTabs.map((tab) => (
-            <Tab title={tab.title} url={tab.url} key={tab.title} />
+            <Tab title={tab.title} url={tab.url} key={uuid()} />
           ))}
         </div>
         <div className="tabGroups">
@@ -174,7 +195,7 @@ class Menu extends React.Component {
                 <Form.Label>Add Tabs to TabGroup</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (
-                    <option key={tab.title}>{tab.title}</option>
+                    <option key={uuid()}>{tab.title}</option>
                   ))}
                 </Form.Control>
               </Form.Group>

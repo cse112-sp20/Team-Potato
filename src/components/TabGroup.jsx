@@ -8,26 +8,6 @@ import { GrEdit } from 'react-icons/gr';
 import { v4 as uuid } from 'uuid';
 import Tab from './Tab';
 
-const drop = (e) => {
-  const droppable = e.target.attributes.getNamedItem('droppable').value;
-  if (droppable !== 'true' || e.target === undefined) {
-    e.preventDefault();
-    e.dataTransfer.effectAllowed = 'none';
-    e.dataTransfer.dropEffect = 'none';
-  } else {
-    e.preventDefault();
-    const id = e.dataTransfer.getData('id');
-    // get the element by the id
-    const tab = document.getElementById(id);
-    tab.style.display = 'block';
-    e.target.appendChild(tab);
-  }
-};
-
-const dragOver = (e) => {
-  e.preventDefault();
-};
-
 class TabGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -42,6 +22,8 @@ class TabGroup extends React.Component {
       ).isRequired,
       deleteGroup: PropTypes.func.isRequired,
       editGroup: PropTypes.func.isRequired,
+      drop: PropTypes.func.isRequired,
+      dragOver: PropTypes.func.isRequired,
     };
 
     this.state = {
@@ -55,7 +37,7 @@ class TabGroup extends React.Component {
   };
 
   render() {
-    const { name, tabs, deleteGroup, editGroup } = this.props;
+    const { name, tabs, deleteGroup, editGroup, drop, dragOver } = this.props;
     const { editMode, newName } = this.state;
     return (
       <div data-testid="tab-group">

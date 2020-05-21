@@ -27,8 +27,8 @@ class Popup extends React.Component {
     });
   }
 
-  startFocusMode = () => {
-    this.setState({ focusMode: true });
+  startFocusMode = (target) => {
+    this.setState({ focusMode: true, focusGroup: target });
   };
 
   openMenu = () => {
@@ -41,7 +41,7 @@ class Popup extends React.Component {
     return (
       <div className="menuContainer">
         {focusMode ? (
-          <PopupFocusMode tabgroup={focusGroup} />
+          <PopupFocusMode focusGroup={focusGroup} />
         ) : (
           tabgroups.map((tabgroup) => (
             <TabGroup
@@ -50,7 +50,6 @@ class Popup extends React.Component {
               name={tabgroup.name}
               tabs={tabgroup.tabs}
               startFocusMode={this.startFocusMode}
-              focusGroup={tabgroup.name}
             />
           ))
         )}

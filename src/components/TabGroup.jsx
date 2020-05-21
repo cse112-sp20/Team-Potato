@@ -35,7 +35,7 @@ class TabGroup extends React.Component {
 
     this.state = {
       editMode: false,
-      newName: '',
+      newName: this.props.name,
     };
   }
 
@@ -75,7 +75,11 @@ class TabGroup extends React.Component {
               }}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  editGroup(name, newName);
+                  if (name !== newName) {
+                    editGroup(name, newName);
+                  } else {
+                    this.setState({ editMode: false });
+                  }
                 }
               }}
             />

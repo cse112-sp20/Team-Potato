@@ -42,6 +42,8 @@ class TabGroup extends React.Component {
       ).isRequired,
       deleteGroup: PropTypes.func.isRequired,
       editGroup: PropTypes.func.isRequired,
+      drop: PropTypes.func.isRequired,
+      dragOver: PropTypes.func.isRequired,
     };
 
     this.state = {
@@ -55,7 +57,7 @@ class TabGroup extends React.Component {
   };
 
   render() {
-    const { name, tabs, deleteGroup, editGroup } = this.props;
+    const { name, tabs, deleteGroup, editGroup, drop, dragOver } = this.props;
     const { editMode, newName } = this.state;
     return (
       <div data-testid="tab-group">

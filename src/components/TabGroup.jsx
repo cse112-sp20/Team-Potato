@@ -21,7 +21,7 @@ class TabGroup extends React.Component {
       ).isRequired,
       deleteGroup: PropTypes.func,
       editGroup: PropTypes.func,
-      startFocusMode: PropTypes.func,
+      displayFocusMode: PropTypes.func,
       view: PropTypes.string.isRequired,
       drop: PropTypes.func.isRequired,
       dragOver: PropTypes.func.isRequired,
@@ -30,7 +30,7 @@ class TabGroup extends React.Component {
     TabGroup.defaultProps = {
       deleteGroup: () => {},
       editGroup: () => {},
-      startFocusMode: () => {},
+      displayFocusMode: () => {},
     };
 
     this.state = {
@@ -38,6 +38,14 @@ class TabGroup extends React.Component {
       newName: this.props.name,
     };
   }
+
+  onFocusModeClick = () => {
+    const { name, tabs, displayFocusMode } = this.props;
+    displayFocusMode(
+      name,
+      tabs.map((tab) => tab.url)
+    );
+  };
 
   toggleEdit = () => {
     this.setState({ editMode: true });
@@ -50,7 +58,6 @@ class TabGroup extends React.Component {
       deleteGroup,
       editGroup,
       view,
-      startFocusMode,
       drop,
       dragOver,
     } = this.props;
@@ -109,7 +116,7 @@ class TabGroup extends React.Component {
               <button
                 type="button"
                 data-testid="focus-button"
-                onClick={() => startFocusMode(name)}
+                onClick={this.onFocusModeClick}
               >
                 <img
                   src="https://icons.iconarchive.com/icons/icons-land/vista-multimedia/256/Play-1-Hot-icon.png"

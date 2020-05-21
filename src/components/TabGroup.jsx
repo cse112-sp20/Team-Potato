@@ -60,62 +60,61 @@ class TabGroup extends React.Component {
     const { name, tabs, deleteGroup, editGroup, drop, dragOver } = this.props;
     const { editMode, newName } = this.state;
     return (
-      <div data-testid="tab-group">
-        <Card>
-          <Card.Header as="h5">
-            {editMode ? (
-              <input
-                // eslint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus
-                type="text"
-                defaultValue={name}
-                onChange={(e) => {
-                  this.setState({ newName: e.target.value });
-                }}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    editGroup(name, newName);
-                  }
-                }}
-              />
-            ) : (
-              <strong>{name}</strong>
-            )}
+      <Card
+        data-testid="tab-group"
+        id={uuid()}
+        onDrop={drop}
+        onDragOver={dragOver}
+        droppable="true"
+      >
+        <Card.Header as="h5" droppable="false">
+          {editMode ? (
+            <input
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+              type="text"
+              defaultValue={name}
+              onChange={(e) => {
+                this.setState({ newName: e.target.value });
+              }}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  editGroup(name, newName);
+                }
+              }}
+            />
+          ) : (
+            <strong>{name}</strong>
+          )}
 
-            <div className="buttonGroup">
-              <button type="button" data-testid="focus-button">
-                <IoIosTimer />
-              </button>
+          <div className="buttonGroup">
+            <button type="button" data-testid="focus-button">
+              <IoIosTimer />
+            </button>
 
-              <button
-                type="button"
-                onClick={() => deleteGroup(name)}
-                data-testid="delete-button"
-              >
-                <RiDeleteBinLine />
-              </button>
+            <button
+              type="button"
+              onClick={() => deleteGroup(name)}
+              data-testid="delete-button"
+            >
+              <RiDeleteBinLine />
+            </button>
 
-              <button
-                type="button"
-                onClick={this.toggleEdit}
-                data-testid="edit-button"
-              >
-                <GrEdit />
-              </button>
-            </div>
-          </Card.Header>
-          <Card.Body
-            id={uuid()}
-            onDrop={drop}
-            onDragOver={dragOver}
-            droppable="true"
-          >
-            {tabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} key={uuid()} />
-            ))}
-          </Card.Body>
-        </Card>
-      </div>
+            <button
+              type="button"
+              onClick={this.toggleEdit}
+              data-testid="edit-button"
+            >
+              <GrEdit />
+            </button>
+          </div>
+        </Card.Header>
+        <Card.Body droppable="true" id={name}>
+          {tabs.map((tab) => (
+            <Tab title={tab.title} url={tab.url} key={uuid()} />
+          ))}
+        </Card.Body>
+      </Card>
     );
   }
 }

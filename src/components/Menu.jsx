@@ -3,7 +3,7 @@ import { IoMdAddCircle } from 'react-icons/io';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-//import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';

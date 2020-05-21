@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Timer from 'react-compound-timer';
 import '../styles/PopupFocusMode.css';
 
@@ -7,8 +8,11 @@ class PopupFocusMode extends React.Component {
     super();
     this.state = {
       isFocusModeOn: false,
-      tabGroupName: 'CSE112',
       defaultTime: 3600000,
+    };
+
+    PopupFocusMode.propTypes = {
+      focusGroup: PropTypes.string.isRequired,
     };
   }
 
@@ -21,7 +25,8 @@ class PopupFocusMode extends React.Component {
   };
 
   render() {
-    const { isFocusModeOn, tabGroupName, defaultTime } = this.state;
+    const { focusGroup } = this.props;
+    const { isFocusModeOn, defaultTime } = this.state;
     const buttonText = isFocusModeOn ? 'End\nFocus' : 'Start\nFocus';
 
     return (
@@ -41,7 +46,7 @@ class PopupFocusMode extends React.Component {
                 :
                 <Timer.Seconds />
               </div>
-              <h1>{tabGroupName}</h1>
+              <h1>{focusGroup}</h1>
               <div>
                 <button
                   type="button"

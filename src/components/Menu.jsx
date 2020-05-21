@@ -115,7 +115,6 @@ class Menu extends React.Component {
     const { addGroupModal, activeTabs, tabgroups } = this.state;
     return (
       <div className="menuContainer">
-        <h2>Active Tabs</h2>
         <div
           id="activeTabs"
           className="activeTabs"
@@ -123,6 +122,7 @@ class Menu extends React.Component {
           onDrop={drop}
           onDragOver={dragOver}
         >
+          <h2>Active Tabs</h2>
           {activeTabs.map((tab) => (
             <Tab title={tab.title} url={tab.url} key={uuid()} />
           ))}
@@ -131,6 +131,7 @@ class Menu extends React.Component {
           <h2>Tab Groups</h2>
           {tabgroups.map((tabgroup) => (
             <TabGroup
+              view="menu"
               key={tabgroup.name}
               name={tabgroup.name}
               tabs={tabgroup.tabs}

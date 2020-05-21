@@ -10,24 +10,23 @@ class Popup extends React.Component {
 
     this.state = {
       focusMode: false,
-      tabgroups: [
-        {
-          name: 'work',
-          tabs: [
-            { title: 'Slack', url: 'https://slack.com' },
-            { title: 'StackOverflow', url: 'https://stackoverflow' },
-            { title: 'Canvas', url: 'https://canvas.com' },
-          ],
-        },
-        {
-          name: 'play',
-          tabs: [
-            { title: 'Youtube', url: 'https://youtube.com' },
-            { title: 'Hulu', url: 'https://hulu.com' },
-          ],
-        },
-      ],
+      focusGroup: "",
+      tabgroups: [],
     };
+  }
+
+  componentDidMount() {
+    chrome.storage.sync.get('tabgroups', (obj) => {
+      const { tabgroups } = obj;
+      if (tabgroups.length === 0) {
+        chrome.storage.sync.set({ tabgroups: [] });
+      }
+      this.setState({ tabgroups });
+    });
+  }
+
+  startFocusMode = () => {
+    this.setState({ focusMode: true });
   }
 
   openMenu = () => {
@@ -35,34 +34,20 @@ class Popup extends React.Component {
     chrome.tabs.create({ url: menuUrl });
   };
 
-  deleteGroup = (target) => {
-    const { tabgroups } = this.state;
-    this.setState({
-      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
-    });
-  };
-
-  editGroup = (target, newName) => {
-    const { tabgroups } = this.state;
-    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
-    tabgroups[index].name = newName;
-    this.setState({ tabgroups });
-  };
-
   render() {
-    const { focusMode, tabgroups } = this.state;
+    const { focusMode, focusGroup, tabgroups } = this.state;
     return (
       <div className="menuContainer">
         {focusMode ? (
-          <PopupFocusMode />
+          <PopupFocusMode tabgroup={focusGroup} />
         ) : (
           tabgroups.map((tabgroup) => (
             <TabGroup
+              view="popup"
               key={tabgroup.name}
               name={tabgroup.name}
               tabs={tabgroup.tabs}
-              deleteGroup={this.deleteGroup}
-              editGroup={this.editGroup}
+              startFocusMode={this.startFocusMode}
             />
           ))
         )}

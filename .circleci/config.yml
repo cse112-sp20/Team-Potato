@@ -66,14 +66,14 @@ jobs:
       - run:
           name: Download cc-test-reporter
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./project/cc-test-reporter
+            chmod +x ./project/cc-test-reporter
       - run:
           name: Notify CC before tests
-          command: ./cc-test-reporter before-build
+          command: ./project/cc-test-reporter before-build
       - run:
           name: Create a directory for raw coverage files
-          command: mkdir raw_coverage
+          command: mkdir ./project/raw_coverage
       - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
@@ -84,12 +84,27 @@ jobs:
       - run:
           name: Tabgroup-test
           command: python test/tabgroup_CRUD_issue#34.py
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - project
+
+upload-coverage:
+  build:
+    executor: nodejs
+    working_directory: /home/circleci/project
+    environment:
+      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/project
       - run:
           name: Generate coverage report
           command: sudo npm run report
       - run:
           name: Upload test report
-          command: ./cc-test-reporter after-build -t lcov
+          command: ./project/cc-test-reporter after-build -t lcov -i project/coverage/lcov.info
 
 workflows:
   version: 2
@@ -99,3 +114,7 @@ workflows:
       - test:
           requires:
             - build
+      - upload-coverage:
+          requires:
+            - build
+            - test

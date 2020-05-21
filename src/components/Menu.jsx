@@ -54,6 +54,7 @@ class Menu extends React.Component {
 
   drop = (e) => {
     const droppable = e.target.attributes.getNamedItem('droppable').value;
+
     if (droppable !== 'true' || e.target === undefined) {
       e.preventDefault();
       e.dataTransfer.effectAllowed = 'none';

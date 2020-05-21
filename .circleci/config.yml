@@ -44,11 +44,9 @@ jobs:
             - project
 
   test:
-    executor: nodejs
+    executor: python
     environment:
       CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
-    docker:
-      - image: circleci/python:3.7-browsers
     steps:
       - checkout
       - attach_workspace:

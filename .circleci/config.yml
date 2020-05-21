@@ -89,8 +89,7 @@ jobs:
           paths:
             - project
 
-upload-coverage:
-  build:
+  upload-coverage:
     executor: nodejs
     working_directory: /home/circleci/project
     environment:

@@ -46,7 +46,7 @@ class PopupFocusMode extends React.Component {
                 :
                 <Timer.Seconds />
               </div>
-              <h1>{focusGroup}</h1>
+              <h1>{console.log(focusGroup)}</h1>
               <div>
                 <button
                   type="button"

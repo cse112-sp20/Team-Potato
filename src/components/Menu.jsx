@@ -8,26 +8,6 @@ import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';
 
-const drop = (e) => {
-  const droppable = e.target.attributes.getNamedItem('droppable').value;
-  if (droppable !== 'true' || e.target === undefined) {
-    e.preventDefault();
-    e.dataTransfer.effectAllowed = 'none';
-    e.dataTransfer.dropEffect = 'none';
-  } else {
-    e.preventDefault();
-    const id = e.dataTransfer.getData('id');
-    // get the element by the id
-    const tab = document.getElementById(id);
-    tab.style.display = 'block';
-    e.target.appendChild(tab);
-  }
-};
-
-const dragOver = (e) => {
-  e.preventDefault();
-};
-
 class Menu extends React.Component {
   constructor() {
     super();
@@ -60,6 +40,26 @@ class Menu extends React.Component {
 
       this.setState({ activeTabs: tempTabs });
     });
+  };
+
+  drop = (e) => {
+    const droppable = e.target.attributes.getNamedItem('droppable').value;
+    if (droppable !== 'true' || e.target === undefined) {
+      e.preventDefault();
+      e.dataTransfer.effectAllowed = 'none';
+      e.dataTransfer.dropEffect = 'none';
+    } else {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('id');
+      // get the element by the id
+      const tab = document.getElementById(id);
+      tab.style.display = 'block';
+      e.target.appendChild(tab);
+    }
+  };
+
+  dragOver = (e) => {
+    e.preventDefault();
   };
 
   addGroup = (e) => {
@@ -119,8 +119,8 @@ class Menu extends React.Component {
           id="activeTabs"
           className="activeTabs"
           droppable="true"
-          onDrop={drop}
-          onDragOver={dragOver}
+          onDrop={this.drop}
+          onDragOver={this.dragOver}
         >
           <h2>Active Tabs</h2>
           {activeTabs.map((tab) => (
@@ -137,6 +137,8 @@ class Menu extends React.Component {
               tabs={tabgroup.tabs}
               deleteGroup={this.deleteGroup}
               editGroup={this.editGroup}
+              drop={this.drop}
+              dragOver={this.dragOver}
             />
           ))}
 

@@ -29,7 +29,7 @@ class Tab extends React.Component {
 
   openTab = (link) => {
     window.open(link, '_blank');
-  }
+  };
 
   render() {
     const { title, url } = this.props;
@@ -51,6 +51,6 @@ class Tab extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default Tab;

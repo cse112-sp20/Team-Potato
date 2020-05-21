@@ -99,6 +99,15 @@ jobs:
       - attach_workspace:
           at: /home/circleci/project
       - run:
+          name: update-npm
+          command: sudo npm install -g npm@latest
+      - run:
+          name: install-dependencies
+          command: sudo npm install
+      - run:
+          name: Fix Vulnerabilities
+          command: sudo npm audit fix
+      - run:
           name: Generate coverage report
           command: sudo npm run report
       - run:

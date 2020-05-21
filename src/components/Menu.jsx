@@ -43,6 +43,7 @@ class Menu extends React.Component {
   };
 
   drop = (e) => {
+    const { tabgroups } = this.state;
     const droppable = e.target.attributes.getNamedItem('droppable').value;
     if (droppable !== 'true' || e.target === undefined) {
       e.preventDefault();
@@ -50,11 +51,19 @@ class Menu extends React.Component {
       e.dataTransfer.dropEffect = 'none';
     } else {
       e.preventDefault();
-      const id = e.dataTransfer.getData('id');
+      const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
-      const tab = document.getElementById(id);
+      const tab = document.getElementById(tabObj.id);
       tab.style.display = 'block';
       e.target.appendChild(tab);
+
+      const index = tabgroups.findIndex(
+        (tabgroup) => tabgroup.name === e.target.id
+      );
+
+      const tabData = { title: tabObj.title, url: tabObj.url };
+      tabgroups[index].tabs.push(tabData);
+      chrome.storage.sync.set({ tabgroups });
     }
   };
 

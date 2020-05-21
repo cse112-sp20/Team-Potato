@@ -3,31 +3,10 @@ import { IoMdAddCircle } from 'react-icons/io';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-//import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';
-import Card from 'react-bootstrap/Card';
-
-const drop = (e) => {
-  const droppable = e.target.attributes.getNamedItem('droppable').value;
-  if (droppable !== 'true' || e.target === undefined) {
-    e.preventDefault();
-    e.dataTransfer.effectAllowed = 'none';
-    e.dataTransfer.dropEffect = 'none';
-  } else {
-    e.preventDefault();
-    const id = e.dataTransfer.getData('id');
-    // get the element by the id
-    const tab = document.getElementById(id);
-    tab.style.display = 'block';
-    e.target.appendChild(tab);
-  }
-};
-
-const dragOver = (e) => {
-  e.preventDefault();
-};
 
 class Menu extends React.Component {
   constructor() {
@@ -36,29 +15,19 @@ class Menu extends React.Component {
     this.state = {
       addGroupModal: false,
       activeTabs: [],
-      tabgroups: [
-        {
-          name: 'work',
-          tabs: [
-            { title: 'Slack', url: 'https://slack.com' },
-            { title: 'StackOverflow', url: 'https://stackoverflow' },
-            { title: 'Canvas', url: 'https://canvas.com' },
-          ],
-        },
-        {
-          name: 'play',
-          tabs: [
-            { title: 'Youtube', url: 'https://youtube.com' },
-            { title: 'Netflix', url: 'https://netflix.com' },
-            { title: 'Hulu', url: 'https://hulu.com' },
-          ],
-        },
-      ],
+      tabgroups: [],
     };
   }
 
   componentDidMount() {
     this.getActiveTabs();
+    chrome.storage.sync.get('tabgroups', (obj) => {
+      const { tabgroups } = obj;
+      if (tabgroups.length === 0) {
+        chrome.storage.sync.set({ tabgroups: [] });
+      }
+      this.setState({ tabgroups });
+    });
   }
 
   getActiveTabs = () => {
@@ -74,6 +43,7 @@ class Menu extends React.Component {
   };
 
   drop = (e) => {
+    const { tabgroups } = this.state;
     const droppable = e.target.attributes.getNamedItem('droppable').value;
     if (droppable !== 'true' || e.target === undefined) {
       e.preventDefault();
@@ -81,11 +51,19 @@ class Menu extends React.Component {
       e.dataTransfer.dropEffect = 'none';
     } else {
       e.preventDefault();
-      const id = e.dataTransfer.getData('id');
+      const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
-      const tab = document.getElementById(id);
+      const tab = document.getElementById(tabObj.id);
       tab.style.display = 'block';
       e.target.appendChild(tab);
+
+      const index = tabgroups.findIndex(
+        (tabgroup) => tabgroup.name === e.target.id
+      );
+
+      const tabData = { title: tabObj.title, url: tabObj.url };
+      tabgroups[index].tabs.push(tabData);
+      chrome.storage.sync.set({ tabgroups });
     }
   };
 
@@ -117,15 +95,17 @@ class Menu extends React.Component {
       tabgroups.push(newGroup);
       this.setState({ tabgroups });
 
+      chrome.storage.sync.set({ tabgroups }, () => {});
+
       this.modalClose();
     }
   };
 
   deleteGroup = (target) => {
-    const { tabgroups } = this.state;
-    this.setState({
-      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
-    });
+    let { tabgroups } = this.state;
+    tabgroups = tabgroups.filter((tabgroup) => tabgroup.name !== target);
+    this.setState({ tabgroups });
+    chrome.storage.sync.set({ tabgroups });
   };
 
   editGroup = (target, newName) => {
@@ -133,6 +113,7 @@ class Menu extends React.Component {
     const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
     tabgroups[index].name = newName;
     this.setState({ tabgroups });
+    chrome.storage.sync.set({ tabgroups });
   };
 
   modalClose = () => {
@@ -143,7 +124,6 @@ class Menu extends React.Component {
     const { addGroupModal, activeTabs, tabgroups } = this.state;
     return (
       <div className="menuContainer">
-        <h2>Active Tabs</h2>
         <div
           id="activeTabs"
           className="activeTabs"
@@ -151,6 +131,7 @@ class Menu extends React.Component {
           onDrop={this.drop}
           onDragOver={this.dragOver}
         >
+          <h2>Active Tabs</h2>
           {activeTabs.map((tab) => (
             <Tab title={tab.title} url={tab.url} key={uuid()} />
           ))}
@@ -159,6 +140,7 @@ class Menu extends React.Component {
           <h2>Tab Groups</h2>
           {tabgroups.map((tabgroup) => (
             <TabGroup
+              view="menu"
               key={tabgroup.name}
               name={tabgroup.name}
               tabs={tabgroup.tabs}

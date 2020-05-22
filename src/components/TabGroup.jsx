@@ -23,18 +23,21 @@ class TabGroup extends React.Component {
       editGroup: PropTypes.func,
       startFocusMode: PropTypes.func,
       view: PropTypes.string.isRequired,
-      drop: PropTypes.func.isRequired,
-      dragOver: PropTypes.func.isRequired,
+      drop: PropTypes.func,
+      dragOver: PropTypes.func,
     };
 
     TabGroup.defaultProps = {
       deleteGroup: () => {},
       editGroup: () => {},
       startFocusMode: () => {},
+      drop: () => {},
+      dragOver: () => {},
     };
 
     this.state = {
       editMode: false,
+      // eslint-disable-next-line react/destructuring-assignment
       newName: this.props.name,
     };
   }

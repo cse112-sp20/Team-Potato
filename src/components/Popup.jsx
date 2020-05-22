@@ -25,10 +25,25 @@ class Popup extends React.Component {
         this.setState({ tabgroups });
       }
     });
+
+    chrome.storage.sync.get('focusMode', (obj) => {
+      const { focusMode } = obj;
+      this.setState({ focusMode });
+    });
+
+    chrome.storage.sync.get('focusSites', (obj) => {
+      console.log(obj.focusSites);
+    });
   }
 
   startFocusMode = (target) => {
-    this.setState({ focusMode: true, focusGroup: target });
+    const { tabgroups } = this.state;
+    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
+    this.setState({ focusMode: true, focusGroup: tabgroups[index] });
+  };
+
+  endFocusMode = () => {
+    this.setState({ focusMode: false });
   };
 
   openMenu = () => {
@@ -41,7 +56,10 @@ class Popup extends React.Component {
     return (
       <div className="menuContainer">
         {focusMode ? (
-          <PopupFocusMode focusGroup={focusGroup} />
+          <PopupFocusMode
+            focusGroup={focusGroup}
+            endFocusMode={this.endFocusMode}
+          />
         ) : (
           tabgroups.map((tabgroup) => (
             <TabGroup

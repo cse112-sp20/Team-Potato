@@ -13,15 +13,31 @@ class PopupFocusMode extends React.Component {
 
     PopupFocusMode.propTypes = {
       focusGroup: PropTypes.string.isRequired,
+      endFocusMode: PropTypes.func.isRequired,
     };
   }
 
+  componentDidMount() {
+    chrome.storage.sync.get('focusMode', (obj) => {
+      const isFocusModeOn = obj.focusMode;
+      this.setState({ isFocusModeOn });
+    });
+  }
+
   clickStart = () => {
+    const { focusGroup } = this.props;
     this.setState({ isFocusModeOn: true });
+    chrome.storage.sync.set({ focusMode: true });
+    const focusSites = focusGroup.tabs.map((tab) => tab.url);
+    chrome.storage.sync.set({ focusSites }, () => {});
   };
 
   clickEnd = () => {
+    const { endFocusMode } = this.props;
     this.setState({ isFocusModeOn: false });
+    chrome.storage.sync.set({ focusMode: false });
+    chrome.storage.sync.set({ focusSites: [] }, () => {});
+    endFocusMode();
   };
 
   render() {
@@ -46,7 +62,7 @@ class PopupFocusMode extends React.Component {
                 :
                 <Timer.Seconds />
               </div>
-              <h1>{focusGroup}</h1>
+              <h1>{focusGroup.name}</h1>
               <div>
                 <button
                   type="button"

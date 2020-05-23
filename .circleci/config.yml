@@ -82,6 +82,9 @@ jobs:
       - run:
           name: Tabgroup-test
           command: python test/tabgroup_CRUD_issue#34.py
+      - run:
+          name: Check Directory
+          command: ls
       - persist_to_workspace:
           root: /home/circleci
           paths:

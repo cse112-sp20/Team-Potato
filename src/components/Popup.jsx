@@ -7,49 +7,88 @@ import PopupFocusMode from './PopupFocusMode';
 class Popup extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      focusMode: false,
-      focusGroup: '',
-      tabgroups: [],
+      shouldDisplayFocusMode: false,
+      focusedTabGroupName: '',
+      focusedTabGroupUrls: [],
+      tabGroups: [],
     };
   }
 
   componentDidMount() {
-    chrome.storage.sync.get('tabgroups', (obj) => {
+    chrome.storage.sync.get(
+      'shouldDisplayFocusMode',
+      (shouldDisplayFocusMode) => {
+        this.setState({ shouldDisplayFocusMode });
+      }
+    );
+    chrome.storage.sync.get('shouldDisplayFocusMode', (obj) => {
+      this.setState({ shouldDisplayFocusMode: obj.shouldDisplayFocusMode });
+    });
+    chrome.storage.sync.get('focusedTabGroupName', (obj) => {
+      this.setState({ focusedTabGroupName: obj.focusedTabGroupName });
+    });
+    chrome.storage.sync.get('focusedTabGroupUrls', (obj) => {
+      this.setState({ focusedTabGroupUrls: obj.focusedTabGroupUrls });
+    });
+    chrome.storage.sync.get('tabGroups', (obj) => {
       if (obj) {
-        const { tabgroups } = obj;
-        if (tabgroups.length === 0) {
-          chrome.storage.sync.set({ tabgroups: [] });
+        const { tabGroups } = obj;
+        // TODO: why are we doing this?
+        if (tabGroups.length === 0) {
+          chrome.storage.sync.set({ tabGroups: [] });
         }
-        this.setState({ tabgroups });
+        this.setState({ tabGroups });
       }
     });
   }
 
-  startFocusMode = (target) => {
-    this.setState({ focusMode: true, focusGroup: target });
+  displayFocusMode = (focusedTabGroupName, focusedTabGroupUrls) => {
+    this.setState({ shouldDisplayFocusMode: true });
+    chrome.storage.sync.set({ shouldDisplayFocusMode: true });
+    this.setState({ focusedTabGroupName });
+    chrome.storage.sync.set({ focusedTabGroupName });
+    this.setState({ focusedTabGroupUrls });
+    chrome.storage.sync.set({ focusedTabGroupUrls });
+  };
+
+  hideFocusMode = () => {
+    this.setState({ shouldDisplayFocusMode: false });
+    chrome.storage.sync.set({ shouldDisplayFocusMode: false });
+    this.setState({ focusedTabGroupName: '' });
+    chrome.storage.sync.set({ focusedTabGroupName: '' });
+    this.setState({ focusedTabGroupUrls: [] });
+    chrome.storage.sync.set({ focusedTabGroupUrls: [] });
   };
 
   openMenu = () => {
-    const menuUrl = chrome.runtime.getURL('menu.html');
-    chrome.tabs.create({ url: menuUrl });
+    const url = chrome.runtime.getURL('menu.html');
+    chrome.tabs.create({ url });
   };
 
   render() {
-    const { focusMode, focusGroup, tabgroups } = this.state;
+    const {
+      shouldDisplayFocusMode,
+      focusedTabGroupName,
+      focusedTabGroupUrls,
+      tabGroups,
+    } = this.state;
     return (
-      <div className="menuContainer">
-        {focusMode ? (
-          <PopupFocusMode focusGroup={focusGroup} />
+      <div className="popupContainer">
+        {shouldDisplayFocusMode ? (
+          <PopupFocusMode
+            tabGroupName={focusedTabGroupName}
+            tabGroupUrls={focusedTabGroupUrls}
+            hideFocusMode={this.hideFocusMode}
+          />
         ) : (
-          tabgroups.map((tabgroup) => (
+          tabGroups.map((tabGroup) => (
             <TabGroup
               view="popup"
-              key={tabgroup.name}
-              name={tabgroup.name}
-              tabs={tabgroup.tabs}
-              startFocusMode={this.startFocusMode}
+              key={tabGroup.name}
+              name={tabGroup.name}
+              tabs={tabGroup.tabs}
+              displayFocusMode={this.displayFocusMode}
             />
           ))
         )}

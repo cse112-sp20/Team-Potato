@@ -15,18 +15,18 @@ class Menu extends React.Component {
     this.state = {
       addGroupModal: false,
       activeTabs: [],
-      tabgroups: [],
+      tabGroups: [],
     };
   }
 
   componentDidMount() {
     this.getActiveTabs();
-    chrome.storage.sync.get('tabgroups', (obj) => {
-      const { tabgroups } = obj;
-      if (tabgroups.length === 0) {
-        chrome.storage.sync.set({ tabgroups: [] });
+    chrome.storage.sync.get('tabGroups', (obj) => {
+      const { tabGroups } = obj;
+      if (tabGroups.length === 0) {
+        chrome.storage.sync.set({ tabGroups: [] });
       }
-      this.setState({ tabgroups });
+      this.setState({ tabGroups });
     });
   }
 
@@ -43,7 +43,7 @@ class Menu extends React.Component {
   };
 
   drop = (e) => {
-    const { tabgroups } = this.state;
+    const { tabGroups } = this.state;
     const droppable = e.target.attributes.getNamedItem('droppable').value;
     if (droppable !== 'true' || e.target === undefined) {
       e.preventDefault();
@@ -57,13 +57,13 @@ class Menu extends React.Component {
       tab.style.display = 'block';
       e.target.appendChild(tab);
 
-      const index = tabgroups.findIndex(
-        (tabgroup) => tabgroup.name === e.target.id
+      const index = tabGroups.findIndex(
+        (tabGroup) => tabGroup.name === e.target.id
       );
 
       const tabData = { title: tabObj.title, url: tabObj.url };
-      tabgroups[index].tabs.push(tabData);
-      chrome.storage.sync.set({ tabgroups });
+      tabGroups[index].tabs.push(tabData);
+      chrome.storage.sync.set({ tabGroups });
     }
   };
 
@@ -74,7 +74,7 @@ class Menu extends React.Component {
   addGroup = (e) => {
     if (e.type === 'submit') {
       e.preventDefault();
-      const { activeTabs, tabgroups } = this.state;
+      const { activeTabs, tabGroups } = this.state;
       let groupName = e.target[0].value;
       if (groupName === '') {
         groupName = 'Untitled';
@@ -92,28 +92,28 @@ class Menu extends React.Component {
         tabs: selectedTabs,
       };
 
-      tabgroups.push(newGroup);
-      this.setState({ tabgroups });
+      tabGroups.push(newGroup);
+      this.setState({ tabGroups });
 
-      chrome.storage.sync.set({ tabgroups }, () => {});
+      chrome.storage.sync.set({ tabGroups }, () => {});
 
       this.modalClose();
     }
   };
 
   deleteGroup = (target) => {
-    let { tabgroups } = this.state;
-    tabgroups = tabgroups.filter((tabgroup) => tabgroup.name !== target);
-    this.setState({ tabgroups });
-    chrome.storage.sync.set({ tabgroups });
+    let { tabGroups } = this.state;
+    tabGroups = tabGroups.filter((tabGroup) => tabGroup.name !== target);
+    this.setState({ tabGroups });
+    chrome.storage.sync.set({ tabGroups });
   };
 
   editGroup = (target, newName) => {
-    const { tabgroups } = this.state;
-    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
-    tabgroups[index].name = newName;
-    this.setState({ tabgroups });
-    chrome.storage.sync.set({ tabgroups });
+    const { tabGroups } = this.state;
+    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === target);
+    tabGroups[index].name = newName;
+    this.setState({ tabGroups });
+    chrome.storage.sync.set({ tabGroups });
   };
 
   modalClose = () => {
@@ -121,7 +121,7 @@ class Menu extends React.Component {
   };
 
   render() {
-    const { addGroupModal, activeTabs, tabgroups } = this.state;
+    const { addGroupModal, activeTabs, tabGroups } = this.state;
     return (
       <div className="menuContainer">
         <div
@@ -138,12 +138,12 @@ class Menu extends React.Component {
         </div>
         <div className="tabGroups">
           <h2>Tab Groups</h2>
-          {tabgroups.map((tabgroup) => (
+          {tabGroups.map((tabGroup) => (
             <TabGroup
               view="menu"
-              key={tabgroup.name}
-              name={tabgroup.name}
-              tabs={tabgroup.tabs}
+              key={tabGroup.name}
+              name={tabGroup.name}
+              tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}
               editGroup={this.editGroup}
               drop={this.drop}
@@ -165,7 +165,7 @@ class Menu extends React.Component {
 
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Create a New Tabgroup</Modal.Title>
+            <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.addGroup}>
@@ -174,7 +174,7 @@ class Menu extends React.Component {
                 <Form.Control type="text" placeholder="Enter Group Name..." />
               </Form.Group>
               <Form.Group controlId="selectedTabs">
-                <Form.Label>Add Tabs to TabGroup</Form.Label>
+                <Form.Label>Add Tabs to tabGroup</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (
                     <option key={uuid()}>{tab.title}</option>

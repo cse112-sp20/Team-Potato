@@ -1,12 +1,17 @@
-chrome.tabs.onUpdated.addListener(function blockSite(tabId, info, tab) {
-  chrome.storage.sync.get('focusSites', (obj) => {
-    const allowedDomains = obj.focusSites;
-    // length 0 means focus mode not on
-    if (allowedDomains.length > 0) {
-      // if current tab's url isn't in allowedDomains, block the site
-      if (!allowedDomains.some((domain) => tab.url.includes(domain))) {
-        chrome.tabs.executeScript(tabId, { file: 'siteBlocker.bundle.js' });
-      }
+chrome.tabs.onUpdated.addListener((tabId, tab) => {
+  chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
+    // check if Focus Mode is on
+    if (obj.isFocusModeEnabled) {
+      chrome.storage.sync.get(
+        'focusedTabGroupUrls',
+        (focusedTabGroupUrlsObj) => {
+          const allowedDomains = focusedTabGroupUrlsObj.focusedTabGroupUrls;
+          // if current tab's url isn't in allowedDomains, block the site
+          if (!allowedDomains.some((domain) => tab.url.includes(domain))) {
+            chrome.tabs.executeScript(tabId, { file: 'siteBlocker.bundle.js' });
+          }
+        }
+      );
     }
   });
 });

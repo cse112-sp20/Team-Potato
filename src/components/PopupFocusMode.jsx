@@ -69,12 +69,14 @@ class PopupFocusMode extends React.Component {
                   onClick={() => {
                     if (isFocusModeEnabled) {
                       stop();
-                      chrome.storage.sync.set({ focusSites: [] });
+                      chrome.storage.sync.set({ focusedTabGroupUrls: [] });
                       this.setState({ isFocusModeEnabled: false });
                       chrome.storage.sync.set({ isFocusModeEnabled: false });
                     } else {
                       start();
-                      chrome.storage.sync.set({ focusSites: tabGroupUrls });
+                      chrome.storage.sync.set({
+                        focusedTabGroupUrls: tabGroupUrls,
+                      });
                       this.setState({ isFocusModeEnabled: true });
                       chrome.storage.sync.set({ isFocusModeEnabled: true });
                       this.launchFocusMode();

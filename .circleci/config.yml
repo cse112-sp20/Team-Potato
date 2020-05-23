@@ -82,9 +82,6 @@ jobs:
       - run:
           name: Tabgroup-test
           command: python test/tabgroup_CRUD_issue#34.py
-      - run:
-          name: Check Directory
-          command: ls
       - persist_to_workspace:
           root: /home/circleci/project
           paths:
@@ -99,8 +96,14 @@ jobs:
       - attach_workspace:
           at: /home/circleci/project
       - run:
+          name: Check Directory
+          command: ls
+      - run:
           name: Change directory
           command: cd project
+      - run:
+          name: Check Directory Again
+          command: ls
       - run:
           name: update-npm
           command: sudo npm install -g npm@latest

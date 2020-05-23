@@ -36,6 +36,11 @@ jobs:
           name: Generate Build
           command: sudo npm run build-test
       - run:
+          name: Download cc-test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
           name: check-repo
           command: ls
       - persist_to_workspace:
@@ -62,11 +67,6 @@ jobs:
           name: Selenium-setup
           command: sudo pip install selenium
       - run:
-          name: Download cc-test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./project/cc-test-reporter
-            chmod +x ./project/cc-test-reporter
-      - run:
           name: Notify CC before tests
           command: ./project/cc-test-reporter before-build
       - run:
@@ -85,17 +85,19 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - project
+            - project/raw_coverage
 
   upload-coverage:
     executor: nodejs
-    working_directory: /home/circleci/project
     environment:
       CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
     steps:
       - checkout
       - attach_workspace:
           at: /home/circleci/project
+      - run:
+          name: Change directory
+          command: cd project
       - run:
           name: update-npm
           command: sudo npm install -g npm@latest
@@ -110,7 +112,7 @@ jobs:
           command: sudo npm run report
       - run:
           name: Upload test report
-          command: ./project/cc-test-reporter after-build -t lcov -i project/coverage/lcov.info
+          command: ./cc-test-reporter after-build -t lcov -i project/coverage/lcov.info
 
 workflows:
   version: 2

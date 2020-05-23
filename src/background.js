@@ -1,8 +1,6 @@
 chrome.tabs.onUpdated.addListener(function blockSite(tabId, info, tab) {
   chrome.storage.sync.get('focusSites', (obj) => {
     const allowedDomains = obj.focusSites;
-    console.log(obj);
-    console.log(allowedDomains);
     // length 0 means focus mode not on
     if (allowedDomains.length > 0) {
       // if current tab's url isn't in allowedDomains, block the site

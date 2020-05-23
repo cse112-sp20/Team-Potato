@@ -26,21 +26,6 @@ class PopupFocusMode extends React.Component {
     });
   }
 
-  // clickStart = () => {
-  //   const { tabGroupUrls } = this.props;
-  //   this.setState({ isFocusModeEnabled: true });
-  //   chrome.storage.sync.set({ focusMode: true });
-  //   chrome.storage.sync.set({ focusSites: tabGroupUrls }, () => {});
-  // };
-
-  // clickEnd = () => {
-  //   const { hideFocusMode } = this.props;
-  //   this.setState({ isFocusModeEnabled: false });
-  //   chrome.storage.sync.set({ focusMode: false });
-  //   chrome.storage.sync.set({ focusSites: [] }, () => {});
-  //   hideFocusMode();
-  // };
-
   launchFocusMode = () => {
     chrome.tabs.query({}, (openTabs) => {
       const { tabGroupUrls } = this.props;

@@ -103,7 +103,7 @@ jobs:
       - run:
           name: Show test coverage file
           command: |
-            ls -la .nyc_coverage
+            ls -la .nyc_output
       - run:
           name: update-npm
           command: sudo npm install -g npm@latest

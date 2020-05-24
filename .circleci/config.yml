@@ -97,13 +97,17 @@ jobs:
           at: /home/circleci/project
       - run:
           name: Check Directory
-          command: ls
+          command: |
+            ls
+            pwd
       - run:
           name: Change directory
           command: cd project
       - run:
           name: Check Directory Again
-          command: ls
+          command: |
+            ls
+            pwd
       - run:
           name: update-npm
           command: sudo npm install -g npm@latest

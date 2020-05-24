@@ -1,33 +1,56 @@
 import React from 'react';
 import '../styles/Tab.css';
 import PropTypes from 'prop-types';
+import { v4 as uuid } from 'uuid';
 
-const Tab = (props) => {
-  const { title, url } = props;
+class Tab extends React.Component {
+  constructor(props) {
+    super(props);
 
-  Tab.propTypes = {
-    title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  };
-
-  function openTab(link) {
-    window.open(link, '_blank');
+    Tab.propTypes = {
+      title: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    };
   }
 
-  return (
-    <div>
-      <button
-        type="button"
-        className="tablink"
-        onClick={() => {
-          openTab(url);
-        }}
-        data-testid="tab-button"
+  dragStart = (e) => {
+    e.persist();
+    const { title, url } = this.props;
+    const tabObj = { title, url, id: e.target.id };
+    e.dataTransfer.setData('text', JSON.stringify(tabObj));
+    setTimeout(() => {
+      e.target.style.display = 'always';
+    }, 0);
+  };
+
+  dragOver = (e) => {
+    e.stopPropagation();
+  };
+
+  openTab = (link) => {
+    window.open(link, '_blank');
+  };
+
+  render() {
+    const { title, url } = this.props;
+    return (
+      <div
+        id={uuid()}
+        draggable="true"
+        onDragStart={this.dragStart}
+        onDragOver={this.dragOver}
       >
-        {title}
-      </button>
-    </div>
-  );
-};
+        <button
+          type="button"
+          className="tablink"
+          onClick={() => this.openTab(url)}
+          data-testid="tab-button"
+        >
+          {title}
+        </button>
+      </div>
+    );
+  }
+}
 
 export default Tab;

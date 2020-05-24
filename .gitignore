@@ -42,6 +42,10 @@ web_modules/
 # TypeScript cache
 *.tsbuildinfo
 
+# Crx files and Pem keys
+.crx
+.pem
+
 # Optional npm cache directory
 .npm
 

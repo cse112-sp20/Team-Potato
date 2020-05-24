@@ -6,6 +6,8 @@ const config = {
   entry: {
     popupRender: './src/popupRender.js',
     menuRender: './src/menuRender.js',
+    background: './src/background.js',
+    siteBlocker: './src/siteBlocker.js',
   },
   output: {
     path: path.resolve(__dirname, 'build'),

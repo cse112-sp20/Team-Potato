@@ -2,65 +2,96 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import TabGroup from './TabGroup';
 import '../styles/Popup.css';
+import PopupFocusMode from './PopupFocusMode';
 
 class Popup extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      tabgroups: [
-        {
-          name: 'work',
-          tabs: [
-            { title: 'Slack', url: 'https://slack.com' },
-            { title: 'StackOverflow', url: 'https://stackoverflow' },
-            { title: 'Canvas', url: 'https://canvas.com' },
-          ],
-        },
-        {
-          name: 'play',
-          tabs: [
-            { title: 'Youtube', url: 'https://youtube.com' },
-            { title: 'Netflix', url: 'https://netflix.com' },
-            { title: 'Hulu', url: 'https://hulu.com' },
-          ],
-        },
-      ],
+      shouldDisplayFocusMode: false,
+      focusedTabGroupName: '',
+      focusedTabGroupUrls: [],
+      tabGroups: [],
     };
   }
 
-  openMenu = () => {
-    const menuUrl = chrome.runtime.getURL('menu.html');
-    chrome.tabs.create({ url: menuUrl });
-  };
-
-  deleteGroup = (target) => {
-    const { tabgroups } = this.state;
-    this.setState({
-      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
+  componentDidMount() {
+    chrome.storage.sync.get(
+      'shouldDisplayFocusMode',
+      (shouldDisplayFocusMode) => {
+        this.setState({ shouldDisplayFocusMode });
+      }
+    );
+    chrome.storage.sync.get('shouldDisplayFocusMode', (obj) => {
+      this.setState({ shouldDisplayFocusMode: obj.shouldDisplayFocusMode });
     });
+    chrome.storage.sync.get('focusedTabGroupName', (obj) => {
+      this.setState({ focusedTabGroupName: obj.focusedTabGroupName });
+    });
+    chrome.storage.sync.get('focusedTabGroupUrls', (obj) => {
+      this.setState({ focusedTabGroupUrls: obj.focusedTabGroupUrls });
+    });
+    chrome.storage.sync.get('tabGroups', (obj) => {
+      if (obj) {
+        const { tabGroups } = obj;
+        // TODO: why are we doing this?
+        if (tabGroups.length === 0) {
+          chrome.storage.sync.set({ tabGroups: [] });
+        }
+        this.setState({ tabGroups });
+      }
+    });
+  }
+
+  displayFocusMode = (focusedTabGroupName, focusedTabGroupUrls) => {
+    this.setState({ shouldDisplayFocusMode: true });
+    chrome.storage.sync.set({ shouldDisplayFocusMode: true });
+    this.setState({ focusedTabGroupName });
+    chrome.storage.sync.set({ focusedTabGroupName });
+    this.setState({ focusedTabGroupUrls });
   };
 
-  editGroup = (target, newName) => {
-    const { tabgroups } = this.state;
-    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
-    tabgroups[index].name = newName;
-    this.setState({ tabgroups });
+  hideFocusMode = () => {
+    this.setState({ shouldDisplayFocusMode: false });
+    chrome.storage.sync.set({ shouldDisplayFocusMode: false });
+    this.setState({ focusedTabGroupName: '' });
+    chrome.storage.sync.set({ focusedTabGroupName: '' });
+    this.setState({ focusedTabGroupUrls: [] });
+    chrome.storage.sync.set({ focusedTabGroupUrls: [] });
+  };
+
+  openMenu = () => {
+    const url = chrome.runtime.getURL('menu.html');
+    chrome.tabs.create({ url });
   };
 
   render() {
-    const { tabgroups } = this.state;
+    const {
+      shouldDisplayFocusMode,
+      focusedTabGroupName,
+      focusedTabGroupUrls,
+      tabGroups,
+    } = this.state;
     return (
-      <div className="menuContainer">
-        {tabgroups.map((tabgroup) => (
-          <TabGroup
-            key={tabgroup.name}
-            name={tabgroup.name}
-            tabs={tabgroup.tabs}
-            deleteGroup={this.deleteGroup}
-            editGroup={this.editGroup}
+      <div className="popupContainer">
+        {shouldDisplayFocusMode ? (
+          <PopupFocusMode
+            tabGroupName={focusedTabGroupName}
+            tabGroupUrls={focusedTabGroupUrls}
+            hideFocusMode={this.hideFocusMode}
           />
-        ))}
+        ) : (
+          tabGroups.map((tabGroup) => (
+            <TabGroup
+              view="popup"
+              key={tabGroup.name}
+              name={tabGroup.name}
+              tabs={tabGroup.tabs}
+              displayFocusMode={this.displayFocusMode}
+            />
+          ))
+        )}
+
         <div className="btnContainer">
           <Button type="button" className="menuBtn" onClick={this.openMenu}>
             Open Potato Tab

@@ -31,7 +31,7 @@ jobs:
           command: sudo npm install selenium-webdriver
       - run:
           name: Generate Build
-          command: sudo npm run build-test
+          command: sudo npm run build-dev
       - run:
           name: Download cc-test-reporter
           command: |

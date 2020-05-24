@@ -29,18 +29,18 @@ class PopupFocusMode extends React.Component {
   launchFocusMode = () => {
     chrome.tabs.query({}, (openTabs) => {
       const { tabGroupUrls } = this.props;
-      tabGroupUrls.forEach(function (tabUrl) {
+      tabGroupUrls.forEach((tabUrl) => {
         chrome.tabs.create({ url: tabUrl });
       });
 
-      openTabs.forEach(function (tab) {
+      openTabs.forEach((tab) => {
         chrome.tabs.remove(tab.id);
       });
     });
   };
 
   render() {
-    const { tabGroupName } = this.props;
+    const { tabGroupName, tabGroupUrls } = this.props;
     const { isFocusModeEnabled, defaultTime } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
 
@@ -69,10 +69,14 @@ class PopupFocusMode extends React.Component {
                   onClick={() => {
                     if (isFocusModeEnabled) {
                       stop();
+                      chrome.storage.sync.set({ focusedTabGroupUrls: [] });
                       this.setState({ isFocusModeEnabled: false });
                       chrome.storage.sync.set({ isFocusModeEnabled: false });
                     } else {
                       start();
+                      chrome.storage.sync.set({
+                        focusedTabGroupUrls: tabGroupUrls,
+                      });
                       this.setState({ isFocusModeEnabled: true });
                       chrome.storage.sync.set({ isFocusModeEnabled: true });
                       this.launchFocusMode();

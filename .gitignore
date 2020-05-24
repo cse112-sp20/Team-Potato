@@ -3,10 +3,7 @@
 # Local instrumented files
 instrumented
 babeled
-<<<<<<< HEAD
-=======
 .nyc_output
->>>>>>> master
 
 # Template .gitignore for Node.js from
 # https://github.com/github/gitignore/blob/master/Node.gitignore

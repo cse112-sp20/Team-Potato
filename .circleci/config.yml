@@ -83,9 +83,9 @@ jobs:
           name: Tabgroup-test
           command: python test/tabgroup_CRUD_issue#34.py
       - persist_to_workspace:
-          root: /home/circleci/project
+          root: /home/circleci/project/project
           paths:
-            - project/raw_coverage
+            - raw_coverage
 
   upload-coverage:
     executor: nodejs

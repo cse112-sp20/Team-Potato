@@ -87,9 +87,9 @@ jobs:
       #- run:
       #    name: Website-blocking-test
       #    command: python test/website_blocking_issue\#73_and_\#62.py
-      - run:
-          name: Focus-popup-timer-test
-          command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
+      #- run:
+      #    name: Focus-popup-timer-test
+      #    command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
       - persist_to_workspace:
           root: /home/circleci/project/project
           paths:

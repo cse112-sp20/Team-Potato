@@ -38,6 +38,3 @@ test_3 = driver.find_element_by_id("greet")
 assert test_3.text == "Hello Test 3"
 
 print("All Tests Passed")
-
-
-

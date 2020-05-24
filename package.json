@@ -6,7 +6,8 @@
     "start": "react-scripts start",
     "test": "jest --silent --coverage",
     "build-dev": "webpack --mode development",
-    "build-prod": "webpack --mode production"
+    "build-prod": "webpack --mode production",
+    "report": "nyc report"
   },
   "repository": {
     "type": "git",
@@ -19,27 +20,35 @@
   },
   "homepage": "https://github.com/cse112-sp20/Team-Potato#readme",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
-    "@testing-library/jest-dom": "^5.7.0",
+    "@babel/register": "^7.9.0",
+    "@istanbuljs/nyc-config-babel": "^3.0.0",
+    "@testing-library/jest-dom": "^5.8.0",
     "@testing-library/react": "^10.0.4",
     "babel-loader": "^8.1.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.1.1",
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react": "^7.20.0",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.3.0",
     "husky": "4.2.5",
     "jest": "^26.0.1",
     "jest-webextension-mock": "^3.6.0",
     "lint-staged": "10.2.2",
+    "mocha": "^7.2.0",
+    "nyc": "^15.0.1",
     "prettier": "2.0.5",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
@@ -65,9 +74,24 @@
       "jest-webextension-mock"
     ]
   },
+  "nyc": {
+    "extension": [
+      ".js",
+      ".jsx"
+    ],
+    "reporter": [
+      "text",
+      "lcov",
+      "json"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
   "dependencies": {
+    "babel-plugin-transform-export-extensions": "^6.22.0",
     "bootstrap": "^4.5.0",
     "chromedriver": "^81.0.0",
+    "debug": "^4.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
@@ -75,8 +99,8 @@
     "react-compound-timer": "^1.2.0",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
-    "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "uuid": "^8.0.0"

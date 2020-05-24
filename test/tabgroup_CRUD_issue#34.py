@@ -36,6 +36,7 @@ driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[4])
 driver.get("https://piazza.com")
 driver.switch_to.window(driver.window_handles[4])
+
 driver.get("chrome-extension://"+ uid +"/menu.html")
 
 
@@ -55,6 +56,7 @@ input_name = model_body.find_element_by_id("groupName")
 input_name.send_keys("Test Group")
 ActionChains(driver).send_keys(Keys.ENTER).perform()
 new_count = len(driver.find_elements_by_class_name("card"))
+
 assert new_count-old_count == 1, "new tabgroup not added"
 
 
@@ -141,5 +143,6 @@ cards_final_check = tab_groups.find_elements_by_class_name("card")
 assert len(cards_final_check) == 0, "Delete Button Not Working"
 print("All Tests Passed")
 coverage_json_file = open("./project/.nyc_output/#34.json","w+")
+
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()

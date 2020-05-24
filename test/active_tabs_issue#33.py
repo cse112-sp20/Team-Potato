@@ -55,6 +55,7 @@ for i in list_of_active_tabs:
         final_check_tab = 1
 assert final_check_tab == 1, "Active Tabs are not correct"
 print("All Tests Passed")
+
 coverage_json_file = open("./project/.nyc_output/#33.json", "w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()

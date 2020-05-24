@@ -70,6 +70,12 @@ jobs:
           name: Selenium-setup
           command: sudo pip install selenium
       - run:
+          name: Notify CC before tests
+          command: ./project/cc-test-reporter before-build
+      - run:
+          name: Create a directory for raw coverage files
+          command: mkdir ./project/.nyc_output
+      - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
       - run:

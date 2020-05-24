@@ -4,7 +4,7 @@
   "description": "A tab management chrome extension build by the Potato team.",
   "scripts": {
     "start": "react-scripts start",
-    "test": "jest",
+    "test": "jest --silent --coverage",
     "build-dev": "webpack --mode development",
     "build-prod": "webpack --mode production"
   },
@@ -38,7 +38,7 @@
     "html-webpack-plugin": "^4.3.0",
     "husky": "4.2.5",
     "jest": "^26.0.1",
-    "jest-webextension-mock": "^3.5.4",
+    "jest-webextension-mock": "^3.6.0",
     "lint-staged": "10.2.2",
     "prettier": "2.0.5",
     "webpack": "^4.43.0",

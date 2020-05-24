@@ -14,17 +14,21 @@ test('renders without crashing', () => {
 // Test 2
 test('renders tab correctly', () => {
   const { getByRole } = render(<Tab title="test" url="testurl" />);
+
+  // expect tab to be named 'test'
   expect(getByRole('button')).toHaveTextContent('test');
 });
 
 // Test 3
-test('triggers onClick handler when tab is clicked', () => {
+test('open menu when tab is clicked', () => {
+  // mock window.open(), so we can analyze its inputs/outputs
   window.open = jest.fn();
 
   const { getByRole } = render(<Tab title="test" url="testurl" />);
 
+  // click Open Menu button
   fireEvent.click(getByRole('button'));
 
+  // expect window.open() to have been called with url of 'testurl'
   expect(window.open).toHaveBeenCalledWith('testurl', '_blank');
-  expect(window.open).not.toHaveReturnedWith(null);
 });

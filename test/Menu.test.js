@@ -17,7 +17,7 @@ test('renders without crashing', () => {
 
 // Test 2
 test('renders menu correctly', () => {
-  // add a tabgroup to chrome storage
+  // add tabgroup to chrome storage
   chrome.storage.sync.set({
     tabGroups: [
       {
@@ -46,7 +46,7 @@ test('renders menu correctly', () => {
 
 // Test 3
 test('deletes tab group correctly', () => {
-  // add a tabgroup to chrome storage
+  // add tabgroup to chrome storage
   chrome.storage.sync.set({
     tabGroups: [
       {
@@ -65,7 +65,7 @@ test('deletes tab group correctly', () => {
   const before = queryAllByTestId('tab-group');
   expect(before.length).toEqual(1);
 
-  // click delete button on that tabgroup
+  // click delete button
   const deleteButton = getByTestId('delete-button');
   fireEvent.click(deleteButton);
 
@@ -76,7 +76,7 @@ test('deletes tab group correctly', () => {
 
 // Test 4
 test('edits tab group correctly', () => {
-  // add a tabgroup to chrome storage
+  // add tabgroup to chrome storage
   chrome.storage.sync.set({
     tabGroups: [
       {
@@ -102,7 +102,7 @@ test('edits tab group correctly', () => {
   fireEvent.keyPress(input, { key: 'a', code: 65, charCode: 65 });
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
 
-  // expect tabgroup name to be 'Test'
+  // expect tabgroup name to still be 'Test'
   const middle = queryAllByTestId('tab-group')[0];
   expect(middle).toHaveTextContent('Test');
 
@@ -112,45 +112,80 @@ test('edits tab group correctly', () => {
   fireEvent.change(input, { target: { value: 'Edited' } });
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
 
-  // expect tabgroup name to be 'Edited'
+  // expect tabgroup name to have changed to 'Edited'
   const after = queryAllByTestId('tab-group')[0];
   expect(after).toHaveTextContent('Edited');
 });
 
 // Test 5
-test('renders new group modal correctly', () => {
-  const { getByRole, getByTestId } = render(<Menu />);
+test('renders Create Group modal correctly', () => {
+  const { getByTestId } = render(<Menu />);
 
+  // click Add Group button
   fireEvent.click(getByTestId('add-button'));
 
-  const createButton = getByRole('button', { name: 'Create Group' });
-  expect(createButton).toBeInTheDocument();
+  // expect to see Create Group form
+  const form = getByTestId('form');
+  expect(form).toBeInTheDocument();
 });
 
 // Test 5
 test('adds tab group correctly', () => {
+  // start with no tabgroups in chrome storage
   chrome.storage.sync.set({
     tabGroups: [],
   });
 
   const { getByTestId, queryAllByTestId } = render(<Menu />);
 
+  // expect to see no tabgroups
   const before = queryAllByTestId('tab-group');
   expect(before.length).toEqual(0);
 
+  // click Add Group button
   fireEvent.click(getByTestId('add-button'));
 
+  // submit form to create tabgroup
   const createGroup = getByTestId('form');
   fireEvent.change(createGroup, {
     target: [
       { value: '' },
       {
         options: [
-          { title: 'test1', url: 'test1url' },
+          { title: 'test1', url: 'test1url', selected: true },
           { title: 'test2', url: 'test2url' },
         ],
       },
     ],
   });
   fireEvent.submit(createGroup);
+
+  // expect to see tabgroup
+  const after = queryAllByTestId('tab-group');
+  expect(after.length).toEqual(1);
+});
+
+// Test 6
+test('drags tab and drops it into tab group correctly', () => {
+  // create two tabgroups in chrome storage
+  chrome.storage.sync.set({
+    tabGroups: [
+      {
+        name: 'TestA',
+        tabs: [
+          { title: 'test1', url: 'test1url' },
+          { title: 'test2', url: 'test2url' },
+        ],
+      },
+      {
+        name: 'TestA',
+        tabs: [
+          { title: 'test3', url: 'test3url' },
+          { title: 'test4', url: 'test4url' },
+        ],
+      },
+    ],
+  });
+
+  // TODO
 });

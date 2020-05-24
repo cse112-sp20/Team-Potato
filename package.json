@@ -9,7 +9,7 @@
     "build-test": "webpack --mode none",
     "build-prod": "webpack --mode production",
     "instrument": "nyc instrument ./src ./instrumented",
-    "report": "nyc report --include ./raw_coverage"
+    "report": "nyc report"
   },
   "repository": {
     "type": "git",

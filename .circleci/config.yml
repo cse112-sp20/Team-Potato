@@ -71,7 +71,7 @@ jobs:
           command: ./project/cc-test-reporter before-build
       - run:
           name: Create a directory for raw coverage files
-          command: mkdir ./project/raw_coverage
+          command: mkdir ./project/.nyc_output
       - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
@@ -85,7 +85,7 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci/project/project
           paths:
-            - raw_coverage
+            - .nyc_output
 
   upload-coverage:
     executor: nodejs

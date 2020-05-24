@@ -6,9 +6,7 @@
     "start": "react-scripts start",
     "test": "jest",
     "build-dev": "webpack --mode development",
-    "build-test": "webpack --mode none",
     "build-prod": "webpack --mode production",
-    "instrument": "cross-env NODE_ENV=test nyc instrument ./src ./instrumented",
     "report": "nyc report"
   },
   "repository": {

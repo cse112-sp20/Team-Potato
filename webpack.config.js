@@ -53,13 +53,28 @@ const config = {
 if (process.env.NODE_ENV === 'production') {
   config.entry = path.resolve(__dirname, 'src/popupRender.js');
   config.devtool = false;
+  config.module = {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-react',
+            {
+              plugins: ['@babel/plugin-proposal-class-properties'],
+            },
+          ],
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  };
 }
-
-// if (process.env.NODE_ENV === 'none') {
-//   config.entry = {
-//     popupRender: './instrumented/popupRender.js',
-//     menuRender: './instrumented/menuRender.js',
-//   };
-// }
 
 module.exports = config;

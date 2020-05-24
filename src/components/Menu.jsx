@@ -168,7 +168,7 @@ class Menu extends React.Component {
             <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={this.addGroup}>
+            <Form onSubmit={this.addGroup} data-testid="form">
               <Form.Group controlId="groupName">
                 <Form.Label>Group Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter Group Name..." />

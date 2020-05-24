@@ -7,61 +7,119 @@ import Popup from '../src/components/Popup';
 
 // Test 1
 test('renders without crashing', () => {
+  chrome.storage.sync.set({
+    tabGroups: [],
+  });
+
   const div = document.createElement('div');
   ReactDOM.render(<Popup />, div);
 });
 
 // Test 2
 test('renders popup correctly', () => {
+  // add tabgroup to chrome storage
+  chrome.storage.sync.set({
+    shouldDisplayFocusMode: false,
+    tabGroups: [
+      {
+        name: 'Test',
+        tabs: [
+          { title: 'test1', url: 'test1url' },
+          { title: 'test2', url: 'test2url' },
+        ],
+      },
+    ],
+  });
+
   const { getByRole, getAllByTestId } = render(<Popup />);
 
-  const groups = getAllByTestId('tab-group');
-  expect(groups.length).toEqual(2);
+  // expect to see tabgroup
+  const tabGroups = getAllByTestId('tab-group');
+  expect(tabGroups.length).toEqual(1);
 
+  // expect to see Open Menu button
   const menuButton = getByRole('button', { name: 'Open Potato Tab' });
   expect(menuButton).toBeInTheDocument();
 });
 
 // Test 3
-test('deletes tab group correctly', () => {
-  const { getAllByTestId } = render(<Popup />);
+test('displays focus mode popup when focus button clicked', () => {
+  // don't display focus mode
+  chrome.storage.sync.set({
+    shouldDisplayFocusMode: false,
+  });
 
-  const before = getAllByTestId('tab-group');
-  expect(before.length).toEqual(2);
+  const { getByRole, getByTestId } = render(<Popup />);
 
-  const deleteButton = getAllByTestId('delete-button')[0];
-  fireEvent.click(deleteButton);
+  // click focus button
+  const focusButton = getByTestId('focus-button');
+  fireEvent.click(focusButton);
 
-  const after = getAllByTestId('tab-group');
-  expect(after.length).toEqual(1);
+  // expect to see Start Focus button
+  const startFocusButton = getByRole('button', { name: 'Start\nFocus' });
+  expect(startFocusButton).toBeInTheDocument();
+
+  // expect to see Go Back button
+  const goBackButton = getByRole('button', { name: 'Go Back' });
+  expect(goBackButton).toBeInTheDocument();
 });
 
 // Test 4
-test('edits tab group correctly', () => {
-  const { getByRole, getAllByTestId } = render(<Popup />);
+test('displays popup when Go Back button clicked in focus mode popup', () => {
+  // display focus mode
+  chrome.storage.sync.set({
+    shouldDisplayFocusMode: true,
+  });
 
-  const before = getAllByTestId('tab-group')[0];
-  expect(before).toHaveTextContent('work');
+  const { getByRole, getByTestId } = render(<Popup />);
 
-  const editButton = getAllByTestId('edit-button')[0];
-  fireEvent.click(editButton);
+  // click Go Back Button
+  const goBackButton = getByRole('button', { name: 'Go Back' });
+  expect(goBackButton).toBeInTheDocument();
+  fireEvent.click(goBackButton);
 
-  const input = getByRole('textbox');
-  fireEvent.change(input, { target: { value: 'test' } });
-  fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
-
-  const after = getAllByTestId('tab-group')[0];
-  expect(after).toHaveTextContent('test');
+  // expect to see focus button
+  const focusButton = getByTestId('focus-button');
+  expect(focusButton).toBeInTheDocument();
 });
 
 // Test 5
+test('starts and ends focus mode correctly', () => {
+  // set focus tabgroup in chrome storage
+  chrome.storage.sync.set({
+    shouldDisplayFocusMode: true,
+    focusedTabGroupName: 'Test',
+    focusedTabGroupUrls: ['testurl'],
+  });
+
+  const { getByRole } = render(<Popup />);
+
+  // click Start Focus button
+  const startFocusButton = getByRole('button', { name: 'Start\nFocus' });
+  fireEvent.click(startFocusButton);
+
+  // expect tab in tabgroup with url 'testurl' to be created
+  expect(chrome.tabs.create).toHaveBeenCalledWith({ url: 'testurl' });
+
+  // click End Focus button
+  const endFocusButton = getByRole('button', { name: 'End\nFocus' });
+  fireEvent.click(endFocusButton);
+
+  // expect to see Start Focus button
+  expect(startFocusButton).toBeInTheDocument();
+});
+
+// Test 6
 test('opens menu page when button clicked', () => {
   const { getByRole } = render(<Popup />);
 
+  // click Open Menu button
   const menuButton = getByRole('button', { name: 'Open Potato Tab' });
   fireEvent.click(menuButton);
 
-  // using webextension-mock module, so no need to manually mock chrome methods
+  // expect menu page file to have been passed to getURL() method
   expect(chrome.runtime.getURL).toHaveBeenCalledWith('menu.html');
+
+  // expect menu tab to have been created successfully
   expect(chrome.tabs.create).toHaveReturned();
 });

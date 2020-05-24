@@ -36,9 +36,9 @@ driver.switch_to.window(driver.window_handles[4])
 driver.get("chrome-extension://"+ uid +"/popup.html")
 
 # check 1, checking popup.html now contains "work" and "play"
-popup_div = driver.find_element_by_class_name("menuContainer")
-popup_popup = driver.find_elements_by_class_name("card")
-assert popup_popup is not None, "Popup section of page not present"
+# popup_div = driver.find_element_by_class_name("menuContainer")
+# popup_popup = driver.find_elements_by_class_name("card")
+# assert popup_popup is not None, "Popup section of page not present"
 
 #check 2, checking if without changes the popup segment shows "work" and "play" sections
 card_divs = driver.find_elements_by_class_name("card")

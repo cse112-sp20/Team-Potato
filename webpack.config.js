@@ -28,7 +28,7 @@ const config = {
             '@babel/preset-env',
             '@babel/preset-react',
             {
-              plugins: ['@babel/plugin-proposal-class-properties'],
+              plugins: ['@babel/plugin-proposal-class-properties', 'istanbul'],
             },
           ],
         },
@@ -54,5 +54,12 @@ if (process.env.NODE_ENV === 'production') {
   config.entry = path.resolve(__dirname, 'src/popupRender.js');
   config.devtool = false;
 }
+
+// if (process.env.NODE_ENV === 'none') {
+//   config.entry = {
+//     popupRender: './instrumented/popupRender.js',
+//     menuRender: './instrumented/menuRender.js',
+//   };
+// }
 
 module.exports = config;

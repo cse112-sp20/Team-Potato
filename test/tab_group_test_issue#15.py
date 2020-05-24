@@ -65,3 +65,8 @@ for i in listing_tabs:
         third_flag = 1
 assert third_flag == 1, "Group Button doesnt add hard coded tabs"
 print("Passed All Tests")
+
+import json
+coverage_json_file = open("./project/.nyc_output/15.json","w+")
+json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
+coverage_json_file.close()

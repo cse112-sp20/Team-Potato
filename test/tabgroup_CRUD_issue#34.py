@@ -75,3 +75,8 @@ ActionChains(driver).send_keys(Keys.ENTER).perform()
 new_count = len(driver.find_elements_by_class_name("card"))
 assert new_count-old_count == 1, "new tabgroup added"
 print("All Tests Passed")
+
+import json
+coverage_json_file = open("./project/.nyc_output/34.json","w+")
+json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
+coverage_json_file.close()

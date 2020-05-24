@@ -29,9 +29,17 @@ jobs:
       - run:
           name: Install Selenium
           command: sudo npm install selenium-webdriver
+      #      - run:
+      #          name: Generate nyc-instrumented code
+      #          command: sudo npm run instrument
       - run:
           name: Generate Build
           command: sudo npm run build-dev
+      - run:
+          name: Download cc-test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - run:
           name: check-repo
           command: ls
@@ -41,9 +49,9 @@ jobs:
             - project
 
   test:
-    executor: nodejs
-    docker:
-      - image: circleci/python:3.7-browsers
+    executor: python
+    environment:
+      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
     steps:
       - checkout
       - attach_workspace:
@@ -59,6 +67,12 @@ jobs:
           name: Selenium-setup
           command: sudo pip install selenium
       - run:
+          name: Notify CC before tests
+          command: ./project/cc-test-reporter before-build
+      - run:
+          name: Create a directory for raw coverage files
+          command: mkdir ./project/.nyc_output
+      - run:
           name: HelloWorld-test
           command: python test/hello_world_tests.py
       - run:
@@ -68,6 +82,43 @@ jobs:
       - run:
           name: Tabgroup-test
           command: python test/tabgroup_CRUD_issue#34.py
+      - persist_to_workspace:
+          root: /home/circleci/project/project
+          paths:
+            - .nyc_output
+
+  upload-coverage:
+    executor: nodejs
+    environment:
+      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/project
+      - run:
+          name: Check Directory Again
+          command: |
+            ls -a
+            pwd
+      - run:
+          name: Show test coverage file
+          command: |
+            ls -la .nyc_output
+      - run:
+          name: update-npm
+          command: sudo npm install -g npm@latest
+      - run:
+          name: install-dependencies
+          command: sudo npm install
+      - run:
+          name: Fix Vulnerabilities
+          command: sudo npm audit fix
+      - run:
+          name: Generate coverage report
+          command: sudo npm run report
+      - run:
+          name: Upload test report
+          command: ./project/cc-test-reporter after-build -t lcov -i coverage/lcov.info
 
 workflows:
   version: 2
@@ -77,3 +128,7 @@ workflows:
       - test:
           requires:
             - build
+      - upload-coverage:
+          requires:
+            - build
+            - test

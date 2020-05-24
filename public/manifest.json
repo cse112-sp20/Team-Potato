@@ -11,5 +11,8 @@
     "default_icon": "logo.png",
     "default_popup": "popup.html"
   },
-  "permissions": ["storage", "tabs"]
+  "background": {
+    "scripts": ["background.bundle.js"]
+  },
+  "permissions": ["storage", "tabs", "activeTab", "http://*/", "https://*/"]
 }

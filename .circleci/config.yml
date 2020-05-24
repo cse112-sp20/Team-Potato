@@ -96,18 +96,14 @@ jobs:
       - attach_workspace:
           at: /home/circleci/project
       - run:
-          name: Check Directory
-          command: |
-            ls
-            pwd
-      - run:
-          name: Change directory
-          command: cd project
-      - run:
           name: Check Directory Again
           command: |
-            ls
+            ls -a
             pwd
+      - run:
+          name: Show test coverage file
+          command: |
+            ls -la .nyc_coverage
       - run:
           name: update-npm
           command: sudo npm install -g npm@latest

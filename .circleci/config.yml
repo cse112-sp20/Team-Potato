@@ -53,8 +53,10 @@ jobs:
       - run:
           name: check-checkout-repo
           command: |
-            ls
+            ls -a
             pwd
+            cd project
+            ls -a
       - run:
           name: Selenium-setup
           command: sudo pip install selenium

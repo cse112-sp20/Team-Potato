@@ -8,7 +8,7 @@
     "build-dev": "webpack --mode development",
     "build-test": "webpack --mode none",
     "build-prod": "webpack --mode production",
-    "instrument": "nyc instrument ./babeled ./instrumented",
+    "instrument": "cross-env NODE_ENV=test nyc instrument ./src ./instrumented",
     "report": "nyc report"
   },
   "repository": {
@@ -83,23 +83,28 @@
     ],
     "reporter": [
       "text",
-      "lcov"
+      "lcov",
+      "json"
     ],
-    "sourceMap": true,
-    "instrument": true
+    "sourceMap": false,
+    "instrument": false
   },
   "dependencies": {
+    "babel-plugin-transform-export-extensions": "^6.22.0",
     "bootstrap": "^4.5.0",
     "chromedriver": "^81.0.0",
     "debug": "^4.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.0.1",
+    "react-compound-timer": "^1.2.0",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
-    "selenium-webdriver": "^4.0.0-alpha.7"
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "uuid": "^8.0.0"
   }
 }

@@ -3,6 +3,7 @@ import { IoMdAddCircle } from 'react-icons/io';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { v4 as uuid } from 'uuid';
 import TabGroup from './TabGroup';
 import Tab from './Tab';
 import '../styles/Menu.css';
@@ -14,29 +15,19 @@ class Menu extends React.Component {
     this.state = {
       addGroupModal: false,
       activeTabs: [],
-      tabgroups: [
-        {
-          name: 'work',
-          tabs: [
-            { title: 'Slack', url: 'https://slack.com' },
-            { title: 'StackOverflow', url: 'https://stackoverflow' },
-            { title: 'Canvas', url: 'https://canvas.com' },
-          ],
-        },
-        {
-          name: 'play',
-          tabs: [
-            { title: 'Youtube', url: 'https://youtube.com' },
-            { title: 'Netflix', url: 'https://netflix.com' },
-            { title: 'Hulu', url: 'https://hulu.com' },
-          ],
-        },
-      ],
+      tabGroups: [],
     };
   }
 
   componentDidMount() {
     this.getActiveTabs();
+    chrome.storage.sync.get('tabGroups', (obj) => {
+      const { tabGroups } = obj;
+      if (tabGroups.length === 0) {
+        chrome.storage.sync.set({ tabGroups: [] });
+      }
+      this.setState({ tabGroups });
+    });
   }
 
   getActiveTabs = () => {
@@ -51,10 +42,39 @@ class Menu extends React.Component {
     });
   };
 
+  drop = (e) => {
+    const { tabGroups } = this.state;
+    const droppable = e.target.attributes.getNamedItem('droppable').value;
+    if (droppable !== 'true' || e.target === undefined) {
+      e.preventDefault();
+      e.dataTransfer.effectAllowed = 'none';
+      e.dataTransfer.dropEffect = 'none';
+    } else {
+      e.preventDefault();
+      const tabObj = JSON.parse(e.dataTransfer.getData('text'));
+      // get the element by the id
+      const tab = document.getElementById(tabObj.id);
+      tab.style.display = 'block';
+      e.target.appendChild(tab);
+
+      const index = tabGroups.findIndex(
+        (tabGroup) => tabGroup.name === e.target.id
+      );
+
+      const tabData = { title: tabObj.title, url: tabObj.url };
+      tabGroups[index].tabs.push(tabData);
+      chrome.storage.sync.set({ tabGroups });
+    }
+  };
+
+  dragOver = (e) => {
+    e.preventDefault();
+  };
+
   addGroup = (e) => {
     if (e.type === 'submit') {
       e.preventDefault();
-      const { activeTabs, tabgroups } = this.state;
+      const { activeTabs, tabGroups } = this.state;
       let groupName = e.target[0].value;
       if (groupName === '') {
         groupName = 'Untitled';
@@ -72,25 +92,28 @@ class Menu extends React.Component {
         tabs: selectedTabs,
       };
 
-      tabgroups.push(newGroup);
-      this.setState({ tabgroups });
+      tabGroups.push(newGroup);
+      this.setState({ tabGroups });
+
+      chrome.storage.sync.set({ tabGroups }, () => {});
 
       this.modalClose();
     }
   };
 
   deleteGroup = (target) => {
-    const { tabgroups } = this.state;
-    this.setState({
-      tabgroups: tabgroups.filter((tabgroup) => tabgroup.name !== target),
-    });
+    let { tabGroups } = this.state;
+    tabGroups = tabGroups.filter((tabGroup) => tabGroup.name !== target);
+    this.setState({ tabGroups });
+    chrome.storage.sync.set({ tabGroups });
   };
 
   editGroup = (target, newName) => {
-    const { tabgroups } = this.state;
-    const index = tabgroups.findIndex((tabgroup) => tabgroup.name === target);
-    tabgroups[index].name = newName;
-    this.setState({ tabgroups });
+    const { tabGroups } = this.state;
+    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === target);
+    tabGroups[index].name = newName;
+    this.setState({ tabGroups });
+    chrome.storage.sync.set({ tabGroups });
   };
 
   modalClose = () => {
@@ -98,24 +121,33 @@ class Menu extends React.Component {
   };
 
   render() {
-    const { addGroupModal, activeTabs, tabgroups } = this.state;
+    const { addGroupModal, activeTabs, tabGroups } = this.state;
     return (
       <div className="menuContainer">
-        <div className="activeTabs">
+        <div
+          id="activeTabs"
+          className="activeTabs"
+          droppable="true"
+          onDrop={this.drop}
+          onDragOver={this.dragOver}
+        >
           <h2>Active Tabs</h2>
           {activeTabs.map((tab) => (
-            <Tab title={tab.title} url={tab.url} key={tab.title} />
+            <Tab title={tab.title} url={tab.url} key={uuid()} />
           ))}
         </div>
         <div className="tabGroups">
           <h2>Tab Groups</h2>
-          {tabgroups.map((tabgroup) => (
+          {tabGroups.map((tabGroup) => (
             <TabGroup
-              key={tabgroup.name}
-              name={tabgroup.name}
-              tabs={tabgroup.tabs}
+              view="menu"
+              key={tabGroup.name}
+              name={tabGroup.name}
+              tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}
               editGroup={this.editGroup}
+              drop={this.drop}
+              dragOver={this.dragOver}
             />
           ))}
 
@@ -133,7 +165,7 @@ class Menu extends React.Component {
 
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Create a New Tabgroup</Modal.Title>
+            <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.addGroup}>
@@ -142,10 +174,10 @@ class Menu extends React.Component {
                 <Form.Control type="text" placeholder="Enter Group Name..." />
               </Form.Group>
               <Form.Group controlId="selectedTabs">
-                <Form.Label>Add Tabs to TabGroup</Form.Label>
+                <Form.Label>Add Tabs to tabGroup</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (
-                    <option key={tab.title}>{tab.title}</option>
+                    <option key={uuid()}>{tab.title}</option>
                   ))}
                 </Form.Control>
               </Form.Group>

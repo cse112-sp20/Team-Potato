@@ -10,8 +10,7 @@ body {font-family: "Lato", sans-serif;}
     cursor: pointer;
     padding: 5px 5px;
     font-size: 14px;
-    width: 8%;
-    min-width: 80px;
+    width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

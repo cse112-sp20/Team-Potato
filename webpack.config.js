@@ -6,6 +6,8 @@ const config = {
   entry: {
     popupRender: './src/popupRender.js',
     menuRender: './src/menuRender.js',
+    background: './src/background.js',
+    siteBlocker: './src/siteBlocker.js',
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -26,7 +28,7 @@ const config = {
             '@babel/preset-env',
             '@babel/preset-react',
             {
-              plugins: ['@babel/plugin-proposal-class-properties'],
+              plugins: ['@babel/plugin-proposal-class-properties', 'istanbul'],
             },
           ],
         },
@@ -53,11 +55,11 @@ if (process.env.NODE_ENV === 'production') {
   config.devtool = false;
 }
 
-if (process.env.NODE_ENV === 'none') {
-  config.entry = {
-    popupRender: './instrumented/popupRender.js',
-    menuRender: './instrumented/menuRender.js',
-  };
-}
+// if (process.env.NODE_ENV === 'none') {
+//   config.entry = {
+//     popupRender: './instrumented/popupRender.js',
+//     menuRender: './instrumented/menuRender.js',
+//   };
+// }
 
 module.exports = config;

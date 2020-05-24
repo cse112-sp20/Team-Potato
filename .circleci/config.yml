@@ -118,7 +118,7 @@ jobs:
           command: sudo npm run report
       - run:
           name: Upload test report
-          command: ./cc-test-reporter after-build -t lcov -i project/coverage/lcov.info
+          command: ./cc-test-reporter after-build -t lcov -i coverage/lcov.info
 
 workflows:
   version: 2

@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 import json
+
 import os
 
 print(os.getcwd())
@@ -55,7 +56,7 @@ new_count = len(driver.find_elements_by_class_name("card"))
 
 driver.get("chrome-extension://" + uid + "/popup.html")
 
-menuContainer = driver.find_element_by_class_name("menuContainer")
+menuContainer = driver.find_element_by_class_name("popupContainer")
 cards = driver.find_elements_by_class_name("card")
 target_group = None
 for i in cards:
@@ -67,7 +68,7 @@ play_button = play_button_group.find_element_by_tag_name("button")
 
 play_button.click()
 
-first_check_el = driver.find_element_by_class_name("popup-view-fm")
+first_check_el = driver.find_element_by_class_name("popupFocusMode")
 
 # Checking if all the text elements are rendered
 h1_elements = first_check_el.find_elements_by_tag_name("h1")
@@ -84,7 +85,7 @@ for i in h1_elements:
         final_check = 1
 assert final_check == 1, "Focus Mode H1 elements not rendering"
 
-pop_up_div = driver.find_element_by_class_name("popup-view-fm")
+pop_up_div = driver.find_element_by_class_name("popupFocusMode")
 button_timer_start = pop_up_div.find_element_by_tag_name("button")
 original_display = pop_up_div.text
 #check 1 button timer text = start
@@ -98,7 +99,7 @@ sleep(5)
 button_timer_start.click()
 
 
-menuContainer = driver.find_element_by_class_name("menuContainer")
+menuContainer = driver.find_element_by_class_name("popupContainer")
 cards = driver.find_elements_by_class_name("card")
 target_group = None
 for i in cards:
@@ -110,11 +111,11 @@ play_button = play_button_group.find_element_by_tag_name("button")
 
 play_button.click()
 
-pop_up_div = driver.find_element_by_class_name("popup-view-fm")
+pop_up_div = driver.find_element_by_class_name("popupFocusMode")
 button_timer_start = pop_up_div.find_element_by_tag_name("button")
 button_timer_start.click()
 sleep(5)
-pop_up_div = driver.find_element_by_class_name("popup-view-fm")
+pop_up_div = driver.find_element_by_class_name("popupFocusMode")
 new_display = pop_up_div.text
 assert "0:59:54" in new_display or "0:59:55" in new_display or "0:59:53" in new_display,"timer not working"
 print("All Tests Passed")

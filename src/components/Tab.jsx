@@ -10,6 +10,8 @@ class Tab extends React.Component {
     Tab.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
+      // eslint-disable-next-line react/require-default-props
+      key: PropTypes.string,
     };
   }
 
@@ -32,11 +34,12 @@ class Tab extends React.Component {
   };
 
   render() {
-    const { title, url } = this.props;
+    const { title, url, key } = this.props;
     return (
       <div
         id={uuid()}
         draggable="true"
+        key={url}
         onDragStart={this.dragStart}
         onDragOver={this.dragOver}
       >

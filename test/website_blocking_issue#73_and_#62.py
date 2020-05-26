@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 import json
-
 import os
 
 print(os.getcwd())
@@ -18,6 +17,7 @@ options.add_argument("--disable-dev-shm-usage") # overcome limited resource prob
 options.add_argument("--no-sandbox") # Bypass OS security model
 
 driver = webdriver.Chrome(options=options)
+
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"

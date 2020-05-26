@@ -39,15 +39,21 @@ class Tab extends React.Component {
         draggable="true"
         onDragStart={this.dragStart}
         onDragOver={this.dragOver}
+        className="tablink"
       >
         <button
           type="button"
-          className="tablink"
+          className="button"
           onClick={() => this.openTab(url)}
           data-testid="tab-button"
         >
           {title}
         </button>
+        <span className="tooltiptext">
+          {title}
+          <br />
+          {url}
+        </span>
       </div>
     );
   }

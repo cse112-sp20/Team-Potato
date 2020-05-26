@@ -16,19 +16,14 @@ class Menu extends React.Component {
       addGroupModal: false,
       activeTabs: [],
       tabGroups: [],
+      savedTabs: [],
     };
   }
 
   componentDidMount() {
     this.getActiveTabs();
-    chrome.storage.sync.get('tabGroups', (obj) => {
-      let { tabGroups } = obj;
-      if (!tabGroups) {
-        chrome.storage.sync.set({ tabGroups: [] });
-        tabGroups = [];
-      }
-      this.setState({ tabGroups });
-    });
+    this.getTabGroups();
+    this.getSavedTabs();
   }
 
   getActiveTabs = () => {
@@ -40,6 +35,40 @@ class Menu extends React.Component {
       }
 
       this.setState({ activeTabs: tempTabs });
+    });
+  };
+
+  getTabGroups = () => {
+    chrome.storage.sync.get('tabGroups', (obj) => {
+      let { tabGroups } = obj;
+      if (!tabGroups) {
+        chrome.storage.sync.set({ tabGroups: [] });
+        tabGroups = [];
+      }
+      this.setState({ tabGroups });
+    });
+  };
+
+  getSavedTabs = () => {
+    chrome.storage.sync.get('savedTabs', (obj) => {
+      let { savedTabs } = obj;
+      if (!savedTabs) {
+        savedTabs = [];
+      }
+      this.setState({ savedTabs });
+    });
+  };
+
+  deleteSavedTabs = () => {
+    const savedTabs = [];
+    this.setState({ savedTabs });
+    chrome.storage.sync.set({ savedTabs });
+  };
+
+  openSavedTabs = () => {
+    const { savedTabs } = this.state;
+    savedTabs.forEach((tabUrl) => {
+      chrome.tabs.create({ url: tabUrl.url });
     });
   };
 
@@ -122,21 +151,40 @@ class Menu extends React.Component {
   };
 
   render() {
-    const { addGroupModal, activeTabs, tabGroups } = this.state;
+    const { addGroupModal, activeTabs, tabGroups, savedTabs } = this.state;
     return (
       <div className="menuContainer">
-        <div
-          id="activeTabs"
-          className="activeTabs"
-          droppable="true"
-          onDrop={this.drop}
-          onDragOver={this.dragOver}
-        >
-          <h2>Active Tabs</h2>
-          {activeTabs.map((tab) => (
-            <Tab title={tab.title} url={tab.url} key={uuid()} />
-          ))}
+        <div className="leftSideBar">
+          <div
+            id="activeTabs"
+            className="activeTabs"
+            droppable="true"
+            onDrop={this.drop}
+            onDragOver={this.dragOver}
+          >
+            <h2>Active Tabs</h2>
+            {activeTabs.map((tab) => (
+              <Tab title={tab.title} url={tab.url} key={uuid()} />
+            ))}
+          </div>
+          {savedTabs.length !== 0 ? (
+            <div className="savedTabs">
+              <div className="savedTabsHeader">
+                <h2>Saved Tabs</h2>
+                <button type="button" onClick={this.deleteSavedTabs}>
+                  Delete All
+                </button>
+                <button type="button" onClick={this.openSavedTabs}>
+                  Open All
+                </button>
+              </div>
+              {savedTabs.map((tab) => (
+                <Tab title={tab.title} url={tab.url} key={uuid()} />
+              ))}
+            </div>
+          ) : null}
         </div>
+
         <div className="tabGroups">
           <h2>Tab Groups</h2>
           {tabGroups.map((tabGroup) => (

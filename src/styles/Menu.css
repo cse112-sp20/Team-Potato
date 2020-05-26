@@ -16,10 +16,20 @@
 
 .activeTabs {
     margin: 1rem;
-    width: 20%;
+    text-align: center;
 }
 
 .tabGroups {
     margin: 1rem;
     width: 80%;
+}
+
+.leftSideBar {
+    display: flex;
+    flex-direction: column;
+}
+
+.savedTabs {
+    margin: 1rem;
+    text-align: center;
 }

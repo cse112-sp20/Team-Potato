@@ -22,9 +22,10 @@ class Menu extends React.Component {
   componentDidMount() {
     this.getActiveTabs();
     chrome.storage.sync.get('tabGroups', (obj) => {
-      const { tabGroups } = obj;
-      if (tabGroups.length === 0) {
+      let { tabGroups } = obj;
+      if (!tabGroups) {
         chrome.storage.sync.set({ tabGroups: [] });
+        tabGroups = [];
       }
       this.setState({ tabGroups });
     });

@@ -27,13 +27,19 @@ class PopupFocusMode extends React.Component {
   }
 
   launchFocusMode = () => {
-    chrome.tabs.query({}, (openTabs) => {
+    chrome.tabs.query({}, (currentTabs) => {
       const { tabGroupUrls } = this.props;
+
+      // Open tabs in tab group
       tabGroupUrls.forEach((tabUrl) => {
         chrome.tabs.create({ url: tabUrl });
       });
 
-      openTabs.forEach((tab) => {
+      // Save current tabs
+      chrome.storage.sync.set({ savedTabs: currentTabs });
+
+      // Close current tabs
+      currentTabs.forEach((tab) => {
         chrome.tabs.remove(tab.id);
       });
     });

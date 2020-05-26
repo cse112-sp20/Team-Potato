@@ -78,7 +78,10 @@ class PopupFocusMode extends React.Component {
                       'Enter new time in minutes: ',
                       '60'
                     );
-                    setTime(60000 * newTime);
+                    const parsedTime = parseInt(newTime, 10);
+                    if (Number.isInteger(parsedTime) && parsedTime > 0) {
+                      setTime(60000 * parsedTime);
+                    }
                   }}
                 >
                   <Timer.Hours />

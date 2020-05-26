@@ -151,18 +151,17 @@ class Menu extends React.Component {
               dragOver={this.dragOver}
             />
           ))}
-
-          <button
-            className="addGroup"
-            type="button"
-            onClick={() => {
-              this.setState({ addGroupModal: true });
-            }}
-            data-testid="add-button"
-          >
-            <IoMdAddCircle />
-          </button>
         </div>
+        <button
+          className="addGroup"
+          type="button"
+          onClick={() => {
+            this.setState({ addGroupModal: true });
+          }}
+          data-testid="add-button"
+        >
+          <IoMdAddCircle />
+        </button>
 
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>

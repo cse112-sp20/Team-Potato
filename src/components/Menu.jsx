@@ -50,7 +50,6 @@ class Menu extends React.Component {
   };
 
   drop = (e) => {
-    console.log("run");
     const { tabGroups } = this.state;
     const droppable = e.target.attributes.getNamedItem('droppable').value;
     if (droppable !== 'true' || e.target === undefined) {
@@ -81,7 +80,6 @@ class Menu extends React.Component {
       }
       chrome.storage.sync.set({ tabGroups });
     }
-    console.log(tabGroups);
   };
 
   dragOver = (e) => {

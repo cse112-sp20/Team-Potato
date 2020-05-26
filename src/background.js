@@ -12,6 +12,7 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
           }
         }
       );
+      // Set timer
     }
   });
 });

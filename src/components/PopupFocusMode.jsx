@@ -52,6 +52,10 @@ class PopupFocusMode extends React.Component {
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
+          checkpoints={{
+            time: 0,
+            callback: () => console.log('Timer done'), // TODO:
+          }}
         >
           {({ start, stop }) => (
             <>
@@ -85,22 +89,24 @@ class PopupFocusMode extends React.Component {
                 >
                   {buttonText}
                 </button>
+                <br />
+                {isFocusModeEnabled ? (
+                  start()
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const { hideFocusMode } = this.props;
+                      hideFocusMode();
+                    }}
+                  >
+                    Go Back
+                  </button>
+                )}
               </div>
             </>
           )}
         </Timer>
-        <br />
-        {isFocusModeEnabled ? null : (
-          <button
-            type="button"
-            onClick={() => {
-              const { hideFocusMode } = this.props;
-              hideFocusMode();
-            }}
-          >
-            Go Back
-          </button>
-        )}
       </div>
     );
   }

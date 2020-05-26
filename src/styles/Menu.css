@@ -1,3 +1,7 @@
+body {
+    height: 100%;
+    overflow: hidden;
+}
 .addGroup {
     padding: 0;
     border: none;
@@ -17,6 +21,9 @@
 .activeTabs {
     margin: 1rem;
     text-align: center;
+    width: 20%;
+    height: 98vh;
+    overflow: auto;
 }
 
 .tabGroups {
@@ -32,4 +39,6 @@
 .savedTabs {
     margin: 1rem;
     text-align: center;
+    height: 98vh;
+    overflow: auto;
 }

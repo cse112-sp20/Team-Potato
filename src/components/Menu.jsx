@@ -52,7 +52,7 @@ class Menu extends React.Component {
   getSavedTabs = () => {
     chrome.storage.sync.get('savedTabs', (obj) => {
       let { savedTabs } = obj;
-      if (!savedTabs) {
+      if (!savedTabs || savedTabs.length === 0) {
         savedTabs = [];
       }
       this.setState({ savedTabs });
@@ -70,6 +70,7 @@ class Menu extends React.Component {
     savedTabs.forEach((tabUrl) => {
       chrome.tabs.create({ url: tabUrl.url });
     });
+    this.deleteSavedTabs();
   };
 
   drop = (e) => {

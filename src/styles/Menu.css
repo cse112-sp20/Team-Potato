@@ -21,8 +21,8 @@ body {
 .activeTabs {
     margin: 1rem;
     text-align: center;
-    width: 20%;
-    height: 98vh;
+    max-height: 70vh;
+    height: auto;
     overflow: auto;
 }
 
@@ -39,6 +39,7 @@ body {
 .savedTabs {
     margin: 1rem;
     text-align: center;
-    height: 98vh;
+    max-height: 30vh;
+    height: auto;
     overflow: auto;
 }

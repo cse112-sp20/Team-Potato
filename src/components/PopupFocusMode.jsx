@@ -54,17 +54,33 @@ class PopupFocusMode extends React.Component {
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
           checkpoints={{
             time: 0,
-            callback: () => console.log('Timer done'), // TODO:
+            callback: () => {
+              // TODO: check if this works when extension isn't open, may need to check with background.js
+              chrome.storage.sync.set({ focusedTabGroupUrls: [] });
+              this.setState({ isFocusModeEnabled: false });
+              chrome.storage.sync.set({ isFocusModeEnabled: false });
+            },
           }}
         >
-          {({ start, stop }) => (
+          {({ start, stop, setTime }) => (
             <>
               <div>
-                <Timer.Hours />
-                :
-                <Timer.Minutes />
-                :
-                <Timer.Seconds />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newTime = window.prompt(
+                      'Enter new time in minutes: ',
+                      '60'
+                    );
+                    setTime(60000 * newTime);
+                  }}
+                >
+                  <Timer.Hours />
+                  :
+                  <Timer.Minutes />
+                  :
+                  <Timer.Seconds />
+                </button>
               </div>
               <h1>{tabGroupName}</h1>
               <div className="btnContainer">

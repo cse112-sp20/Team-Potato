@@ -1,6 +1,11 @@
 body {font-family: "Lato", sans-serif;}
 
 .tablink {
+    position: relative;
+    display: inline-block;
+}
+
+.button {
     background-color: #555;
     color: white;
     float: left;
@@ -17,6 +22,30 @@ body {font-family: "Lato", sans-serif;}
     margin: 5px;
 }
 
-.tablink:hover {
+.tooltiptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    text-align: left;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 6px;
+    padding: 5px 5px 5px 5px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.button:hover {
     background-color: #777;
 }
+
+.tablink:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+

@@ -5,3 +5,5 @@ permalink: /intro2/
 ---
 
 A one stop solution for avoiding distraction while working
+
+![idea](/assets/idea.PNG)

@@ -10,3 +10,5 @@ Organize Your Tabs Into Groups
 - Type in the best group name you can think of
 - Select the tabs that you want to add
 - Or…. (to be continue)
+
+![create group](/assets/tab4-create group.PNG)

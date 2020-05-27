@@ -31,7 +31,13 @@ class Menu extends React.Component {
       const tempTabs = [];
 
       for (let i = 0; i < tabs.length; i += 1) {
-        tempTabs.push({ title: tabs[i].title, url: tabs[i].url });
+        const excludeUrls = [
+          'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
+          'chrome://newtab/',
+        ];
+        if (!excludeUrls.includes(tabs[i].url)) {
+          tempTabs.push({ title: tabs[i].title, url: tabs[i].url });
+        }
       }
 
       this.setState({ activeTabs: tempTabs });

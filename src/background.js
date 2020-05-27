@@ -13,6 +13,9 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
         }
       );
       // Set timer
+      if (document.title === 'Potato Tab Popup') {
+        // Check if popup is active
+      }
     }
   });
 });

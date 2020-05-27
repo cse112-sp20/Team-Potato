@@ -20,11 +20,11 @@ class PopupFocusMode extends React.Component {
     PopupFocusMode.defaultProps = {};
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
       this.setState({ isFocusModeEnabled: obj.isFocusModeEnabled });
     });
-  }
+  };
 
   launchFocusMode = () => {
     chrome.tabs.query({}, (openTabs) => {
@@ -44,6 +44,21 @@ class PopupFocusMode extends React.Component {
     const { isFocusModeEnabled, defaultTime } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
 
+    const endFocusMode = () => {
+      chrome.storage.sync.set({ focusedTabGroupUrls: [] });
+      this.setState({ isFocusModeEnabled: false });
+      chrome.storage.sync.set({ isFocusModeEnabled: false });
+    };
+
+    const startFocusMode = () => {
+      chrome.storage.sync.set({
+        focusedTabGroupUrls: tabGroupUrls,
+      });
+      this.setState({ isFocusModeEnabled: true });
+      chrome.storage.sync.set({ isFocusModeEnabled: true });
+      this.launchFocusMode();
+    };
+
     return (
       <div className="popupFocusMode">
         <h1>Focus Mode</h1>
@@ -56,9 +71,7 @@ class PopupFocusMode extends React.Component {
             time: 0,
             callback: () => {
               // TODO: check if this works when extension isn't open, may need to check with background.js
-              chrome.storage.sync.set({ focusedTabGroupUrls: [] });
-              this.setState({ isFocusModeEnabled: false });
-              chrome.storage.sync.set({ isFocusModeEnabled: false });
+              endFocusMode();
             },
           }}
         >
@@ -66,12 +79,10 @@ class PopupFocusMode extends React.Component {
             <>
               <div>
                 <button
+                  className="clock"
                   type="button"
                   onClick={() => {
-                    const newTime = window.prompt(
-                      'Enter new time in minutes: ',
-                      '60'
-                    );
+                    const newTime = prompt('Enter new time in minutes: ', '60');
                     const parsedTime = parseInt(newTime, 10);
                     if (Number.isInteger(parsedTime) && parsedTime > 0) {
                       setTime(60000 * parsedTime);
@@ -92,17 +103,10 @@ class PopupFocusMode extends React.Component {
                   onClick={() => {
                     if (isFocusModeEnabled) {
                       stop();
-                      chrome.storage.sync.set({ focusedTabGroupUrls: [] });
-                      this.setState({ isFocusModeEnabled: false });
-                      chrome.storage.sync.set({ isFocusModeEnabled: false });
+                      endFocusMode();
                     } else {
                       start();
-                      chrome.storage.sync.set({
-                        focusedTabGroupUrls: tabGroupUrls,
-                      });
-                      this.setState({ isFocusModeEnabled: true });
-                      chrome.storage.sync.set({ isFocusModeEnabled: true });
-                      this.launchFocusMode();
+                      startFocusMode();
                     }
                   }}
                 >

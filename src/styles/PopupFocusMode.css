@@ -4,3 +4,9 @@
   height: 110%;
   text-align: center;
 }
+
+.clock {
+  font-family: 'Impact', 'Charcoal', 'sans-serif';
+  font-size: 150%;
+  font-weight: bold;
+}

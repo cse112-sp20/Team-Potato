@@ -31,6 +31,19 @@ class Tab extends React.Component {
     window.open(link, '_blank');
   };
 
+  getWebsite = (link) => {
+    const path = link.split('/');
+    const protocol = path[0];
+    const host = path[2];
+    if (host.search('www.') !== -1) {
+      return host.substr(host.search('www.') + 4);
+    }
+    if (protocol.search('https') === -1) {
+      return `${protocol}//${host}`;
+    }
+    return host;
+  };
+
   render() {
     const { title, url } = this.props;
     return (
@@ -39,15 +52,21 @@ class Tab extends React.Component {
         draggable="true"
         onDragStart={this.dragStart}
         onDragOver={this.dragOver}
+        className="tablink"
       >
         <button
           type="button"
-          className="tablink"
+          className="button"
           onClick={() => this.openTab(url)}
           data-testid="tab-button"
         >
           {title}
         </button>
+        <span className="tooltiptext">
+          <b>{title}</b>
+          <br />
+          {this.getWebsite(url)}
+        </span>
       </div>
     );
   }

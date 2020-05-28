@@ -55,7 +55,7 @@ new_count = len(driver.find_elements_by_class_name("card"))
 
 driver.get("chrome-extension://" + uid + "/popup.html")
 
-menuContainer = driver.find_element_by_class_name("menuContainer")
+menuContainer = driver.find_element_by_class_name("popupContainer")
 cards = driver.find_elements_by_class_name("card")
 target_group = None
 for i in cards:
@@ -67,7 +67,7 @@ play_button = play_button_group.find_element_by_tag_name("button")
 
 play_button.click()
 
-first_check_el = driver.find_element_by_class_name("popup-view-fm")
+first_check_el = driver.find_element_by_class_name("popupFocusMode")
 
 # Checking if all the text elements are rendered
 h1_elements = first_check_el.find_elements_by_tag_name("h1")
@@ -84,39 +84,39 @@ for i in h1_elements:
         final_check = 1
 assert final_check == 1, "Focus Mode H1 elements not rendering"
 
-pop_up_div = driver.find_element_by_class_name("popup-view-fm")
+pop_up_div = driver.find_element_by_class_name("popupFocusMode")
 button_timer_start = pop_up_div.find_element_by_tag_name("button")
 original_display = pop_up_div.text
 #check 1 button timer text = start
 assert button_timer_start.text == "Start Focus", "Button is not at start"
 #check 2 button timer text = end after 1 click
 button_timer_start.click()
-button_timer_start = pop_up_div.find_element_by_tag_name("button")
-assert button_timer_start.text == "End Focus", "Button is not at end"
-sleep(5)
-#check 3 button timer text = start
-button_timer_start.click()
 
 
-menuContainer = driver.find_element_by_class_name("menuContainer")
+driver.switch_to.window(driver.window_handles[4])
+driver.get("chrome-extension://"+ uid +"/popup.html")
+pop_up_div = driver.find_element_by_class_name("popupFocusMode")
+back_button_div = pop_up_div.find_element_by_class_name("btnContainer")
+end_focus = pop_up_div.find_element_by_tag_name("button")
+assert end_focus.text == "End Focus", "End Focus button not renedered"
+end_focus.click()
+
+back_buttons = pop_up_div.find_elements_by_tag_name("button")
+back_button = None
+for i in back_buttons:
+    if i.text == "Go Back":
+        back_button = i
+back_button.click()
+
+
+menuContainer = driver.find_element_by_class_name("popupContainer")
 cards = driver.find_elements_by_class_name("card")
-target_group = None
+final_check = 0
 for i in cards:
     if i.find_element_by_class_name("card-header").text == "CSE112":
-        target_group = i
+        final_check = 1
 
-play_button_group = target_group.find_element_by_class_name("buttonGroup")
-play_button = play_button_group.find_element_by_tag_name("button")
-
-play_button.click()
-
-pop_up_div = driver.find_element_by_class_name("popup-view-fm")
-button_timer_start = pop_up_div.find_element_by_tag_name("button")
-button_timer_start.click()
-sleep(5)
-pop_up_div = driver.find_element_by_class_name("popup-view-fm")
-new_display = pop_up_div.text
-assert "0:59:54" in new_display or "0:59:55" in new_display or "0:59:53" in new_display,"timer not working"
+assert final_check == 1, "Back button not working"
 print("All Tests Passed")
 coverage_json_file = open("./project/.nyc_output/#30_#36.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)

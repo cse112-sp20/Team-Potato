@@ -13,12 +13,15 @@ class Tab extends React.Component {
       url: PropTypes.string.isRequired,
       favIconUrl: PropTypes.string,
     };
+    Tab.defaultProps = {
+      favIconUrl: '',
+    };
   }
 
   dragStart = (e) => {
     e.persist();
-    const { title, url } = this.props;
-    const tabObj = { title, url, id: e.target.id };
+    const { title, url, favIconUrl } = this.props;
+    const tabObj = { title, url, favIconUrl, id: e.target.id };
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
     setTimeout(() => {
       e.target.style.display = 'always';
@@ -58,7 +61,6 @@ class Tab extends React.Component {
 
   render() {
     const { title, url, favIconUrl } = this.props;
-    console.log(favIconUrl);
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
       <OverlayTrigger
@@ -74,7 +76,6 @@ class Tab extends React.Component {
           onClick={() => this.openTab(url)}
           onDragStart={this.dragStart}
           onDragOver={this.dragOver}
-          className="tablink"
           data-testid="tab-container"
         >
           <p className="tabTitle">

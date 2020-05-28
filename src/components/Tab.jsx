@@ -61,6 +61,7 @@ class Tab extends React.Component {
       <div
         id={uuid()}
         draggable="true"
+        key={url}
         onDragStart={this.dragStart}
         onDragOver={this.dragOver}
         className="tablink"

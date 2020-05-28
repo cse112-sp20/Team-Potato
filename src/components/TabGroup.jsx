@@ -13,6 +13,7 @@ class TabGroup extends React.Component {
 
     TabGroup.propTypes = {
       name: PropTypes.string.isRequired,
+      trackid: PropTypes.string.isRequired,
       tabs: PropTypes.arrayOf(
         PropTypes.shape({
           title: PropTypes.string.isRequired,
@@ -57,6 +58,7 @@ class TabGroup extends React.Component {
   render() {
     const {
       name,
+      trackid,
       tabs,
       deleteGroup,
       editGroup,
@@ -68,7 +70,7 @@ class TabGroup extends React.Component {
     return (
       <Card
         data-testid="tab-group"
-        id={uuid()}
+        id={trackid}
         onDrop={drop}
         onDragOver={dragOver}
         droppable="true"
@@ -86,7 +88,7 @@ class TabGroup extends React.Component {
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   if (name !== newName) {
-                    editGroup(name, newName);
+                    editGroup(trackid, newName);
                   } else {
                     this.setState({ editMode: false });
                   }
@@ -102,7 +104,7 @@ class TabGroup extends React.Component {
               <div>
                 <button
                   type="button"
-                  onClick={() => deleteGroup(name)}
+                  onClick={() => deleteGroup(trackid)}
                   data-testid="delete-button"
                 >
                   <RiDeleteBinLine />

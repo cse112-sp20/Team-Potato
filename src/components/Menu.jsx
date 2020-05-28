@@ -38,7 +38,11 @@ class Menu extends React.Component {
           }
         }
         if (addable) {
-          tempTabs.push({ title: tabs[i].title, url: tabs[i].url, key: tabs[i].key });
+          tempTabs.push({
+            title: tabs[i].title,
+            url: tabs[i].url,
+            key: tabs[i].key,
+          });
         }
       }
       this.setState({ activeTabs: tempTabs });
@@ -133,14 +137,28 @@ class Menu extends React.Component {
           selectedTabs.push(activeTabs[i]);
         }
       }
+      let count = 0;
+      let nameCheck = true;
+      let tempGroupName = groupName;
+      while (nameCheck) {
+        const index = tabGroups.findIndex((tabGroup) => tabGroup.name === tempGroupName);
+        if (index === -1) {
+          nameCheck = false;
+        } else {
+          count += 1;
+          tempGroupName = groupName + count.toString();
+        }
+      }
+      groupName = tempGroupName;
+
       const newGroup = {
         name: groupName,
+        trackid: uuid(),
         tabs: selectedTabs,
       };
 
       tabGroups.push(newGroup);
       this.setState({ tabGroups });
-
       chrome.storage.sync.set({ tabGroups }, () => {});
 
       this.modalClose();
@@ -149,17 +167,36 @@ class Menu extends React.Component {
 
   deleteGroup = (target) => {
     let { tabGroups } = this.state;
-    tabGroups = tabGroups.filter((tabGroup) => tabGroup.name !== target);
+    tabGroups = tabGroups.filter((tabGroup) => tabGroup.trackid !== target);
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
   };
 
   editGroup = (target, newName) => {
     const { tabGroups } = this.state;
-    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === target);
+    console.log(newName);
+    let count = 0;
+    let nameCheck = true;
+    let tempName = newName;
+    while (nameCheck) {
+      const index = tabGroups.findIndex((tabGroup) => tabGroup.name === tempName);
+      if (index === -1) {
+        nameCheck = false;
+      } else {
+        count += 1;
+        tempName = newName + count.toString();
+      }
+    }
+    console.log(tempName);
+    // eslint-disable-next-line no-param-reassign
+    newName = tempName;
+
+    const index = tabGroups.findIndex((tabGroup) => tabGroup.trackid === target);
     tabGroups[index].name = newName;
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   };
 
   modalClose = () => {
@@ -195,7 +232,7 @@ class Menu extends React.Component {
                 </button>
               </div>
               {savedTabs.map((tab) => (
-                <Tab title={tab.title} url={tab.url} key={uuid()} />
+                <Tab title={tab.title} url={tab.url} />
               ))}
             </div>
           ) : null}
@@ -206,7 +243,8 @@ class Menu extends React.Component {
           {tabGroups.map((tabGroup) => (
             <TabGroup
               view="menu"
-              key={tabGroup.name}
+              key={tabGroup.trackid}
+              trackid={tabGroup.trackid}
               name={tabGroup.name}
               tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}

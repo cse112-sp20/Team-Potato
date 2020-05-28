@@ -37,6 +37,7 @@ class TabGroup extends React.Component {
     };
 
     this.state = {
+      nameChange: false,
       editMode: false,
       // eslint-disable-next-line react/destructuring-assignment
       newName: this.props.name,
@@ -66,7 +67,7 @@ class TabGroup extends React.Component {
       drop,
       dragOver,
     } = this.props;
-    const { editMode, newName } = this.state;
+    const { editMode, nameChange, newName } = this.state;
     return (
       <Card
         data-testid="tab-group"
@@ -86,12 +87,15 @@ class TabGroup extends React.Component {
                 this.setState({ newName: e.target.value });
               }}
               onKeyPress={(e) => {
+                this.setState({ nameChange: true });
                 if (e.key === 'Enter') {
+                  console.log(this.state);
                   if (name !== newName) {
                     editGroup(trackid, newName);
                   } else {
                     this.setState({ editMode: false });
                   }
+                  this.setState({ nameChange: false });
                 }
               }}
             />
@@ -136,7 +140,11 @@ class TabGroup extends React.Component {
         {view === 'menu' ? (
           <Card.Body id={name} droppable="true">
             {tabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} key={uuid()} />
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                // key={uuid()}
+              />
             ))}
           </Card.Body>
         ) : null}

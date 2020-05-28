@@ -112,6 +112,8 @@ class PopupFocusMode extends React.Component {
                     if (isFocusModeEnabled) {
                       stop();
                       endFocusMode();
+                      const { hideFocusMode } = this.props;
+                      hideFocusMode();
                     } else {
                       start();
                       startFocusMode();

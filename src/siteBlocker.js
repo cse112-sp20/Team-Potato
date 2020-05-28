@@ -1,8 +1,5 @@
 import './styles/BlockPopup.css';
 
-// document.body.innerHTML = '';
-console.log('blocking');
-
 // Overlay div
 const overlay = document.createElement('div');
 overlay.setAttribute('class', 'overlay');
@@ -66,7 +63,7 @@ addBtn.innerHTML = 'Add to Group';
 addBtn.style.background = '#ff3b3b';
 addBtn.onclick = () => {
   chrome.runtime.sendMessage(
-    { action: 'add', url: window.location.origin },
+    { action: 'add', title: document.title, url: window.location.origin },
     (response) => {
       console.log(response);
     }

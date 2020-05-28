@@ -13,7 +13,6 @@ class Menu extends React.Component {
     super();
 
     this.state = {
-      nameChange: false,
       addGroupModal: false,
       activeTabs: [],
       tabGroups: [],
@@ -179,7 +178,6 @@ class Menu extends React.Component {
   };
 
   editGroup = (target, newName) => {
-    this.setState({ nameChange: true });
     const { tabGroups } = this.state;
     const index = tabGroups.findIndex(
       (tabGroup) => tabGroup.trackid === target
@@ -205,12 +203,6 @@ class Menu extends React.Component {
     tabGroups[index].name = newName;
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
-    this.setState({ nameChange: false });
-    // location.reload();
-    chrome.storage.sync.get('tabGroups', (obj) => {
-      let { tabGroups } = obj;
-      console.log(tabGroups);
-    });
   };
 
   modalClose = () => {

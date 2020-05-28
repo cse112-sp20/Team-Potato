@@ -89,12 +89,12 @@ class TabGroup extends React.Component {
               onKeyPress={(e) => {
                 this.setState({ nameChange: true });
                 if (e.key === 'Enter') {
-                  console.log(this.state);
                   if (name !== newName) {
                     editGroup(trackid, newName);
                   } else {
                     this.setState({ editMode: false });
                   }
+                  this.setState({ editMode: false });
                   this.setState({ nameChange: false });
                 }
               }}

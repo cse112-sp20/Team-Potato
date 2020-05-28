@@ -1,3 +1,7 @@
+body {
+    height: 100%;
+    overflow: hidden;
+}
 .addGroup {
     padding: 0;
     border: none;
@@ -16,10 +20,26 @@
 
 .activeTabs {
     margin: 1rem;
-    width: 20%;
+    text-align: center;
+    max-height: 70vh;
+    height: auto;
+    overflow: auto;
 }
 
 .tabGroups {
     margin: 1rem;
     width: 80%;
+}
+
+.leftSideBar {
+    display: flex;
+    flex-direction: column;
+}
+
+.savedTabs {
+    margin: 1rem;
+    text-align: center;
+    max-height: 30vh;
+    height: auto;
+    overflow: auto;
 }

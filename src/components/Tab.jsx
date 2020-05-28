@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/Tab.css';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 class Tab extends React.Component {
   constructor(props) {
@@ -44,6 +45,16 @@ class Tab extends React.Component {
     return host;
   };
 
+  renderTooltip(title, url) {
+    return (
+      <Tooltip id="button-tooltip">
+        <b>{title}</b>
+        <br />
+        {this.getWebsite(url)}
+      </Tooltip>
+    );
+  }
+
   render() {
     const { title, url } = this.props;
     return (
@@ -55,19 +66,19 @@ class Tab extends React.Component {
         onDragOver={this.dragOver}
         className="tablink"
       >
-        <button
-          type="button"
-          className="button"
-          onClick={() => this.openTab(url)}
-          data-testid="tab-button"
+        <OverlayTrigger
+          placement="bottom"
+          overlay={this.renderTooltip(title, url)}
         >
-          {title}
-        </button>
-        <span className="tooltiptext">
-          <b>{title}</b>
-          <br />
-          {this.getWebsite(url)}
-        </span>
+          <button
+            type="button"
+            className="button"
+            onClick={() => this.openTab(url)}
+            data-testid="tab-button"
+          >
+            {title}
+          </button>
+        </OverlayTrigger>
       </div>
     );
   }

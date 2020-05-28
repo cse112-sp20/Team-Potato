@@ -103,8 +103,10 @@ class PopupFocusMode extends React.Component {
                 </button>
               </div>
               <h1>{tabGroupName}</h1>
+              <br />
               <div className="btnContainer">
                 <button
+                  className="fm-button"
                   type="button"
                   onClick={() => {
                     if (isFocusModeEnabled) {
@@ -118,12 +120,12 @@ class PopupFocusMode extends React.Component {
                 >
                   {buttonText}
                 </button>
-                <br />
                 {isFocusModeEnabled ? (
                   start()
                 ) : (
                   <button
                     type="button"
+                    className="fm-button"
                     onClick={() => {
                       const { hideFocusMode } = this.props;
                       hideFocusMode();
@@ -132,6 +134,7 @@ class PopupFocusMode extends React.Component {
                     Go Back
                   </button>
                 )}
+                <br />
               </div>
             </>
           )}

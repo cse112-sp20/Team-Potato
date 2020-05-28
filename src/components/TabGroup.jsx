@@ -91,8 +91,6 @@ class TabGroup extends React.Component {
                 if (e.key === 'Enter') {
                   if (name !== newName) {
                     editGroup(trackid, newName);
-                  } else {
-                    this.setState({ editMode: false });
                   }
                   this.setState({ editMode: false });
                   this.setState({ nameChange: false });

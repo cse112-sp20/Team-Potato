@@ -24,6 +24,16 @@ class PopupFocusMode extends React.Component {
     chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
       this.setState({ isFocusModeEnabled: obj.isFocusModeEnabled });
     });
+    chrome.storage.sync.get('time', (obj) => {
+      if (obj) {
+        this.setState({ backgroundTime: obj.time - Date.now() });
+      }
+    });
+    chrome.storage.sync.get('startingTime', (obj) => {
+      if (obj) {
+        this.setState({ startingTime: obj.startTime });
+      }
+    });
   };
 
   launchFocusMode = () => {
@@ -46,13 +56,13 @@ class PopupFocusMode extends React.Component {
   };
 
   render() {
+    const { tabGroupName, tabGroupUrls, hideFocusMode } = this.props;
     const {
-      tabGroupName,
-      tabGroupUrls,
-      hideFocusMode,
+      isFocusModeEnabled,
+      defaultTime,
       backgroundTime,
-    } = this.props;
-    const { isFocusModeEnabled, defaultTime } = this.state;
+      startingTime,
+    } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
 
     const endFocusMode = () => {
@@ -69,14 +79,19 @@ class PopupFocusMode extends React.Component {
       chrome.storage.sync.set({ isFocusModeEnabled: true });
       this.launchFocusMode();
       chrome.runtime.sendMessage({ cmd: 'start' });
+      chrome.storage.sync.set({ time: Date.now() });
     };
 
-    const getPassedTime = chrome.runtime.sendMessage(
-      { cmd: 'get' },
-      (response) => {
-        return response.time;
-      }
-    );
+    // const getPassedTime = chrome.runtime.sendMessage(
+    //   { cmd: 'get' },
+    //   (response) => {
+    //     return response.time;
+    //   }
+    // );
+
+    const getPassedTime = () => {
+      return startingTime - backgroundTime;
+    };
 
     return (
       <div className="popupFocusMode">
@@ -133,6 +148,7 @@ class PopupFocusMode extends React.Component {
                     } else {
                       start();
                       startFocusMode();
+                      chrome.storage.sync.set({ startTime: getTime });
                     }
                   }}
                 >

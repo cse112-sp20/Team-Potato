@@ -11,13 +11,16 @@ class Tab extends React.Component {
     Tab.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
+      stored: PropTypes.string.isRequired,
     };
   }
 
   dragStart = (e) => {
     e.persist();
-    const { title, url } = this.props;
-    const tabObj = { title, url, id: e.target.id };
+    const { title, url, stored } = this.props;
+    const tabObj = { title, url, id: e.target.id, stored };
+    console.log(tabObj);
+    console.log(this.props);
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
     setTimeout(() => {
       e.target.style.display = 'always';
@@ -60,6 +63,7 @@ class Tab extends React.Component {
     return (
       <div
         id={uuid()}
+        key={url}
         draggable="true"
         onDragStart={this.dragStart}
         onDragOver={this.dragOver}

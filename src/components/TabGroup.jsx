@@ -18,6 +18,8 @@ class TabGroup extends React.Component {
         PropTypes.shape({
           title: PropTypes.string.isRequired,
           url: PropTypes.string.isRequired,
+          key: PropTypes.string.isRequired,
+          stored: PropTypes.string.isRequired,
         })
       ).isRequired,
       deleteGroup: PropTypes.func,
@@ -138,11 +140,7 @@ class TabGroup extends React.Component {
         {view === 'menu' ? (
           <Card.Body id={name} droppable="true">
             {tabs.map((tab) => (
-              <Tab
-                title={tab.title}
-                url={tab.url}
-                // key={uuid()}
-              />
+              <Tab title={tab.title} url={tab.url} stored={trackid} />
             ))}
           </Card.Body>
         ) : null}

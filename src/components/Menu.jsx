@@ -41,11 +41,13 @@ class Menu extends React.Component {
           tempTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
-            // key: tabs[i].key,
+            stored: tabs[i].stored,
           });
         }
       }
+      console.log(tempTabs);
       this.setState({ activeTabs: tempTabs });
+      console.log(activeTabs);
     });
   };
 
@@ -95,15 +97,21 @@ class Menu extends React.Component {
       e.preventDefault();
       const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
-      const tab = document.getElementById(tabObj.id);
-
+      let tab = document.getElementById(tabObj.id);
+      if (tabObj.stored === 'activeTabs' || tabObj.stored === 'savedTabs') {
+        tab = tab.cloneNode(true);
+        tab.id = uuid();
+      }
+      console.log('tabObj stored');
+      console.log(tabObj.stored);
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
 
       const tabData = {
         title: tabObj.title,
-        url: tabObj.url /* , key: tabObj.key */,
+        url: tabObj.url,
+        stored: e.target.id,
       };
       let addable = true;
       for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
@@ -223,7 +231,7 @@ class Menu extends React.Component {
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} />
+              <Tab title={tab.title} url={tab.url} stored="activeTabs"/>
             ))}
           </div>
           {savedTabs.length !== 0 ? (
@@ -238,7 +246,7 @@ class Menu extends React.Component {
                 </button>
               </div>
               {savedTabs.map((tab) => (
-                <Tab title={tab.title} url={tab.url} />
+                <Tab title={tab.title} url={tab.url} stored="savedTabs" />
               ))}
             </div>
           ) : null}

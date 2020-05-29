@@ -46,7 +46,12 @@ class PopupFocusMode extends React.Component {
   };
 
   render() {
-    const { tabGroupName, tabGroupUrls } = this.props;
+    const {
+      tabGroupName,
+      tabGroupUrls,
+      hideFocusMode,
+      backgroundTime,
+    } = this.props;
     const { isFocusModeEnabled, defaultTime } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
 
@@ -63,13 +68,21 @@ class PopupFocusMode extends React.Component {
       this.setState({ isFocusModeEnabled: true });
       chrome.storage.sync.set({ isFocusModeEnabled: true });
       this.launchFocusMode();
+      chrome.runtime.sendMessage({ cmd: 'start' });
     };
+
+    const getPassedTime = chrome.runtime.sendMessage(
+      { cmd: 'get' },
+      (response) => {
+        return response.time;
+      }
+    );
 
     return (
       <div className="popupFocusMode">
         <h1>Focus Mode</h1>
         <Timer
-          initialTime={defaultTime}
+          initialTime={isFocusModeEnabled ? getPassedTime : defaultTime}
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
@@ -78,10 +91,11 @@ class PopupFocusMode extends React.Component {
             callback: () => {
               // TODO: check if this works when extension isn't open, may need to check with background.js
               endFocusMode();
+              hideFocusMode();
             },
           }}
         >
-          {({ start, stop, setTime }) => (
+          {({ start, stop, setTime, getTime }) => (
             <>
               <div>
                 <button
@@ -91,10 +105,13 @@ class PopupFocusMode extends React.Component {
                     const newTime = prompt('Enter new time in minutes: ', '60');
                     const parsedTime = parseInt(newTime, 10);
                     if (Number.isInteger(parsedTime) && parsedTime > 0) {
+                      chrome.runtime.sendMessage({ cmd: 'start' });
                       setTime(60000 * parsedTime);
                     }
                   }}
                 >
+                  {getTime()}
+                  <br />
                   <Timer.Hours />
                   :
                   <Timer.Minutes />
@@ -112,7 +129,6 @@ class PopupFocusMode extends React.Component {
                     if (isFocusModeEnabled) {
                       stop();
                       endFocusMode();
-                      const { hideFocusMode } = this.props;
                       hideFocusMode();
                     } else {
                       start();
@@ -129,7 +145,6 @@ class PopupFocusMode extends React.Component {
                     type="button"
                     className="fm-button"
                     onClick={() => {
-                      const { hideFocusMode } = this.props;
                       hideFocusMode();
                     }}
                   >

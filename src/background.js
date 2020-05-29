@@ -12,10 +12,18 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
           }
         }
       );
-      // Set timer
-      if (document.title === 'Potato Tab Popup') {
-        // Check if popup is active
-      }
     }
   });
+});
+
+// Timer for Focus Mode
+let startTime;
+let passedTime = Date.now() - startTime;
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.cmd === 'start') {
+    startTime = Date.now();
+  } else if (request.cmd === 'get') {
+    passedTime = Date.now() - startTime;
+    sendResponse({ time: passedTime });
+  }
 });

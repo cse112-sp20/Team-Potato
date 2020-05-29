@@ -69,6 +69,7 @@ class Tab extends React.Component {
       >
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
         <div
+          id={uuid()}
           role="button"
           className="tabContainer"
           draggable="true"
@@ -79,7 +80,7 @@ class Tab extends React.Component {
           data-testid="tab-container"
         >
           <p className="tabTitle">
-            {favIconUrl != '' && (
+            {favIconUrl !== '' && (
               <img
                 className="tabFavIcon"
                 src={favIconUrl}

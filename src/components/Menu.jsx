@@ -41,8 +41,7 @@ class Menu extends React.Component {
           activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
-            favIconUrl: tabs[i].favIconUrl,
-            key: tabs[i].key,
+            // key: tabs[i].key,
           });
         }
       }
@@ -106,7 +105,6 @@ class Menu extends React.Component {
         title: tabObj.title,
         url: tabObj.url,
         favIconUrl: tabObj.favIconUrl,
-        key: tabObj.key,
       };
       let addable = true;
       for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
@@ -143,14 +141,30 @@ class Menu extends React.Component {
           selectedTabs.push(activeTabs[i]);
         }
       }
+      let count = 0;
+      let nameCheck = true;
+      let tempGroupName = groupName;
+      while (nameCheck) {
+        const index = tabGroups.findIndex(
+          (tabGroup) => tabGroup.name === tempGroupName
+        );
+        if (index === -1) {
+          nameCheck = false;
+        } else {
+          count += 1;
+          tempGroupName = groupName + count.toString();
+        }
+      }
+      groupName = tempGroupName;
+
       const newGroup = {
         name: groupName,
+        trackid: uuid(),
         tabs: selectedTabs,
       };
 
       tabGroups.push(newGroup);
       this.setState({ tabGroups });
-
       chrome.storage.sync.set({ tabGroups }, () => {});
 
       this.modalClose();
@@ -159,14 +173,34 @@ class Menu extends React.Component {
 
   deleteGroup = (target) => {
     let { tabGroups } = this.state;
-    tabGroups = tabGroups.filter((tabGroup) => tabGroup.name !== target);
+    tabGroups = tabGroups.filter((tabGroup) => tabGroup.trackid !== target);
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
   };
 
   editGroup = (target, newName) => {
     const { tabGroups } = this.state;
-    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === target);
+    const index = tabGroups.findIndex(
+      (tabGroup) => tabGroup.trackid === target
+    );
+    let count = 0;
+    if (tabGroups[index].name === newName) {
+      // eslint-disable-next-line no-param-reassign
+      newName = tabGroups[index].name;
+    } else {
+      let tempName = newName;
+      while (true) {
+        const i = tabGroups.findIndex((tabGroup) => tabGroup.name === tempName);
+        if (i === -1 || i === index) {
+          break;
+        } else {
+          count += 1;
+          tempName = newName + count.toString();
+        }
+      }
+      // eslint-disable-next-line no-param-reassign
+      newName = tempName;
+    }
     tabGroups[index].name = newName;
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
@@ -213,7 +247,6 @@ class Menu extends React.Component {
                   title={tab.title}
                   url={tab.url}
                   favIconUrl={tab.favIconUrl}
-                  key={uuid()}
                 />
               ))}
             </div>
@@ -225,7 +258,8 @@ class Menu extends React.Component {
           {tabGroups.map((tabGroup) => (
             <TabGroup
               view="menu"
-              key={tabGroup.name}
+              key={tabGroup.trackid}
+              trackid={tabGroup.trackid}
               name={tabGroup.name}
               tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}

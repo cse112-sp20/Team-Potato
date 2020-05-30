@@ -1,5 +1,7 @@
 import './styles/BlockPopup.css';
 
+document.body.style.position = 'relative';
+document.body.style.zIndex = '-1';
 // Overlay div
 const overlay = document.createElement('div');
 overlay.setAttribute('class', 'overlay');
@@ -73,4 +75,4 @@ mainDiv.appendChild(addBtn);
 
 document.body.style.padding = '0';
 document.body.style.margin = '0';
-document.body.appendChild(overlay);
+document.body.parentNode.insertBefore(overlay, document.body.previousSibling);

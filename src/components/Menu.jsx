@@ -212,7 +212,7 @@ class Menu extends React.Component {
     const currentTabs = tabGroups[index].tabs;
     const updatedTabs = [];
     for (let i = 0; i < currentTabs.length; i += 1) {
-      if (currentTabs[i].title !== target) {
+      if (currentTabs[i].url !== target) {
         updatedTabs.push({
           title: currentTabs[i].title,
           url: currentTabs[i].url,

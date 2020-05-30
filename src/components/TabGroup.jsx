@@ -155,7 +155,7 @@ class TabGroup extends React.Component {
                   <button
                     type="button"
                     className="close_button"
-                    onClick={() => removeTab(name, tab.title)}
+                    onClick={() => removeTab(name, tab.url)}
                   >
                     x
                   </button>

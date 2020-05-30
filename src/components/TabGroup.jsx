@@ -13,6 +13,7 @@ class TabGroup extends React.Component {
 
     TabGroup.propTypes = {
       name: PropTypes.string.isRequired,
+      trackid: PropTypes.string.isRequired,
       tabs: PropTypes.arrayOf(
         PropTypes.shape({
           title: PropTypes.string.isRequired,
@@ -37,6 +38,7 @@ class TabGroup extends React.Component {
     };
 
     this.state = {
+      nameChange: false,
       editMode: false,
       // eslint-disable-next-line react/destructuring-assignment
       newName: this.props.name,
@@ -58,6 +60,7 @@ class TabGroup extends React.Component {
   render() {
     const {
       name,
+      trackid,
       tabs,
       deleteGroup,
       editGroup,
@@ -65,11 +68,11 @@ class TabGroup extends React.Component {
       drop,
       dragOver,
     } = this.props;
-    const { editMode, newName } = this.state;
+    const { editMode, nameChange, newName } = this.state;
     return (
       <Card
         data-testid="tab-group"
-        id={uuid()}
+        id={trackid}
         onDrop={drop}
         onDragOver={dragOver}
         droppable="true"
@@ -85,12 +88,13 @@ class TabGroup extends React.Component {
                 this.setState({ newName: e.target.value });
               }}
               onKeyPress={(e) => {
+                this.setState({ nameChange: true });
                 if (e.key === 'Enter') {
                   if (name !== newName) {
-                    editGroup(name, newName);
-                  } else {
-                    this.setState({ editMode: false });
+                    editGroup(trackid, newName);
                   }
+                  this.setState({ editMode: false });
+                  this.setState({ nameChange: false });
                 }
               }}
             />
@@ -103,7 +107,7 @@ class TabGroup extends React.Component {
               <div>
                 <button
                   type="button"
-                  onClick={() => deleteGroup(name)}
+                  onClick={() => deleteGroup(trackid)}
                   data-testid="delete-button"
                 >
                   <RiDeleteBinLine />
@@ -139,7 +143,6 @@ class TabGroup extends React.Component {
                 title={tab.title}
                 url={tab.url}
                 favIconUrl={tab.favIconUrl}
-                key={uuid()}
               />
             ))}
           </Card.Body>

@@ -28,20 +28,25 @@ class Menu extends React.Component {
 
   getActiveTabs = () => {
     chrome.tabs.query({}, (tabs) => {
-      const tempTabs = [];
+      const activeTabs = [];
 
       for (let i = 0; i < tabs.length; i += 1) {
         let addable = true;
-        for (let j = 0; j < tempTabs.length; j += 1) {
-          if (tabs[i].url === tempTabs[j].url){
+        for (let j = 0; j < activeTabs.length; j += 1) {
+          if (tabs[i].url === activeTabs[j].url) {
             addable = false;
           }
         }
         if (addable) {
-          tempTabs.push({ title: tabs[i].title, url: tabs[i].url, key: tabs[i].key });
+          activeTabs.push({
+            title: tabs[i].title,
+            url: tabs[i].url,
+            favIconUrl: tabs[i].favIconUrl,
+            key: tabs[i].key,
+          });
         }
       }
-      this.setState({ activeTabs: tempTabs });
+      this.setState({ activeTabs });
     });
   };
 
@@ -97,7 +102,12 @@ class Menu extends React.Component {
         (tabGroup) => tabGroup.name === e.target.id
       );
 
-      const tabData = { title: tabObj.title, url: tabObj.url, key: tabObj.key };
+      const tabData = {
+        title: tabObj.title,
+        url: tabObj.url,
+        favIconUrl: tabObj.favIconUrl,
+        key: tabObj.key,
+      };
       let addable = true;
       for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
         if (tabGroups[index].tabs[i].url === tabObj.url) {
@@ -180,7 +190,11 @@ class Menu extends React.Component {
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url}/>
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                favIconUrl={tab.favIconUrl}
+              />
             ))}
           </div>
           {savedTabs.length !== 0 ? (
@@ -195,7 +209,12 @@ class Menu extends React.Component {
                 </button>
               </div>
               {savedTabs.map((tab) => (
-                <Tab title={tab.title} url={tab.url} key={uuid()} />
+                <Tab
+                  title={tab.title}
+                  url={tab.url}
+                  favIconUrl={tab.favIconUrl}
+                  key={uuid()}
+                />
               ))}
             </div>
           ) : null}

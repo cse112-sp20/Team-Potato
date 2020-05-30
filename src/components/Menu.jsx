@@ -38,7 +38,7 @@ class Menu extends React.Component {
           }
         }
         if (addable) {
-          tempTabs.push({
+          activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
             // key: tabs[i].key,

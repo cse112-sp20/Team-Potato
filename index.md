@@ -7,7 +7,7 @@ layout: default
 
 # Tired of too many tabs?
 
-![chaotic tabs](/assets/tab0-chaotic tabs.PNG){:height="70px" width="4000px"}
+![chaotic tabs](/assets/tab0-chaotic tabs.PNG){:height="50px" width="4000px"}
 
 ---
 

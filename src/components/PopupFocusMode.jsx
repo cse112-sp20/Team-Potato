@@ -101,7 +101,7 @@ class PopupFocusMode extends React.Component {
         <h1>Focus Mode</h1>
         <Timer
           // Note this is only set ONCE
-          initialTime={getPassedTime()}
+          initialTime={defaultTime}
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
@@ -117,6 +117,7 @@ class PopupFocusMode extends React.Component {
           {({ start, stop, setTime, getTime }) => (
             <>
               <div>
+                {setTime(getPassedTime())}
                 <button
                   className="clock"
                   type="button"

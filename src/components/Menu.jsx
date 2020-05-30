@@ -41,7 +41,7 @@ class Menu extends React.Component {
           activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
-            // key: tabs[i].key,
+            favIconUrl: tabs[i].favIconUrl,
           });
         }
       }
@@ -206,6 +206,25 @@ class Menu extends React.Component {
     chrome.storage.sync.set({ tabGroups });
   };
 
+  removeTab = (name, target) => {
+    const { tabGroups } = this.state;
+    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === name);
+    const currentTabs = tabGroups[index].tabs;
+    const updatedTabs = [];
+    for (let i = 0; i < currentTabs.length; i += 1) {
+      if (currentTabs[i].title !== target) {
+        updatedTabs.push({
+          title: currentTabs[i].title,
+          url: currentTabs[i].url,
+          favIconUrl: currentTabs[i].favIconUrl,
+        });
+      }
+    }
+    tabGroups[index].tabs = updatedTabs;
+    this.setState({ tabGroups });
+    chrome.storage.sync.set({ tabGroups });
+  };
+
   modalClose = () => {
     this.setState({ addGroupModal: false });
   };
@@ -264,6 +283,7 @@ class Menu extends React.Component {
               tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}
               editGroup={this.editGroup}
+              removeTab={this.removeTab}
               drop={this.drop}
               dragOver={this.dragOver}
             />

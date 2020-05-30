@@ -3,6 +3,7 @@ body {font-family: "Lato", sans-serif;}
 .tabContainer {
     position: relative;
     background-color: #555;
+    text-align: left;
     color: white;
     float: left;
     border: none;
@@ -31,4 +32,7 @@ body {font-family: "Lato", sans-serif;}
 .tabTitle {
     text-align: left;
     font-size: 11px;
+    overflow: hidden;
+    padding-right: 20px;
+    text-overflow: ellipsis;
 }

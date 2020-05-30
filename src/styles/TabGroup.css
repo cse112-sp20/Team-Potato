@@ -7,3 +7,31 @@ button {
     border: none;
     margin: 10px;
 }
+
+.buttonHolder {
+    display: inline-block;
+}
+
+.tabHolder {
+    position: relative;
+    z-index: 1000;
+}
+
+.close {
+    position: relative;
+    margin: -38px 10px 0 0;
+    z-index: 1001;
+}
+
+.close_button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: large;
+}
+
+.close_button:hover {
+    color: black;
+    visibility: visible;
+}
+

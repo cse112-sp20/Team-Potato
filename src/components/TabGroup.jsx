@@ -23,6 +23,7 @@ class TabGroup extends React.Component {
       ).isRequired,
       deleteGroup: PropTypes.func,
       editGroup: PropTypes.func,
+      removeTab: PropTypes.func,
       displayFocusMode: PropTypes.func,
       view: PropTypes.string.isRequired,
       drop: PropTypes.func,
@@ -32,6 +33,7 @@ class TabGroup extends React.Component {
     TabGroup.defaultProps = {
       deleteGroup: () => {},
       editGroup: () => {},
+      removeTab: () => {},
       drop: () => {},
       dragOver: () => {},
       displayFocusMode: () => {},
@@ -64,6 +66,7 @@ class TabGroup extends React.Component {
       tabs,
       deleteGroup,
       editGroup,
+      removeTab,
       view,
       drop,
       dragOver,
@@ -139,11 +142,25 @@ class TabGroup extends React.Component {
         {view === 'menu' ? (
           <Card.Body id={name} droppable="true">
             {tabs.map((tab) => (
-              <Tab
-                title={tab.title}
-                url={tab.url}
-                favIconUrl={tab.favIconUrl}
-              />
+              <div className="buttonHolder">
+                <div className="tabHolder">
+                  <Tab
+                    title={tab.title}
+                    url={tab.url}
+                    favIconUrl={tab.favIconUrl}
+                    key={uuid()}
+                  />
+                </div>
+                <div className="close">
+                  <button
+                    type="button"
+                    className="close_button"
+                    onClick={() => removeTab(name, tab.title)}
+                  >
+                    x
+                  </button>
+                </div>
+              </div>
             ))}
           </Card.Body>
         ) : null}

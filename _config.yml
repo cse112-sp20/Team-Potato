@@ -14,19 +14,23 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Potato Tabs
-email: teamPotato@ucsd.edu
+show_downloads: true
+github:
+  zip_url: https://github.com/cse112-sp20/Team-Potato/zipball/master
+  tar_url: https://github.com/cse112-sp20/Team-Potato/tarball/master
+# email: teamPotato@ucsd.edu
 description: >- # this means to ignore newlines until "baseurl:"
   A simple solution to web tabs management and increasing productivity presented by Team Potato
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: Team-Potato
-github_username:  Team-Potato
+#baseurl: "" # the subpath of your site, e.g. /blog
+#url: "" # the base hostname & protocol for your site, e.g. http://example.com
+# twitter_username: Team-Potato
+# github_username:  Team-Potato
 
 # Build settings
 markdown: kramdown
-theme: minima
-plugins:
-  - jekyll-feed
+theme: jekyll-theme-slate
+#plugins:
+#  - jekyll-feed
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

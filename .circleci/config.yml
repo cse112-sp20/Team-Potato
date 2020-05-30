@@ -1,0 +1,73 @@
+#version: 2.1
+#
+#jobs:
+#  deploy:
+#    docker:
+#      - image: circleci/ruby:2.7-node
+#    steps:
+#      - checkout
+#      - run: npm install
+#      - run: bundle install
+#      - run: bundle exec jekyll build
+#      - deploy:
+#          name: Deploy Release to GitHub
+#          command: |
+#            if [ $CIRCLE_BRANCH == 'gh-pages' ]; then
+#              bash .circleci/setup-github.sh
+#            fi
+#
+#workflows:
+#  version: 2
+#  build:
+#    jobs:
+#      - deploy
+
+#version: 2.1
+#
+#jobs:
+#  docs-build:
+#    docker:
+#      - image: circleci/python:latest
+#    steps:
+#      - checkout
+#      - run:
+#          name: Install sphinx
+#          command: pip install sphinx
+#      - run:
+#          name: Build docs
+#          command: cd docs/ && make html
+#      - persist_to_workspace:
+#          root: docs/_build
+#          paths: html
+#
+#  docs-deploy:
+#    docker:
+#      - image: circleci/node:latest
+#    steps:
+#      - checkout
+#      - attach_workspace:
+#          at: docs/_build
+#      - run:
+#          name: Disable jekyll builds
+#          command: touch docs/_build/html/.nojekyll
+#      - run:
+#          name: Install and configure dependencies
+#          command: |
+#            npm install -g --silent gh-pages@3.0.0
+#            git config user.email "38194197+springunicorn@users.noreply.github.com"
+#            git config user.name "springunicorn"
+#      - add_ssh_keys:
+#          fingerprints:
+#            - "76:5b:94:5d:47:c0:78:77:68:35:80:18:a0:20:b2:38"
+#      - run:
+#          name: Deploy docs to gh-pages branch
+#          command: gh-pages --dotfiles --message "[skip ci] Updates" --dist docs/_build/html
+#
+#workflows:
+#  version: 2
+#  build:
+#    jobs:
+#      - docs-build
+#      - docs-deploy:
+#          requires:
+#            - docs-build

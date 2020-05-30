@@ -28,12 +28,12 @@ class Menu extends React.Component {
 
   getActiveTabs = () => {
     chrome.tabs.query({}, (tabs) => {
-      const tempTabs = [];
+      const activeTabs = [];
 
       for (let i = 0; i < tabs.length; i += 1) {
         let addable = true;
-        for (let j = 0; j < tempTabs.length; j += 1) {
-          if (tabs[i].url === tempTabs[j].url) {
+        for (let j = 0; j < activeTabs.length; j += 1) {
+          if (tabs[i].url === activeTabs[j].url) {
             addable = false;
           }
         }
@@ -45,7 +45,7 @@ class Menu extends React.Component {
           });
         }
       }
-      this.setState({ activeTabs: tempTabs });
+      this.setState({ activeTabs });
     });
   };
 
@@ -103,7 +103,8 @@ class Menu extends React.Component {
 
       const tabData = {
         title: tabObj.title,
-        url: tabObj.url /* , key: tabObj.key */,
+        url: tabObj.url,
+        favIconUrl: tabObj.favIconUrl,
       };
       let addable = true;
       for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
@@ -223,7 +224,11 @@ class Menu extends React.Component {
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} />
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                favIconUrl={tab.favIconUrl}
+              />
             ))}
           </div>
           {savedTabs.length !== 0 ? (
@@ -238,7 +243,11 @@ class Menu extends React.Component {
                 </button>
               </div>
               {savedTabs.map((tab) => (
-                <Tab title={tab.title} url={tab.url} />
+                <Tab
+                  title={tab.title}
+                  url={tab.url}
+                  favIconUrl={tab.favIconUrl}
+                />
               ))}
             </div>
           ) : null}

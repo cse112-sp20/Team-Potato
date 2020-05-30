@@ -18,6 +18,7 @@ class TabGroup extends React.Component {
         PropTypes.shape({
           title: PropTypes.string.isRequired,
           url: PropTypes.string.isRequired,
+          favIconUrl: PropTypes.string,
         })
       ).isRequired,
       deleteGroup: PropTypes.func,
@@ -141,7 +142,7 @@ class TabGroup extends React.Component {
               <Tab
                 title={tab.title}
                 url={tab.url}
-                // key={uuid()}
+                favIconUrl={tab.favIconUrl}
               />
             ))}
           </Card.Body>

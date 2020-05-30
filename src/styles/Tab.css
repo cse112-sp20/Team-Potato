@@ -1,10 +1,7 @@
 body {font-family: "Lato", sans-serif;}
 
-.tablink {
+.tabContainer {
     position: relative;
-}
-
-.button {
     background-color: #555;
     color: white;
     float: left;
@@ -15,16 +12,23 @@ body {font-family: "Lato", sans-serif;}
     padding: 5px 5px;
     font-size: 14px;
     width: 250px;
+    height: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 5px;
 }
 
-.button:hover {
+.tabContainer:hover {
     background-color: #777;
 }
 
+.tabFavIcon {
+    vertical-align: middle;
+    margin-right: 5px;
+}
 
-
-
+.tabTitle {
+    text-align: left;
+    font-size: 11px;
+}

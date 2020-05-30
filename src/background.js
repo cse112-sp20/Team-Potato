@@ -17,13 +17,25 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
 });
 
 // Timer for Focus Mode
-let startTime;
-let passedTime = Date.now() - startTime;
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.cmd === 'start') {
-    startTime = Date.now();
-  } else if (request.cmd === 'get') {
-    passedTime = Date.now() - startTime;
-    sendResponse({ time: passedTime });
-  }
-});
+// let startTime;
+// let passedTime = Date.now() - startTime;
+// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//   if (request.cmd === 'start') {
+//     startTime = Date.now();
+//   } else if (request.cmd === 'get') {
+//     passedTime = Date.now() - startTime;
+//     sendResponse({ time: passedTime });
+//   }
+// });
+
+// chrome.browserAction.onClicked.addListener((tab) => {
+//   chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
+//     if (obj.isFocusModeEnabled) {
+//       chrome.storage.sync.get('time', (obj) => {
+//         if (obj) {
+//           this.setState({ backgroundTime: obj.time - Date.now() });
+//         }
+//       });
+//     }
+//   });
+// });

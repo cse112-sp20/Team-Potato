@@ -24,30 +24,17 @@ class PopupFocusMode extends React.Component {
     chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
       this.setState({ isFocusModeEnabled: obj.isFocusModeEnabled });
     });
-    chrome.storage.sync.get('time', (obj) => {
-      if (obj) {
-        this.setState({ backgroundTime: obj.time - Date.now() });
-      }
-    });
-    chrome.storage.sync.get('startingTime', (obj) => {
-      if (obj) {
-        this.setState({ startingTime: obj.startTime });
-      }
-    });
   };
 
   launchFocusMode = () => {
     chrome.tabs.query({}, (currentTabs) => {
       const { tabGroupUrls } = this.props;
-
       // Open tabs in tab group
       tabGroupUrls.forEach((tabUrl) => {
         chrome.tabs.create({ url: tabUrl });
       });
-
       // Save current tabs
       chrome.storage.sync.set({ savedTabs: currentTabs });
-
       // Close current tabs
       currentTabs.forEach((tab) => {
         chrome.tabs.remove(tab.id);
@@ -62,6 +49,7 @@ class PopupFocusMode extends React.Component {
       defaultTime,
       backgroundTime,
       startingTime,
+      passedTime,
     } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
 
@@ -77,9 +65,9 @@ class PopupFocusMode extends React.Component {
       });
       this.setState({ isFocusModeEnabled: true });
       chrome.storage.sync.set({ isFocusModeEnabled: true });
-      this.launchFocusMode();
-      chrome.runtime.sendMessage({ cmd: 'start' });
+      // chrome.runtime.sendMessage({ cmd: 'start' });
       chrome.storage.sync.set({ time: Date.now() });
+      this.launchFocusMode();
     };
 
     // const getPassedTime = chrome.runtime.sendMessage(
@@ -90,14 +78,30 @@ class PopupFocusMode extends React.Component {
     // );
 
     const getPassedTime = () => {
-      return startingTime - backgroundTime;
+      if (isFocusModeEnabled) {
+        // chrome.storage.sync.get('time', (obj) => {
+        //   if (obj) {
+        //     this.setState({ backgroundTime: obj.time - Date.now() });
+        //   }
+        // });
+        // chrome.storage.sync.get('startingTime', (obj) => {
+        //   if (obj) {
+        //     this.setState({ startingTime: obj.startTime });
+        //   }
+        // });
+        // const interval = startingTime - backgroundTime;
+        // this.setState({ passedTime: interval });
+        return 1200000;
+      }
+      return defaultTime;
     };
 
     return (
       <div className="popupFocusMode">
         <h1>Focus Mode</h1>
         <Timer
-          initialTime={isFocusModeEnabled ? getPassedTime : defaultTime}
+          // Note this is only set ONCE
+          initialTime={getPassedTime()}
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
@@ -125,8 +129,6 @@ class PopupFocusMode extends React.Component {
                     }
                   }}
                 >
-                  {getTime()}
-                  <br />
                   <Timer.Hours />
                   :
                   <Timer.Minutes />
@@ -147,8 +149,9 @@ class PopupFocusMode extends React.Component {
                       hideFocusMode();
                     } else {
                       start();
+                      // Set initial time so we can set a new time when popup is reopened
+                      chrome.storage.sync.set({ startTime: getTime() });
                       startFocusMode();
-                      chrome.storage.sync.set({ startTime: getTime });
                     }
                   }}
                 >

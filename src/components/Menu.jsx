@@ -28,13 +28,25 @@ class Menu extends React.Component {
 
   getActiveTabs = () => {
     chrome.tabs.query({}, (tabs) => {
-      const tempTabs = [];
+      const activeTabs = [];
 
       for (let i = 0; i < tabs.length; i += 1) {
-        tempTabs.push({ title: tabs[i].title, url: tabs[i].url });
+        let addable = true;
+        for (let j = 0; j < activeTabs.length; j += 1) {
+          if (tabs[i].url === activeTabs[j].url) {
+            addable = false;
+          }
+        }
+        if (addable) {
+          activeTabs.push({
+            title: tabs[i].title,
+            url: tabs[i].url,
+            favIconUrl: tabs[i].favIconUrl,
+            key: tabs[i].key,
+          });
+        }
       }
-
-      this.setState({ activeTabs: tempTabs });
+      this.setState({ activeTabs });
     });
   };
 
@@ -85,15 +97,28 @@ class Menu extends React.Component {
       const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
       const tab = document.getElementById(tabObj.id);
-      tab.style.display = 'block';
-      e.target.appendChild(tab);
 
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
 
-      const tabData = { title: tabObj.title, url: tabObj.url };
-      tabGroups[index].tabs.push(tabData);
+      const tabData = {
+        title: tabObj.title,
+        url: tabObj.url,
+        favIconUrl: tabObj.favIconUrl,
+        key: tabObj.key,
+      };
+      let addable = true;
+      for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
+        if (tabGroups[index].tabs[i].url === tabObj.url) {
+          addable = false;
+        }
+      }
+      if (addable === true) {
+        tabGroups[index].tabs.push(tabData);
+        tab.style.display = 'block';
+        e.target.appendChild(tab);
+      }
       chrome.storage.sync.set({ tabGroups });
     }
   };
@@ -165,7 +190,11 @@ class Menu extends React.Component {
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} key={uuid()} />
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                favIconUrl={tab.favIconUrl}
+              />
             ))}
           </div>
           {savedTabs.length !== 0 ? (
@@ -180,7 +209,12 @@ class Menu extends React.Component {
                 </button>
               </div>
               {savedTabs.map((tab) => (
-                <Tab title={tab.title} url={tab.url} key={uuid()} />
+                <Tab
+                  title={tab.title}
+                  url={tab.url}
+                  favIconUrl={tab.favIconUrl}
+                  key={uuid()}
+                />
               ))}
             </div>
           ) : null}

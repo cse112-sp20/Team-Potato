@@ -1,11 +1,7 @@
 body {font-family: "Lato", sans-serif;}
 
-.tablink {
+.tabContainer {
     position: relative;
-    display: inline-block;
-}
-
-.button {
     background-color: #555;
     color: white;
     float: left;
@@ -16,36 +12,23 @@ body {font-family: "Lato", sans-serif;}
     padding: 5px 5px;
     font-size: 14px;
     width: 250px;
+    height: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 5px;
 }
 
-.tooltiptext {
-    visibility: hidden;
-    width: 250px;
-    background-color: #2d2d2d;
-    color: #ffffff;
-    text-align: left;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border-radius: 6px;
-    padding: 5px 5px 5px 5px;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-}
-
-.button:hover {
+.tabContainer:hover {
     background-color: #777;
 }
 
-.tablink:hover .tooltiptext {
-    visibility: visible;
+.tabFavIcon {
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
-
-
+.tabTitle {
+    text-align: left;
+    font-size: 11px;
+}

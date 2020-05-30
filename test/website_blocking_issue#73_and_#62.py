@@ -17,6 +17,7 @@ options.add_argument("--disable-dev-shm-usage") # overcome limited resource prob
 options.add_argument("--no-sandbox") # Bypass OS security model
 
 driver = webdriver.Chrome(options=options)
+
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
@@ -56,6 +57,7 @@ ActionChains(driver).send_keys(Keys.ENTER).perform()
 
 driver.get("chrome-extension://"+ uid +"/popup.html")
 
+sleep(2)
 #also checking persistance of tab group on popup.html
 cards = driver.find_elements_by_class_name("card")
 pers_check = 0
@@ -70,8 +72,7 @@ play_button = h5_class.find_element_by_tag_name("button")
 play_button.click()
 focus_mode_check = 0
 name_focus_mode_check = 0
-sleep(1)
-popup_view_fm = driver.find_element_by_class_name("popup-view-fm")
+popup_view_fm = driver.find_element_by_class_name("popupFocusMode")
 
 h1_elements = popup_view_fm.find_elements_by_tag_name("h1")
 for h in h1_elements:
@@ -84,8 +85,9 @@ assert name_focus_mode_check == 1, "Not showing focus mode name"
 
 start_button = popup_view_fm.find_element_by_tag_name("button")
 start_button.click()
-end_button = popup_view_fm.find_element_by_tag_name("button")
-assert "End Focus" in end_button.text, "End focus button not changing on start"
+driver.switch_to.window(driver.window_handles[4])
+
+driver.get("chrome-extension://"+ uid +"/popup.html")
 driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[1])
 driver.get("https://netflix.com")

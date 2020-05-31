@@ -38,6 +38,7 @@ class Tab extends React.Component {
   };
 
   getWebsite = (link) => {
+    if (!link) return null;
     const path = link.split('/');
     const protocol = path[0];
     const host = path[2];

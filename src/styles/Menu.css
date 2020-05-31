@@ -20,10 +20,9 @@ body {
 
 .activeTabs {
     margin: 1rem;
-    text-align: center;
     max-height: 70vh;
+    width: 270px;
     height: auto;
-    overflow: auto;
 }
 
 .tabGroups {

@@ -1,0 +1,52 @@
+.overlay {
+    font-family: monospace !important;
+    font-weight: normal !important;
+    font-size: 15pt !important;
+    background-color: rgba(0,0,0,0.8);
+    width: 100vw !important;
+    height: 100vh !important;
+    position: fixed;
+    top: 0 !important;
+    left: 0 !important;
+    overflow: auto;
+    backdrop-filter: blur(4px);
+    z-index: 2147483637 !important;
+}
+
+.main {
+    background-color: #FFFFFF;
+    width: 20vw;
+    height: 45vh;
+    margin: 10em auto;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0,0,0,0.14);
+    z-index: 2147483638 !important;
+    text-align: center;
+}
+
+.button {
+    cursor: pointer;
+    color: #fff;
+    border-radius: 8px;
+    border: 0;
+    padding: 10px;
+    width: 80%;
+    text-align: center;
+    font-size: 18pt;
+    margin: 10px;
+}
+
+.focusModeText {
+    padding-top: 10%;
+    padding-bottom: 5%;
+}
+
+.focusGroupText {
+    font-weight: bold;
+    font-size: 20pt;
+}
+
+.heading {
+    font-size: 15pt;
+    padding: 10px;
+}

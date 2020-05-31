@@ -17,6 +17,10 @@ class Menu extends React.Component {
       activeTabs: [],
       tabGroups: [],
       savedTabs: [],
+      excludeUrls: [
+        'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
+        'chrome://newtab/',
+      ],
     };
   }
 
@@ -27,6 +31,7 @@ class Menu extends React.Component {
   }
 
   getActiveTabs = () => {
+    const { excludeUrls } = this.state;
     chrome.tabs.query({}, (tabs) => {
       const activeTabs = [];
 
@@ -37,7 +42,7 @@ class Menu extends React.Component {
             addable = false;
           }
         }
-        if (addable) {
+        if (addable && !excludeUrls.includes(tabs[i].url)) {
           activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,

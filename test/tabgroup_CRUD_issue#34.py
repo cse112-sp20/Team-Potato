@@ -36,7 +36,6 @@ driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[4])
 driver.get("https://piazza.com")
 driver.switch_to.window(driver.window_handles[4])
-
 driver.get("chrome-extension://"+ uid +"/menu.html")
 
 
@@ -56,7 +55,6 @@ input_name = model_body.find_element_by_id("groupName")
 input_name.send_keys("Test Group")
 ActionChains(driver).send_keys(Keys.ENTER).perform()
 new_count = len(driver.find_elements_by_class_name("card"))
-
 assert new_count-old_count == 1, "new tabgroup not added"
 
 
@@ -78,7 +76,7 @@ check_tab_4 = 0
 check_tab_5 = 0
 
 grouping = div_to_search.find_element_by_class_name("card-body")
-for g in grouping.find_elements_by_tag_name("div"):
+for g in grouping.find_elements_by_class_name("tabContainer"):
     if "Computer Science" in g.text:
         check_tab_1 = 1
     elif "Twitter" in g.text:
@@ -87,9 +85,7 @@ for g in grouping.find_elements_by_tag_name("div"):
         check_tab_3 = 1
     elif "Stack Overflow" in g.text:
         check_tab_4 = 1
-    elif "Potato Tab Menu" in g.text:
-        check_tab_5 = 1
-assert check_tab_4 == 1 and check_tab_1 == 1 and check_tab_3 == 1 and check_tab_4 == 1 and check_tab_5 ==1, \
+assert check_tab_4 == 1 and check_tab_1 == 1 and check_tab_3 == 1 and check_tab_4 == 1,\
     "Tabs not present in tabgroup"
 
 # checking if edit and delete buttons available
@@ -104,6 +100,7 @@ edit_input = header_to_search.find_element_by_tag_name("input")
 edit_input.clear()
 edit_input.send_keys("New Name")
 edit_input.send_keys(Keys.ENTER)
+
 
 cards = driver.find_elements_by_class_name("card")
 name_check_edit= 0
@@ -143,6 +140,5 @@ cards_final_check = tab_groups.find_elements_by_class_name("card")
 assert len(cards_final_check) == 0, "Delete Button Not Working"
 print("All Tests Passed")
 coverage_json_file = open("./project/.nyc_output/#34.json","w+")
-
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()

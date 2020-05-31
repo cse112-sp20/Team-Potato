@@ -1,8 +1,7 @@
-##OBSOLETE FILE
-## ABANDONED
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import os
 
 print(os.getcwd())
@@ -16,12 +15,11 @@ options.add_argument("--disable-dev-shm-usage") # overcome limited resource prob
 options.add_argument("--no-sandbox") # Bypass OS security model
 
 driver = webdriver.Chrome(options=options)
-print("loading extension page")
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 driver.get("chrome://extensions")
 
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
-driver.get("chrome-extension://"+ uid +"/popup.html")
+driver.get("chrome-extension://" + uid + "/popup.html")
 
 # Test 1: Checking if open tab button exists
 open_tab_buttons = driver.find_elements_by_tag_name("button")
@@ -43,30 +41,18 @@ assert add_group_button is not None, "Add group button should exists"
 
 # Test 4: Check if tab group button creates a new group
 add_group_button.click()
+model_body = driver.find_element_by_class_name("modal-body")
+input_name = model_body.find_element_by_id("groupName")
+input_name.send_keys("Test Group")
+ActionChains(driver).send_keys(Keys.ENTER).perform()
 cards = driver.find_elements_by_class_name("card")
 flag = 0
 for i in cards:
     list_of_text = i.text
-    if "test" in i.text:
+    if "Test Group" in i.text:
         flag = 1
         test_group = i
 
-h3_header =  test_group.find_element_by_tag_name("h5")
-assert h3_header.text == "test", "Group Button Does not work"
-
-# Test 5: Check if hardcoded groups added to test group
-listing_tabs = test_group.find_elements_by_class_name("tabTitle")
-second_flag = 0
-third_flag = 0
-for i in listing_tabs:
-    if i.text == "test1":
-        second_flag = 1
-    if i.text == "test2" and second_flag == 1:
-        third_flag = 1
-assert third_flag == 1, "Group Button doesnt add hard coded tabs"
+h3_header = test_group.find_element_by_tag_name("h5")
+assert h3_header.text == "Test Group", "Group Button Does not work"
 print("Passed All Tests")
-
-import json
-coverage_json_file = open("./project/.nyc_output/15.json","w+")
-json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
-coverage_json_file.close()

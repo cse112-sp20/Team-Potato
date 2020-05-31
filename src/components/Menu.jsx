@@ -190,10 +190,7 @@ class Menu extends React.Component {
       (tabGroup) => tabGroup.trackid === target
     );
     let count = 0;
-    if (tabGroups[index].name === newName) {
-      // eslint-disable-next-line no-param-reassign
-      newName = tabGroups[index].name;
-    } else {
+    if (tabGroups[index].name !== newName) {
       let tempName = newName;
       while (true) {
         const i = tabGroups.findIndex((tabGroup) => tabGroup.name === tempName);
@@ -238,7 +235,7 @@ class Menu extends React.Component {
             ))}
           </div>
           {savedTabs.length !== 0 ? (
-            <div className="savedTabs">
+            <div className="savedTabs" data-testid="saved-tabs">
               <div className="savedTabsHeader">
                 <h2>Saved Tabs</h2>
                 <button type="button" onClick={this.deleteSavedTabs}>

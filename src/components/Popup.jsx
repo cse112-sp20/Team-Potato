@@ -86,6 +86,7 @@ class Popup extends React.Component {
               view="popup"
               key={tabGroup.name}
               name={tabGroup.name}
+              id={tabGroup.id}
               tabs={tabGroup.tabs}
               displayFocusMode={this.displayFocusMode}
             />

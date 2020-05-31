@@ -16,30 +16,78 @@ class Menu extends React.Component {
       addGroupModal: false,
       activeTabs: [],
       tabGroups: [],
+      savedTabs: [],
+      excludeUrls: [
+        'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
+        'chrome://newtab/',
+      ],
     };
   }
 
   componentDidMount() {
     this.getActiveTabs();
-    chrome.storage.sync.get('tabGroups', (obj) => {
-      const { tabGroups } = obj;
-      if (tabGroups.length === 0) {
-        chrome.storage.sync.set({ tabGroups: [] });
-      }
-      this.setState({ tabGroups });
-    });
+    this.getTabGroups();
+    this.getSavedTabs();
   }
 
   getActiveTabs = () => {
+    const { excludeUrls } = this.state;
     chrome.tabs.query({}, (tabs) => {
-      const tempTabs = [];
+      const activeTabs = [];
 
       for (let i = 0; i < tabs.length; i += 1) {
-        tempTabs.push({ title: tabs[i].title, url: tabs[i].url });
+        let addable = true;
+        for (let j = 0; j < activeTabs.length; j += 1) {
+          if (tabs[i].url === activeTabs[j].url) {
+            addable = false;
+          }
+        }
+        if (addable && !excludeUrls.includes(tabs[i].url)) {
+          activeTabs.push({
+            title: tabs[i].title,
+            url: tabs[i].url,
+            favIconUrl: tabs[i].favIconUrl,
+            // key: tabs[i].key,
+          });
+        }
       }
-
-      this.setState({ activeTabs: tempTabs });
+      this.setState({ activeTabs });
     });
+  };
+
+  getTabGroups = () => {
+    chrome.storage.sync.get('tabGroups', (obj) => {
+      let { tabGroups } = obj;
+      if (!tabGroups) {
+        chrome.storage.sync.set({ tabGroups: [] });
+        tabGroups = [];
+      }
+      this.setState({ tabGroups });
+    });
+  };
+
+  getSavedTabs = () => {
+    chrome.storage.sync.get('savedTabs', (obj) => {
+      let { savedTabs } = obj;
+      if (!savedTabs || savedTabs.length === 0) {
+        savedTabs = [];
+      }
+      this.setState({ savedTabs });
+    });
+  };
+
+  deleteSavedTabs = () => {
+    const savedTabs = [];
+    this.setState({ savedTabs });
+    chrome.storage.sync.set({ savedTabs });
+  };
+
+  openSavedTabs = () => {
+    const { savedTabs } = this.state;
+    savedTabs.forEach((tabUrl) => {
+      chrome.tabs.create({ url: tabUrl.url });
+    });
+    this.deleteSavedTabs();
   };
 
   drop = (e) => {
@@ -54,15 +102,27 @@ class Menu extends React.Component {
       const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
       const tab = document.getElementById(tabObj.id);
-      tab.style.display = 'block';
-      e.target.appendChild(tab);
 
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
 
-      const tabData = { title: tabObj.title, url: tabObj.url };
-      tabGroups[index].tabs.push(tabData);
+      const tabData = {
+        title: tabObj.title,
+        url: tabObj.url,
+        favIconUrl: tabObj.favIconUrl,
+      };
+      let addable = true;
+      for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
+        if (tabGroups[index].tabs[i].url === tabObj.url) {
+          addable = false;
+        }
+      }
+      if (addable === true) {
+        tabGroups[index].tabs.push(tabData);
+        tab.style.display = 'block';
+        e.target.appendChild(tab);
+      }
       chrome.storage.sync.set({ tabGroups });
     }
   };
@@ -87,14 +147,30 @@ class Menu extends React.Component {
           selectedTabs.push(activeTabs[i]);
         }
       }
+      let count = 0;
+      let nameCheck = true;
+      let tempGroupName = groupName;
+      while (nameCheck) {
+        const index = tabGroups.findIndex(
+          (tabGroup) => tabGroup.name === tempGroupName
+        );
+        if (index === -1) {
+          nameCheck = false;
+        } else {
+          count += 1;
+          tempGroupName = groupName + count.toString();
+        }
+      }
+      groupName = tempGroupName;
+
       const newGroup = {
         name: groupName,
+        trackid: uuid(),
         tabs: selectedTabs,
       };
 
       tabGroups.push(newGroup);
       this.setState({ tabGroups });
-
       chrome.storage.sync.set({ tabGroups }, () => {});
 
       this.modalClose();
@@ -103,14 +179,31 @@ class Menu extends React.Component {
 
   deleteGroup = (target) => {
     let { tabGroups } = this.state;
-    tabGroups = tabGroups.filter((tabGroup) => tabGroup.name !== target);
+    tabGroups = tabGroups.filter((tabGroup) => tabGroup.trackid !== target);
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
   };
 
   editGroup = (target, newName) => {
     const { tabGroups } = this.state;
-    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === target);
+    const index = tabGroups.findIndex(
+      (tabGroup) => tabGroup.trackid === target
+    );
+    let count = 0;
+    if (tabGroups[index].name !== newName) {
+      let tempName = newName;
+      while (true) {
+        const i = tabGroups.findIndex((tabGroup) => tabGroup.name === tempName);
+        if (i === -1 || i === index) {
+          break;
+        } else {
+          count += 1;
+          tempName = newName + count.toString();
+        }
+      }
+      // eslint-disable-next-line no-param-reassign
+      newName = tempName;
+    }
     tabGroups[index].name = newName;
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
@@ -121,27 +214,55 @@ class Menu extends React.Component {
   };
 
   render() {
-    const { addGroupModal, activeTabs, tabGroups } = this.state;
+    const { addGroupModal, activeTabs, tabGroups, savedTabs } = this.state;
     return (
       <div className="menuContainer">
-        <div
-          id="activeTabs"
-          className="activeTabs"
-          droppable="true"
-          onDrop={this.drop}
-          onDragOver={this.dragOver}
-        >
-          <h2>Active Tabs</h2>
-          {activeTabs.map((tab) => (
-            <Tab title={tab.title} url={tab.url} key={uuid()} />
-          ))}
+        <div className="leftSideBar">
+          <div
+            id="activeTabs"
+            className="activeTabs"
+            droppable="true"
+            onDrop={this.drop}
+            onDragOver={this.dragOver}
+          >
+            <h2>Active Tabs</h2>
+            {activeTabs.map((tab) => (
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                favIconUrl={tab.favIconUrl}
+              />
+            ))}
+          </div>
+          {savedTabs.length !== 0 ? (
+            <div className="savedTabs" data-testid="saved-tabs">
+              <div className="savedTabsHeader">
+                <h2>Saved Tabs</h2>
+                <button type="button" onClick={this.deleteSavedTabs}>
+                  Delete All
+                </button>
+                <button type="button" onClick={this.openSavedTabs}>
+                  Open All
+                </button>
+              </div>
+              {savedTabs.map((tab) => (
+                <Tab
+                  title={tab.title}
+                  url={tab.url}
+                  favIconUrl={tab.favIconUrl}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
+
         <div className="tabGroups">
           <h2>Tab Groups</h2>
           {tabGroups.map((tabGroup) => (
             <TabGroup
               view="menu"
-              key={tabGroup.name}
+              key={tabGroup.trackid}
+              trackid={tabGroup.trackid}
               name={tabGroup.name}
               tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}
@@ -150,18 +271,17 @@ class Menu extends React.Component {
               dragOver={this.dragOver}
             />
           ))}
-
-          <button
-            className="addGroup"
-            type="button"
-            onClick={() => {
-              this.setState({ addGroupModal: true });
-            }}
-            data-testid="add-button"
-          >
-            <IoMdAddCircle />
-          </button>
         </div>
+        <button
+          className="addGroup"
+          type="button"
+          onClick={() => {
+            this.setState({ addGroupModal: true });
+          }}
+          data-testid="add-button"
+        >
+          <IoMdAddCircle />
+        </button>
 
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>

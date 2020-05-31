@@ -55,7 +55,7 @@ h3_header =  test_group.find_element_by_tag_name("h5")
 assert h3_header.text == "test", "Group Button Does not work"
 
 # Test 5: Check if hardcoded groups added to test group
-listing_tabs = test_group.find_elements_by_class_name("tablink")
+listing_tabs = test_group.find_elements_by_class_name("tabTitle")
 second_flag = 0
 third_flag = 0
 for i in listing_tabs:
@@ -65,3 +65,8 @@ for i in listing_tabs:
         third_flag = 1
 assert third_flag == 1, "Group Button doesnt add hard coded tabs"
 print("Passed All Tests")
+
+import json
+coverage_json_file = open("./project/.nyc_output/15.json","w+")
+json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
+coverage_json_file.close()

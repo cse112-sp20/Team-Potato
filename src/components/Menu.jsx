@@ -28,26 +28,25 @@ class Menu extends React.Component {
 
   getActiveTabs = () => {
     chrome.tabs.query({}, (tabs) => {
-      const tempTabs = [];
+      const activeTabs = [];
 
       for (let i = 0; i < tabs.length; i += 1) {
         let addable = true;
-        for (let j = 0; j < tempTabs.length; j += 1) {
-          if (tabs[i].url === tempTabs[j].url) {
+        for (let j = 0; j < activeTabs.length; j += 1) {
+          if (tabs[i].url === activeTabs[j].url) {
             addable = false;
           }
         }
         if (addable) {
-          tempTabs.push({
+          activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
+            favIconUrl: tabs[i].favIconUrl,
             stored: tabs[i].stored,
           });
         }
       }
-      console.log(tempTabs);
-      this.setState({ activeTabs: tempTabs });
-      console.log(activeTabs);
+      this.setState({ activeTabs });
     });
   };
 
@@ -102,8 +101,6 @@ class Menu extends React.Component {
         tab = tab.cloneNode(true);
         tab.id = uuid();
       }
-      console.log('tabObj stored');
-      console.log(tabObj.stored);
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
@@ -111,7 +108,8 @@ class Menu extends React.Component {
       const tabData = {
         title: tabObj.title,
         url: tabObj.url,
-        stored: e.target.id,
+        stored: e.target.trackid,
+        favIconUrl: tabObj.favIconUrl,
       };
       let addable = true;
       for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
@@ -123,8 +121,39 @@ class Menu extends React.Component {
         tabGroups[index].tabs.push(tabData);
         tab.style.display = 'block';
         e.target.appendChild(tab);
+        if (tabObj.stored !== 'activeTabs' && tabObj.stored !== 'savedTabs') {
+          //start
+          const deleteGroup = tabGroups.findIndex((tabGroup) => tabGroup.trackid === tabObj.stored);
+          console.log(deleteGroup);
+          console.log(tabGroups[deleteGroup].tabs);
+          const deleteIndex = tabGroups[deleteGroup].tabs.findIndex(
+            (temp) => temp.url === tabObj.url
+          );
+          const updatedTabs = [];
+          console.log(deleteIndex);
+          for (let i = 0; i < tabGroups[deleteGroup].tabs.length; i += 1) {
+            if (i !== deleteIndex) {
+              updatedTabs.push({
+                title: tabGroups[deleteGroup].tabs[i].title,
+                url: tabGroups[deleteGroup].tabs[i].url,
+                stored: tabGroups[deleteGroup].tabs[i].stored,
+                favIconUrl: tabGroups[deleteGroup].tabs[i].favIconUrl,
+              });
+            }
+          }
+          tabGroups[deleteGroup].tabs = updatedTabs;
+          console.log(tabGroups[deleteGroup].tabs);
+          console.log('tabObj content');
+          console.log(tabObj);
+          //end
+        }
       }
       chrome.storage.sync.set({ tabGroups });
+      chrome.storage.sync.get('tabGroups', (obj) => {
+        let { tabGroups } = obj;
+        console.log(tabGroups);
+      });
+
     }
   };
 
@@ -163,7 +192,6 @@ class Menu extends React.Component {
         }
       }
       groupName = tempGroupName;
-
       const newGroup = {
         name: groupName,
         trackid: uuid(),
@@ -231,7 +259,12 @@ class Menu extends React.Component {
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} stored="activeTabs"/>
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                stored="activeTabs"
+                favIconUrl={tab.favIconUrl}
+              />
             ))}
           </div>
           {savedTabs.length !== 0 ? (
@@ -246,7 +279,12 @@ class Menu extends React.Component {
                 </button>
               </div>
               {savedTabs.map((tab) => (
-                <Tab title={tab.title} url={tab.url} stored="savedTabs" />
+                <Tab
+                  title={tab.title}
+                  url={tab.url}
+                  stored="activeTabs"
+                  favIconUrl={tab.favIconUrl}
+                />
               ))}
             </div>
           ) : null}

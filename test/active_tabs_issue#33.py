@@ -33,7 +33,7 @@ driver.switch_to.window(driver.window_handles[4])
 driver.get("chrome-extension://" + uid + "/menu.html")
 
 active_tabs = driver.find_element_by_class_name("activeTabs")
-list_of_active_tabs = active_tabs.find_elements_by_class_name("tablink")
+list_of_active_tabs = active_tabs.find_elements_by_class_name("tabTitle")
 check_tab_1 = 0
 check_tab_2 = 0
 check_tab_3 = 0

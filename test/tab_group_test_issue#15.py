@@ -55,7 +55,7 @@ h3_header =  test_group.find_element_by_tag_name("h5")
 assert h3_header.text == "test", "Group Button Does not work"
 
 # Test 5: Check if hardcoded groups added to test group
-listing_tabs = test_group.find_elements_by_class_name("tablink")
+listing_tabs = test_group.find_elements_by_class_name("tabTitle")
 second_flag = 0
 third_flag = 0
 for i in listing_tabs:

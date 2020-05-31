@@ -23,8 +23,6 @@ class Tab extends React.Component {
     e.persist();
     const { title, url, stored, favIconUrl } = this.props;
     const tabObj = { title, url, favIconUrl, id: e.target.id, stored };
-    console.log("dragstart stored");
-    console.log(tabObj);
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
     setTimeout(() => {
       e.target.style.display = 'always';
@@ -76,7 +74,6 @@ class Tab extends React.Component {
           role="button"
           className="tabContainer"
           draggable="true"
-          key={url}
           onClick={() => this.openTab(url)}
           onDragStart={this.dragStart}
           onDragOver={this.dragOver}

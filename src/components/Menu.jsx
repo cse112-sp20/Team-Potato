@@ -92,8 +92,10 @@ class Menu extends React.Component {
 
   drop = (e) => {
     const { tabGroups } = this.state;
-    const droppable = e.target.attributes.getNamedItem('droppable').value;
-    if (droppable !== 'true' || e.target === undefined) {
+    if (
+      e.target === undefined ||
+      e.target.attributes.getNamedItem('droppable').value !== 'true'
+    ) {
       e.preventDefault();
       e.dataTransfer.effectAllowed = 'none';
       e.dataTransfer.dropEffect = 'none';
@@ -101,19 +103,14 @@ class Menu extends React.Component {
       e.preventDefault();
       const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
-      let tab = document.getElementById(tabObj.id);
-      if (tabObj.stored === 'activeTabs' || tabObj.stored === 'savedTabs') {
-        tab = tab.cloneNode(true);
-        tab.id = uuid();
-      }
+      const tab = document.getElementById(tabObj.id);
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
-
       const tabData = {
         title: tabObj.title,
         url: tabObj.url,
-        stored: e.target.trackid,
+        stored: tabGroups[index].trackid,
         favIconUrl: tabObj.favIconUrl,
       };
       let addable = true;
@@ -125,17 +122,13 @@ class Menu extends React.Component {
       if (addable === true) {
         tabGroups[index].tabs.push(tabData);
         tab.style.display = 'block';
-        e.target.appendChild(tab);
+        // delete from the old TabGroup
         if (tabObj.stored !== 'activeTabs' && tabObj.stored !== 'savedTabs') {
-          //start
           const deleteGroup = tabGroups.findIndex((tabGroup) => tabGroup.trackid === tabObj.stored);
-          console.log(deleteGroup);
-          console.log(tabGroups[deleteGroup].tabs);
           const deleteIndex = tabGroups[deleteGroup].tabs.findIndex(
             (temp) => temp.url === tabObj.url
           );
           const updatedTabs = [];
-          console.log(deleteIndex);
           for (let i = 0; i < tabGroups[deleteGroup].tabs.length; i += 1) {
             if (i !== deleteIndex) {
               updatedTabs.push({
@@ -147,19 +140,11 @@ class Menu extends React.Component {
             }
           }
           tabGroups[deleteGroup].tabs = updatedTabs;
-          console.log(tabGroups[deleteGroup].tabs);
-          console.log('tabObj content');
-          console.log(tabObj);
-          //end
         }
       }
       chrome.storage.sync.set({ tabGroups });
-      chrome.storage.sync.get('tabGroups', (obj) => {
-        let { tabGroups } = obj;
-        console.log(tabGroups);
-      });
-
     }
+    this.componentDidMount();
   };
 
   dragOver = (e) => {
@@ -258,13 +243,14 @@ class Menu extends React.Component {
           <div
             id="activeTabs"
             className="activeTabs"
-            droppable="true"
+            droppable="false"
             onDrop={this.drop}
             onDragOver={this.dragOver}
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
               <Tab
+                //key={uuid()}
                 title={tab.title}
                 url={tab.url}
                 stored="activeTabs"
@@ -285,6 +271,7 @@ class Menu extends React.Component {
               </div>
               {savedTabs.map((tab) => (
                 <Tab
+                  //key={uuid()}
                   title={tab.title}
                   url={tab.url}
                   stored="activeTabs"

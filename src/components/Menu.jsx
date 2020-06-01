@@ -213,72 +213,85 @@ class Menu extends React.Component {
   render() {
     const { addGroupModal, activeTabs, tabGroups, savedTabs } = this.state;
     return (
-      <div className="menuContainer">
-        <div className="leftSideBar">
-          <div
-            id="activeTabs"
-            className="activeTabs"
-            droppable="true"
-            onDrop={this.drop}
-            onDragOver={this.dragOver}
-          >
-            <h2>Active Tabs</h2>
-            {activeTabs.map((tab) => (
-              <Tab
-                title={tab.title}
-                url={tab.url}
-                favIconUrl={tab.favIconUrl}
-              />
-            ))}
-          </div>
-          {savedTabs.length !== 0 ? (
-            <div className="savedTabs">
-              <div className="savedTabsHeader">
-                <h2>Saved Tabs</h2>
-                <button type="button" onClick={this.deleteSavedTabs}>
-                  Delete All
-                </button>
-                <button type="button" onClick={this.openSavedTabs}>
-                  Open All
-                </button>
+      <div className="container-fluid maxHeight">
+        <div className="row maxHeight">
+          <div className="col-2 leftSideBar maxHeight">
+            <div className="activeTabsContainer">
+              <div className="activeTabsHeader">
+                <h2>Active Tabs</h2>
               </div>
-              {savedTabs.map((tab) => (
-                <Tab
-                  title={tab.title}
-                  url={tab.url}
-                  favIconUrl={tab.favIconUrl}
-                />
-              ))}
+              <div
+                id="activeTabs"
+                className="activeTabs"
+                droppable="true"
+                onDrop={this.drop}
+                onDragOver={this.dragOver}
+              >
+                {activeTabs.map((tab) => (
+                  <Tab
+                    title={tab.title}
+                    url={tab.url}
+                    favIconUrl={tab.favIconUrl}
+                  />
+                ))}
+              </div>
             </div>
-          ) : null}
+            {savedTabs.length !== 0 ? (
+              <div className="savedTabsContainer">
+                <div className="savedTabsHeader">
+                  <h2>Saved Tabs</h2>
+                  <button type="button" onClick={this.deleteSavedTabs}>
+                    Delete All
+                  </button>
+                  <button type="button" onClick={this.openSavedTabs}>
+                    Open All
+                  </button>
+                </div>
+                <div className="savedTabs">
+                  {savedTabs.map((tab) => (
+                    <Tab
+                      title={tab.title}
+                      url={tab.url}
+                      favIconUrl={tab.favIconUrl}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <div className="col-10 content maxHeight">
+            <div className="tabGroupsContainer">
+              <div className="tabGroupsHeader">
+                <h2>Tab Groups</h2>
+              </div>
+              <div className="tabGroups">
+                {tabGroups.map((tabGroup) => (
+                  <TabGroup
+                    view="menu"
+                    key={tabGroup.trackid}
+                    trackid={tabGroup.trackid}
+                    name={tabGroup.name}
+                    tabs={tabGroup.tabs}
+                    deleteGroup={this.deleteGroup}
+                    editGroup={this.editGroup}
+                    drop={this.drop}
+                    dragOver={this.dragOver}
+                  />
+                ))}
+              </div>
+            </div>
+            <button
+              className="addGroup"
+              type="button"
+              onClick={() => {
+                this.setState({ addGroupModal: true });
+              }}
+              data-testid="add-button"
+            >
+              <IoMdAddCircle />
+            </button>
+          </div>
         </div>
-
-        <div className="tabGroups">
-          <h2>Tab Groups</h2>
-          {tabGroups.map((tabGroup) => (
-            <TabGroup
-              view="menu"
-              key={tabGroup.trackid}
-              trackid={tabGroup.trackid}
-              name={tabGroup.name}
-              tabs={tabGroup.tabs}
-              deleteGroup={this.deleteGroup}
-              editGroup={this.editGroup}
-              drop={this.drop}
-              dragOver={this.dragOver}
-            />
-          ))}
-        </div>
-        <button
-          className="addGroup"
-          type="button"
-          onClick={() => {
-            this.setState({ addGroupModal: true });
-          }}
-          data-testid="add-button"
-        >
-          <IoMdAddCircle />
-        </button>
 
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>

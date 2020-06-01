@@ -1,4 +1,4 @@
-body {
+/* body {
     height: 100%;
     overflow: hidden;
 }
@@ -41,4 +41,75 @@ body {
     max-height: 30vh;
     height: auto;
     overflow: auto;
+} */
+
+html,
+body {
+  height: 100%;
+}
+
+.maxHeight {
+  height: 100%;
+}
+
+.leftSideBar {
+  background-color: #24305e;
+}
+
+.content {
+  background-color: #535c7d;
+}
+
+.addGroup {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 50px;
+  position: relative;
+  right: -95%;
+}
+
+h2 {
+  color: #eeeeee;
+}
+
+.activeTabsContainer {
+  height: 45%;
+  margin-top: 10px;
+}
+
+.activeTabs {
+  overflow-y: hidden;
+  height: 85%;
+}
+
+.activeTabs:hover {
+  overflow-y: auto;
+}
+
+.savedTabsContainer {
+  height: 45%;
+}
+
+.savedTabs {
+  overflow-y: hidden;
+  height: 85%;
+}
+
+.savedTabs:hover {
+  overflow-y: auto;
+}
+
+.tabGroupsContainer {
+  height: 80%;
+  margin-top: 10px;
+}
+
+.tabGroups {
+  overflow-y: hidden;
+  height: 90%;
+}
+
+.tabGroups:hover {
+  overflow-y: auto;
 }

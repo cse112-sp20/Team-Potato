@@ -1,12 +1,12 @@
 body {
-    height: 300px;
-    width: 320px;
+  height: 300px;
+  width: 320px;
 }
 
 .btnContainer {
-    text-align: center;
+  text-align: center;
 }
 
 .menuBtn {
-    margin: 10px;
+  margin: 10px;
 }

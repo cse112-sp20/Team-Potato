@@ -112,7 +112,6 @@ class PopupFocusMode extends React.Component {
           {({ start, stop, setTime, getTime }) => (
             <>
               <div>
-                {isFocusModeEnabled ? setTime(getPassedTime()) : null}
                 <button
                   className="clock"
                   type="button"
@@ -158,7 +157,7 @@ class PopupFocusMode extends React.Component {
                   {buttonText}
                 </button>
                 {isFocusModeEnabled ? (
-                  start()
+                  [start(), setTime(getPassedTime())]
                 ) : (
                   <button
                     type="button"

@@ -9,6 +9,7 @@ class PopupFocusMode extends React.Component {
     this.state = {
       isFocusModeEnabled: false,
       defaultTime: 3600000,
+      whitelistUrls: ['https://www.google.com/'],
     };
 
     PopupFocusMode.propTypes = {
@@ -47,7 +48,7 @@ class PopupFocusMode extends React.Component {
 
   render() {
     const { tabGroupName, tabGroupUrls } = this.props;
-    const { isFocusModeEnabled, defaultTime } = this.state;
+    const { isFocusModeEnabled, defaultTime, whitelistUrls } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
 
     return (
@@ -80,9 +81,10 @@ class PopupFocusMode extends React.Component {
                       chrome.storage.sync.set({ isFocusModeEnabled: false });
                     } else {
                       start();
-                      chrome.storage.sync.set({
-                        focusedTabGroupUrls: tabGroupUrls,
-                      });
+                      const focusedTabGroupUrls = tabGroupUrls.concat(
+                        whitelistUrls
+                      );
+                      chrome.storage.sync.set({ focusedTabGroupUrls });
                       this.setState({ isFocusModeEnabled: true });
                       chrome.storage.sync.set({ isFocusModeEnabled: true });
                       this.launchFocusMode();

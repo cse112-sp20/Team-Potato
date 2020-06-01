@@ -1,5 +1,7 @@
 const psl = require('psl');
 
+console.log('hekko');
+
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
   chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
     // check if Focus Mode is on
@@ -25,25 +27,17 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
 });
 
 // Timer for Focus Mode
-// let startTime;
-// let passedTime = Date.now() - startTime;
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//   if (request.cmd === 'start') {
-//     startTime = Date.now();
-//   } else if (request.cmd === 'get') {
-//     passedTime = Date.now() - startTime;
-//     sendResponse({ time: passedTime });
-//   }
-// });
-
-// chrome.browserAction.onClicked.addListener((tab) => {
-//   chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
-//     if (obj.isFocusModeEnabled) {
-//       chrome.storage.sync.get('time', (obj) => {
-//         if (obj) {
-//           this.setState({ backgroundTime: obj.time - Date.now() });
-//         }
-//       });
-//     }
-//   });
-// });
+let startTime;
+let passedTime;
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.msg === 'start') {
+    startTime = Date.now();
+    console.log('Start time:');
+    console.log(startTime);
+  } else if (request.msg === 'get') {
+    passedTime = Date.now() - startTime;
+    sendResponse({ time: passedTime });
+    console.log('Passed time:');
+    console.log(passedTime);
+  }
+});

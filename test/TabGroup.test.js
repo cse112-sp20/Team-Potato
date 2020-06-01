@@ -1,42 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import TabGroup from '../src/components/TabGroup';
 
 // Test 1
 test('renders without crashing', () => {
+  // tabs to put into tabgroup
   const tabslist = [
-    { name: 'test1', url: 'test1url' },
-    { name: 'test2', url: 'test2url' },
+    { name: 'test1', url: 'https://www.test1.com' },
+    { name: 'test2', url: 'https://www.test2.com' },
   ];
 
   const div = document.createElement('div');
-  ReactDOM.render(<TabGroup name="testgroup" tabs={tabslist} />, div);
+  ReactDOM.render(<TabGroup name="Test" tabs={tabslist} />, div);
 });
 
 // Test 2
 test('renders tab group correctly in menu view', () => {
   // tabs to put into tabgroup
   const tabslist = [
-    { name: 'test1', url: 'test1url' },
-    { name: 'test2', url: 'test2url' },
+    { name: 'test1', url: 'https://www.test1.com' },
+    { name: 'test2', url: 'https://www.test2.com' },
   ];
 
   const { getByText, getByTestId, getAllByTestId } = render(
-    <TabGroup name="testgroup" tabs={tabslist} view="menu" />
+    <TabGroup name="Test" tabs={tabslist} view="menu" />
   );
 
   // expect to see tabgroup
-  expect(getByText('testgroup')).toBeInTheDocument();
+  expect(getByText('Test')).toBeInTheDocument();
 
   // expect to see delete and edit buttons
   expect(getByTestId('delete-button')).toBeInTheDocument();
   expect(getByTestId('edit-button')).toBeInTheDocument();
 
   // expect to see 2 tabs in tabgroup
-  const tabs = getAllByTestId('tab-button');
+  const tabs = getAllByTestId('tab-container');
   expect(tabs.length).toEqual(2);
 });
 
@@ -44,17 +45,20 @@ test('renders tab group correctly in menu view', () => {
 test('renders tab group correctly in focus view', () => {
   // tabs to put into tabgroup
   const tabslist = [
-    { title: 'test1', url: 'test1url' },
-    { title: 'test2', url: 'test2url' },
+    { title: 'test1', url: 'https://www.test1.com' },
+    { title: 'test2', url: 'https://www.test2.com' },
   ];
 
   const { getByText, getByTestId } = render(
-    <TabGroup name="testgroup" tabs={tabslist} view="focus" />
+    <TabGroup name="Test" tabs={tabslist} view="focus" />
   );
 
   // expect to see tabgroup
-  expect(getByText('testgroup')).toBeInTheDocument();
+  expect(getByText('Test')).toBeInTheDocument();
 
   // expect to see focus button
   expect(getByTestId('focus-button')).toBeInTheDocument();
+
+  // click Open Menu button
+  fireEvent.click(getByTestId('focus-button'));
 });

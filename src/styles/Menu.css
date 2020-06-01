@@ -1,45 +1,45 @@
 body {
-    height: 100%;
-    overflow: hidden;
+  height: 100%;
+  overflow: hidden;
 }
 .addGroup {
-    padding: 0;
-    border: none;
-    background: none;
-    font-size: 50px;
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 50px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }
 
 .menuContainer {
-    margin: 0;
-    padding: 0;
-    display: flex;
+  margin: 0;
+  padding: 0;
+  display: flex;
 }
 
 .activeTabs {
-    margin: 1rem;
-    text-align: center;
-    max-height: 70vh;
-    height: auto;
-    overflow: auto;
+  margin: 1rem;
+  max-height: 70vh;
+  width: 270px;
+  height: auto;
 }
 
 .tabGroups {
-    margin: 1rem;
-    width: 80%;
+  margin: 1rem;
+  width: 80%;
 }
 
 .leftSideBar {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .savedTabs {
-    margin: 1rem;
-    text-align: center;
-    max-height: 30vh;
-    height: auto;
-    overflow: auto;
+  margin: 1rem;
+  text-align: center;
+  max-height: 30vh;
+  width: 270px;
+  height: auto;
+  overflow: auto;
 }

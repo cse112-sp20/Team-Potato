@@ -11,13 +11,17 @@ class Tab extends React.Component {
     Tab.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
+      favIconUrl: PropTypes.string,
+    };
+    Tab.defaultProps = {
+      favIconUrl: '',
     };
   }
 
   dragStart = (e) => {
     e.persist();
-    const { title, url } = this.props;
-    const tabObj = { title, url, id: e.target.id };
+    const { title, url, favIconUrl } = this.props;
+    const tabObj = { title, url, favIconUrl, id: e.target.id };
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
     setTimeout(() => {
       e.target.style.display = 'always';
@@ -33,6 +37,7 @@ class Tab extends React.Component {
   };
 
   getWebsite = (link) => {
+    if (!link) return null;
     const path = link.split('/');
     const protocol = path[0];
     const host = path[2];
@@ -56,30 +61,39 @@ class Tab extends React.Component {
   }
 
   render() {
-    const { title, url } = this.props;
+    const { title, url, favIconUrl } = this.props;
     return (
-      <div
-        id={uuid()}
-        draggable="true"
-        key={url}
-        onDragStart={this.dragStart}
-        onDragOver={this.dragOver}
-        className="tablink"
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
+      <OverlayTrigger
+        placement="bottom"
+        overlay={this.renderTooltip(title, url)}
       >
-        <OverlayTrigger
-          placement="bottom"
-          overlay={this.renderTooltip(title, url)}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
+        <div
+          id={uuid()}
+          role="button"
+          className="tabContainer"
+          draggable="true"
+          key={url}
+          onClick={() => this.openTab(url)}
+          onDragStart={this.dragStart}
+          onDragOver={this.dragOver}
+          data-testid="tab-container"
         >
-          <button
-            type="button"
-            className="button"
-            onClick={() => this.openTab(url)}
-            data-testid="tab-button"
-          >
+          <p className="tabTitle">
+            {favIconUrl !== '' && (
+              <img
+                className="tabFavIcon"
+                src={favIconUrl}
+                alt="favicon"
+                height="16"
+                width="16"
+              />
+            )}
             {title}
-          </button>
-        </OverlayTrigger>
-      </div>
+          </p>
+        </div>
+      </OverlayTrigger>
     );
   }
 }

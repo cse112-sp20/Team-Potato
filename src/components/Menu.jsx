@@ -33,24 +33,25 @@ class Menu extends React.Component {
   getActiveTabs = () => {
     const { excludeUrls } = this.state;
     chrome.tabs.query({}, (tabs) => {
-      const tempTabs = [];
+      const activeTabs = [];
 
       for (let i = 0; i < tabs.length; i += 1) {
         let addable = true;
-        for (let j = 0; j < tempTabs.length; j += 1) {
-          if (tabs[i].url === tempTabs[j].url) {
+        for (let j = 0; j < activeTabs.length; j += 1) {
+          if (tabs[i].url === activeTabs[j].url) {
             addable = false;
           }
         }
         if (addable && !excludeUrls.includes(tabs[i].url)) {
-          tempTabs.push({
+          activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
-            key: tabs[i].key,
+            favIconUrl: tabs[i].favIconUrl,
+            // key: tabs[i].key,
           });
         }
       }
-      this.setState({ activeTabs: tempTabs });
+      this.setState({ activeTabs });
     });
   };
 
@@ -106,7 +107,11 @@ class Menu extends React.Component {
         (tabGroup) => tabGroup.name === e.target.id
       );
 
-      const tabData = { title: tabObj.title, url: tabObj.url, key: tabObj.key };
+      const tabData = {
+        title: tabObj.title,
+        url: tabObj.url,
+        favIconUrl: tabObj.favIconUrl,
+      };
       let addable = true;
       for (let i = 0; i < tabGroups[index].tabs.length; i += 1) {
         if (tabGroups[index].tabs[i].url === tabObj.url) {
@@ -142,14 +147,30 @@ class Menu extends React.Component {
           selectedTabs.push(activeTabs[i]);
         }
       }
+      let count = 0;
+      let nameCheck = true;
+      let tempGroupName = groupName;
+      while (nameCheck) {
+        const index = tabGroups.findIndex(
+          (tabGroup) => tabGroup.name === tempGroupName
+        );
+        if (index === -1) {
+          nameCheck = false;
+        } else {
+          count += 1;
+          tempGroupName = groupName + count.toString();
+        }
+      }
+      groupName = tempGroupName;
+
       const newGroup = {
         name: groupName,
+        trackid: uuid(),
         tabs: selectedTabs,
       };
 
       tabGroups.push(newGroup);
       this.setState({ tabGroups });
-
       chrome.storage.sync.set({ tabGroups }, () => {});
 
       this.modalClose();
@@ -158,14 +179,31 @@ class Menu extends React.Component {
 
   deleteGroup = (target) => {
     let { tabGroups } = this.state;
-    tabGroups = tabGroups.filter((tabGroup) => tabGroup.name !== target);
+    tabGroups = tabGroups.filter((tabGroup) => tabGroup.trackid !== target);
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
   };
 
   editGroup = (target, newName) => {
     const { tabGroups } = this.state;
-    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === target);
+    const index = tabGroups.findIndex(
+      (tabGroup) => tabGroup.trackid === target
+    );
+    let count = 0;
+    if (tabGroups[index].name !== newName) {
+      let tempName = newName;
+      while (true) {
+        const i = tabGroups.findIndex((tabGroup) => tabGroup.name === tempName);
+        if (i === -1 || i === index) {
+          break;
+        } else {
+          count += 1;
+          tempName = newName + count.toString();
+        }
+      }
+      // eslint-disable-next-line no-param-reassign
+      newName = tempName;
+    }
     tabGroups[index].name = newName;
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
@@ -189,11 +227,15 @@ class Menu extends React.Component {
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
-              <Tab title={tab.title} url={tab.url} />
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                favIconUrl={tab.favIconUrl}
+              />
             ))}
           </div>
           {savedTabs.length !== 0 ? (
-            <div className="savedTabs">
+            <div className="savedTabs" data-testid="saved-tabs">
               <div className="savedTabsHeader">
                 <h2>Saved Tabs</h2>
                 <button type="button" onClick={this.deleteSavedTabs}>
@@ -204,7 +246,11 @@ class Menu extends React.Component {
                 </button>
               </div>
               {savedTabs.map((tab) => (
-                <Tab title={tab.title} url={tab.url} key={uuid()} />
+                <Tab
+                  title={tab.title}
+                  url={tab.url}
+                  favIconUrl={tab.favIconUrl}
+                />
               ))}
             </div>
           ) : null}
@@ -215,7 +261,8 @@ class Menu extends React.Component {
           {tabGroups.map((tabGroup) => (
             <TabGroup
               view="menu"
-              key={tabGroup.name}
+              key={tabGroup.trackid}
+              trackid={tabGroup.trackid}
               name={tabGroup.name}
               tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}

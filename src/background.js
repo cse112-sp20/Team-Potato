@@ -30,12 +30,13 @@ let passedTime;
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.msg === 'start') {
     startTime = Date.now();
-    console.log('Start time:');
-    console.log(startTime);
+    passedTime = 0;
+    // console.log('Start time:');
+    // console.log(startTime);
   } else if (request.msg === 'get') {
     passedTime = Date.now() - startTime;
     sendResponse({ time: passedTime });
-    console.log('Passed time:');
-    console.log(passedTime);
+    // console.log('Passed time:');
+    // console.log(passedTime);
   }
 });

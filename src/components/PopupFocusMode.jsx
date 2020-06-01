@@ -120,7 +120,7 @@ class PopupFocusMode extends React.Component {
                     const newTime = prompt('Enter new time in minutes: ', '60');
                     const parsedTime = parseInt(newTime, 10);
                     if (Number.isInteger(parsedTime) && parsedTime > 0) {
-                      chrome.runtime.sendMessage({ cmd: 'start' });
+                      chrome.runtime.sendMessage({ msg: 'start' });
                       const msInitClockTime = 60000 * parsedTime;
                       chrome.storage.sync.set({
                         initClockTime: msInitClockTime,

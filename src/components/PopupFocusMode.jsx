@@ -73,6 +73,13 @@ class PopupFocusMode extends React.Component {
       this.launchFocusMode();
     };
 
+    const getStartingTime = () => {
+      if (isFocusModeEnabled) {
+        return initClockTime;
+      }
+      return defaultTime;
+    };
+
     const getPassedTime = () => {
       chrome.runtime.sendMessage({ msg: 'get' }, (response) => {
         this.setState({ passedTime: response.time });
@@ -80,7 +87,7 @@ class PopupFocusMode extends React.Component {
       if (isFocusModeEnabled) {
         return initClockTime - passedTime;
       }
-      return defaultTime;
+      return getStartingTime();
     };
 
     return (
@@ -88,7 +95,7 @@ class PopupFocusMode extends React.Component {
         <h1>Focus Mode</h1>
         <Timer
           // Note this is only set ONCE
-          initialTime={defaultTime}
+          initialTime={getStartingTime()}
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
@@ -100,11 +107,12 @@ class PopupFocusMode extends React.Component {
               hideFocusMode();
             },
           }}
+          // timeToUpdate={100}
         >
           {({ start, stop, setTime, getTime }) => (
             <>
               <div>
-                {setTime(getPassedTime())}
+                {isFocusModeEnabled ? setTime(getPassedTime()) : null}
                 <button
                   className="clock"
                   type="button"

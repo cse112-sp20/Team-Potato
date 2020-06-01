@@ -1,7 +1,5 @@
 const psl = require('psl');
 
-console.log('hekko');
-
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
   chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
     // check if Focus Mode is on

@@ -17,6 +17,10 @@ class Menu extends React.Component {
       activeTabs: [],
       tabGroups: [],
       savedTabs: [],
+      excludeUrls: [
+        'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
+        'chrome://newtab/',
+      ],
     };
   }
 
@@ -27,6 +31,7 @@ class Menu extends React.Component {
   }
 
   getActiveTabs = () => {
+    const { excludeUrls } = this.state;
     chrome.tabs.query({}, (tabs) => {
       const activeTabs = [];
 
@@ -37,10 +42,11 @@ class Menu extends React.Component {
             addable = false;
           }
         }
-        if (addable) {
+        if (addable && !excludeUrls.includes(tabs[i].url)) {
           activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
+            favIconUrl: tabs[i].favIconUrl,
             // key: tabs[i].key,
           });
         }
@@ -184,10 +190,7 @@ class Menu extends React.Component {
       (tabGroup) => tabGroup.trackid === target
     );
     let count = 0;
-    if (tabGroups[index].name === newName) {
-      // eslint-disable-next-line no-param-reassign
-      newName = tabGroups[index].name;
-    } else {
+    if (tabGroups[index].name !== newName) {
       let tempName = newName;
       while (true) {
         const i = tabGroups.findIndex((tabGroup) => tabGroup.name === tempName);
@@ -232,7 +235,7 @@ class Menu extends React.Component {
             ))}
           </div>
           {savedTabs.length !== 0 ? (
-            <div className="savedTabs">
+            <div className="savedTabs" data-testid="saved-tabs">
               <div className="savedTabsHeader">
                 <h2>Saved Tabs</h2>
                 <button type="button" onClick={this.deleteSavedTabs}>

@@ -99,7 +99,7 @@ jobs:
           name: Activetab-test
           command: python test/active_tabs_issue\#33.py
       - run:
-          #testing to see duplicate tabs or tab groups will be avoided
+          #testing to see duplicate tabs or tab groups will be avoided (issue 103 105)
           name: Duplicate-prevention-test
           command: python test/no_duplicate_tabs_or_tab_groups_issue\#103_and_issue\#105.py
       - run:
@@ -107,7 +107,7 @@ jobs:
           name: Focus-popup-timer-test
           command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
       - run:
-          #testing to see if tabs will be saved after focus mode
+          #testing to see if tabs will be saved after focus mode (issue 98)
           name: Saving-tabs-test
           command: python test/saving_tabs_issue\#98.py
       - run:

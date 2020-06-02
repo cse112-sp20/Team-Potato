@@ -35,7 +35,7 @@ h2 {
 
 .activeTabs {
   overflow-y: hidden;
-  height: 85%;
+  height: 70%;
 }
 
 .activeTabs:hover {
@@ -67,4 +67,13 @@ h2 {
 
 .tabGroups:hover {
   overflow-y: auto;
+}
+
+.savedTabsDeleteButton {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.savedTabsOpenButton {
+  margin-bottom: 5px;
 }

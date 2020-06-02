@@ -265,10 +265,18 @@ class Menu extends React.Component {
               <div className="savedTabsContainer">
                 <div className="savedTabsHeader">
                   <h2>Saved Tabs</h2>
-                  <button type="button" onClick={this.deleteSavedTabs}>
+                  <button
+                    type="button"
+                    className="btn btn-primary savedTabsDeleteButton"
+                    onClick={this.deleteSavedTabs}
+                  >
                     Delete All
                   </button>
-                  <button type="button" onClick={this.openSavedTabs}>
+                  <button
+                    type="button"
+                    className="btn btn-primary savedTabsOpenButton"
+                    onClick={this.openSavedTabs}
+                  >
                     Open All
                   </button>
                 </div>

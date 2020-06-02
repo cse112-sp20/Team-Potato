@@ -122,10 +122,6 @@ jobs:
           #testing for website blocking issue 73 and 62
           name: Website-blocking-test
           command: python test/website_blocking_issue\#73_and_\#62.py
-      - run:
-          #testing for timer functionality issue 30
-          name: Focus-popup-timer-test
-          command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
       - persist_to_workspace:
           #save the nyc_output raw coverage repo to cache
           root: /home/circleci/project/project

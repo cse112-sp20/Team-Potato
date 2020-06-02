@@ -137,6 +137,7 @@ class TabGroup extends React.Component {
           <Card.Body id={name} droppable="true">
             {tabs.map((tab) => (
               <Tab
+                //key={tab.key}
                 title={tab.title}
                 url={tab.url}
                 favIconUrl={tab.favIconUrl}

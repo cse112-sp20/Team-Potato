@@ -256,6 +256,7 @@ class Menu extends React.Component {
                   <Tab
                     title={tab.title}
                     url={tab.url}
+                    stored="activeTabs"
                     favIconUrl={tab.favIconUrl}
                   />
                 ))}

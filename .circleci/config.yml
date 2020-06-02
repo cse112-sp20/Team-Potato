@@ -1,136 +1,168 @@
 version: 2.1
 
+#import the browser orbs because testing subject is chrome extension
 orbs:
   browser-tools: circleci/browser-tools@1.0.0
 
+#create multiple dockers for different job environment
 executors:
   nodejs:
+    #used for build and test coverage report
     docker:
       - image: circleci/node:latest
   python:
+    #user for selenium python testing
     docker:
       - image: circleci/python:3.7-browsers
 
 jobs:
   build:
+    #set up nodejs docker and directories
     executor: nodejs
     working_directory: /home/circleci/project
     steps:
       - checkout
       - run:
+          #install the latest npm
           name: update-npm
           command: sudo npm install -g npm@latest
       - run:
+          #install all the packages from package.json
           name: install-dependencies
           command: sudo npm install
       - run:
+          #audit package dependencies for security vulnerabilities
           name: Fix Vulnerabilities
           command: sudo npm audit fix
       - run:
+          #install selenium
           name: Install Selenium
           command: sudo npm install selenium-webdriver
       - run:
+          #build the dev branch which generate a build repo to be loaded as chrome extension
           name: Generate Build
           command: sudo npm run build-dev
       - run:
+          #download code climate test reporter to circle ci environment
           name: Download cc-test-reporter
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
       - run:
-          name: Download cc-test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run:
+          #visual test to see everything is setup
           name: check-repo
           command: ls
       - persist_to_workspace:
+          #save the build repo and test-reporter to cache
           root: /home/circleci
           paths:
             - project
 
   test:
+    #setup python docker and environment
     executor: python
     environment:
       CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
     steps:
       - checkout
+      #attach the build repo and test-reporter from previous job
       - attach_workspace:
           at: /home/circleci/project
+      #set up chrome for the environment
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
+          #visual check to see everything is in place
           name: check-checkout-repo
           command: |
             ls -a
             pwd
             ls -a project/
       - run:
+          #set up selenium for python environment
           name: Selenium-setup
           command: sudo pip install selenium
       - run:
+          #notify the test reporter that test is going to start
           name: Notify CC before tests
           command: ./project/cc-test-reporter before-build
       - run:
+          #create raw coverage repo to be cached for report
           name: Create a directory for raw coverage files
           command: mkdir ./project/.nyc_output
       - run:
+          #test if the envrionment is setup
           name: HelloWorld-test
           command: python test/hello_world_tests.py
       - run:
+          #testing to see active tab works with issue 33
           name: Activetab-test
           command: python test/active_tabs_issue\#33.py
       - run:
+          #testing for tabgroup issue 34
           name: Tabgroup-test
           command: python test/tabgroup_CRUD_issue\#34.py
       - run:
+          #testing for website blocking issue 73 and 62
           name: Website-blocking-test
           command: python test/website_blocking_issue\#73_and_\#62.py
       - run:
+          #testing for timer functionality issue 30
           name: Focus-popup-timer-test
           command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
       - persist_to_workspace:
+          #save the nyc_output raw coverage repo to cache
           root: /home/circleci/project/project
           paths:
             - .nyc_output
 
   upload-coverage:
+    #setup nodejs docker and environment
     executor: nodejs
     environment:
       CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
     steps:
       - checkout
+      #attach the nyc_output raw coverage repo from previous job
       - attach_workspace:
           at: /home/circleci/project
       - run:
+          #visual check to see everything is in place
           name: Check Directory Again
           command: |
             ls -a
             pwd
       - run:
+          #visual check for raw coverage report
           name: Show test coverage file
           command: |
             ls -la .nyc_output
       - run:
+          #install latest npm
           name: update-npm
           command: sudo npm install -g npm@latest
       - run:
+          #install all the packages from package.json
           name: install-dependencies
           command: sudo npm install
       - run:
+          #attach the build repo and test-reporter from previous job
           name: Fix Vulnerabilities
           command: sudo npm audit fix
       - run:
+          #take the raw report to generate code climate report
           name: Generate coverage report
           command: sudo npm run report
       - run:
+          #upload the code climate report
           name: Upload test report
           command: ./project/cc-test-reporter after-build --debug -t lcov
 
 workflows:
+  # version 2 is needed to specify circle ci version
   version: 2
   build_and_test:
+    # the order is build -> test -> upload-coverage
     jobs:
       - build
       - test:

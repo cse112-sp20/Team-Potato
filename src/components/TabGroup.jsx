@@ -4,7 +4,6 @@ import '../styles/TabGroup.css';
 import Card from 'react-bootstrap/Card';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { GrEdit } from 'react-icons/gr';
-import { v4 as uuid } from 'uuid';
 import Tab from './Tab';
 
 class TabGroup extends React.Component {
@@ -69,8 +68,7 @@ class TabGroup extends React.Component {
       drop,
       dragOver,
     } = this.props;
-    // eslint-disable-next-line no-unused-vars
-    const { editMode, nameChange, newName } = this.state;
+    const { editMode, newName } = this.state;
     return (
       <Card
         data-testid="tab-group"
@@ -90,13 +88,11 @@ class TabGroup extends React.Component {
                 this.setState({ newName: e.target.value });
               }}
               onKeyPress={(e) => {
-                this.setState({ nameChange: true });
                 if (e.key === 'Enter') {
                   if (name !== newName) {
                     editGroup(trackid, newName);
                   }
                   this.setState({ editMode: false });
-                  this.setState({ nameChange: false });
                 }
               }}
             />
@@ -142,7 +138,6 @@ class TabGroup extends React.Component {
           <Card.Body id={name} droppable="true">
             {tabs.map((tab) => (
               <Tab
-                //key={tab.key}
                 title={tab.title}
                 url={tab.url}
                 favIconUrl={tab.favIconUrl}

@@ -143,8 +143,9 @@ class Menu extends React.Component {
         }
       }
       chrome.storage.sync.set({ tabGroups });
+      this.setState({ tabGroups});
     }
-    this.componentDidMount();
+    this.getActiveTabs();
   };
 
   dragOver = (e) => {
@@ -247,7 +248,6 @@ class Menu extends React.Component {
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
               <Tab
-                //key={uuid()}
                 title={tab.title}
                 url={tab.url}
                 stored="activeTabs"
@@ -268,7 +268,6 @@ class Menu extends React.Component {
               </div>
               {savedTabs.map((tab) => (
                 <Tab
-                  //key={uuid()}
                   title={tab.title}
                   url={tab.url}
                   stored="activeTabs"

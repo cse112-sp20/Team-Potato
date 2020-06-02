@@ -11,6 +11,7 @@ class Tab extends React.Component {
     Tab.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
+      stored: PropTypes.string.isRequired,
       favIconUrl: PropTypes.string,
     };
     Tab.defaultProps = {
@@ -20,8 +21,8 @@ class Tab extends React.Component {
 
   dragStart = (e) => {
     e.persist();
-    const { title, url, favIconUrl } = this.props;
-    const tabObj = { title, url, favIconUrl, id: e.target.id };
+    const { title, url, stored, favIconUrl } = this.props;
+    const tabObj = { title, url, favIconUrl, id: e.target.id, stored };
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
     setTimeout(() => {
       e.target.style.display = 'always';
@@ -74,7 +75,6 @@ class Tab extends React.Component {
           role="button"
           className="tabContainer"
           draggable="true"
-          key={url}
           onClick={() => this.openTab(url)}
           onDragStart={this.dragStart}
           onDragOver={this.dragOver}

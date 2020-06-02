@@ -92,9 +92,11 @@ driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[1])
 driver.get("https://netflix.com")
 sleep(2)
-h1_blocking = driver.find_element_by_tag_name("h1")
-assert "This website is blocked" in h1_blocking.text, "Website not blocked"
+h1_blocking = driver.find_element_by_class_name("focusModeText")
+assert "You are in Focus Mode for" in h1_blocking.text, "Website not blocked"
 print("All Tests Passed")
 coverage_json_file = open("./project/.nyc_output/#73_#62.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()
+
+

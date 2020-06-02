@@ -124,9 +124,7 @@ class Menu extends React.Component {
         tab.style.display = 'block';
         // delete from the old TabGroup
         if (tabObj.stored !== 'activeTabs' && tabObj.stored !== 'savedTabs') {
-          const deleteGroup = tabGroups.findIndex(
-            (tabGroup) => tabGroup.trackid === tabObj.stored
-          );
+          const deleteGroup = tabGroups.findIndex((tabGroup) => tabGroup.trackid === tabObj.stored);
           const deleteIndex = tabGroups[deleteGroup].tabs.findIndex(
             (temp) => temp.url === tabObj.url
           );
@@ -145,8 +143,9 @@ class Menu extends React.Component {
         }
       }
       chrome.storage.sync.set({ tabGroups });
+      this.setState({ tabGroups});
     }
-    this.componentDidMount();
+    this.getActiveTabs();
   };
 
   dragOver = (e) => {

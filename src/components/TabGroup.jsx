@@ -38,7 +38,6 @@ class TabGroup extends React.Component {
     };
 
     this.state = {
-      nameChange: false,
       editMode: false,
       // eslint-disable-next-line react/destructuring-assignment
       newName: this.props.name,

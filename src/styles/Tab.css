@@ -6,7 +6,6 @@ body {font-family: "Lato", sans-serif;}
     text-align: left;
     color: white;
     float: left;
-    border: none;
     border-radius: 10px;
     outline: none;
     cursor: pointer;
@@ -33,6 +32,19 @@ body {font-family: "Lato", sans-serif;}
     text-align: left;
     font-size: 11px;
     overflow: hidden;
-    padding-right: 20px;
+    margin-right: 20px;
     text-overflow: ellipsis;
 }
+
+.closeButton {
+    z-index: 1001;
+    float: right;
+    margin: -42px 5px 0 0;
+    color: white;
+    font-size: 20px;
+}
+
+.closeButton:hover {
+    color: black;
+}
+

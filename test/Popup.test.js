@@ -24,8 +24,8 @@ test('renders popup correctly', () => {
       {
         name: 'Test',
         tabs: [
-          { title: 'test1', url: 'test1url' },
-          { title: 'test2', url: 'test2url' },
+          { title: 'test1', url: 'https://www.test1.com' },
+          { title: 'test2', url: 'https://www.test2.com' },
         ],
       },
     ],
@@ -44,7 +44,7 @@ test('renders popup correctly', () => {
 
 // Test 3
 test('displays focus mode popup when focus button clicked', () => {
-  // don't display focus mode
+  // don't display focus mode initially
   chrome.storage.sync.set({
     shouldDisplayFocusMode: false,
   });
@@ -52,8 +52,7 @@ test('displays focus mode popup when focus button clicked', () => {
   const { getByRole, getByTestId } = render(<Popup />);
 
   // click focus button
-  const focusButton = getByTestId('focus-button');
-  fireEvent.click(focusButton);
+  fireEvent.click(getByTestId('focus-button'));
 
   // expect to see Start Focus button
   const startFocusButton = getByRole('button', { name: 'Start\nFocus' });
@@ -66,7 +65,7 @@ test('displays focus mode popup when focus button clicked', () => {
 
 // Test 4
 test('displays popup when Go Back button clicked in focus mode popup', () => {
-  // display focus mode
+  // display focus mode initially
   chrome.storage.sync.set({
     shouldDisplayFocusMode: true,
   });
@@ -79,8 +78,7 @@ test('displays popup when Go Back button clicked in focus mode popup', () => {
   fireEvent.click(goBackButton);
 
   // expect to see focus button
-  const focusButton = getByTestId('focus-button');
-  expect(focusButton).toBeInTheDocument();
+  expect(getByTestId('focus-button')).toBeInTheDocument();
 });
 
 // Test 5
@@ -89,7 +87,7 @@ test('starts and ends focus mode correctly', () => {
   chrome.storage.sync.set({
     shouldDisplayFocusMode: true,
     focusedTabGroupName: 'Test',
-    focusedTabGroupUrls: ['testurl'],
+    focusedTabGroupUrls: ['https://test1.com'],
   });
 
   const { getByRole } = render(<Popup />);
@@ -98,8 +96,8 @@ test('starts and ends focus mode correctly', () => {
   const startFocusButton = getByRole('button', { name: 'Start\nFocus' });
   fireEvent.click(startFocusButton);
 
-  // expect tab in tabgroup with url 'testurl' to be created
-  expect(chrome.tabs.create).toHaveBeenCalledWith({ url: 'testurl' });
+  // expect tab in tabgroup with url 'https://test1.com' to be created
+  expect(chrome.tabs.create).toHaveBeenCalledWith({ url: 'https://test1.com' });
 
   // click End Focus button
   const endFocusButton = getByRole('button', { name: 'End\nFocus' });

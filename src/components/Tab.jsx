@@ -12,16 +12,27 @@ class Tab extends React.Component {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
       favIconUrl: PropTypes.string,
+      groupName: PropTypes.string,
+      removeTab: PropTypes.func,
     };
     Tab.defaultProps = {
       favIconUrl: '',
+      groupName: '',
+      removeTab: () => {},
     };
   }
 
   dragStart = (e) => {
     e.persist();
-    const { title, url, favIconUrl } = this.props;
-    const tabObj = { title, url, favIconUrl, id: e.target.id };
+    const { title, url, favIconUrl, groupName, removeTab } = this.props;
+    const tabObj = {
+      title,
+      url,
+      favIconUrl,
+      groupName,
+      removeTab,
+      id: e.target.id,
+    };
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
     setTimeout(() => {
       e.target.style.display = 'always';
@@ -37,6 +48,7 @@ class Tab extends React.Component {
   };
 
   getWebsite = (link) => {
+    if (!link) return null;
     const path = link.split('/');
     const protocol = path[0];
     const host = path[2];
@@ -60,7 +72,7 @@ class Tab extends React.Component {
   }
 
   render() {
-    const { title, url, favIconUrl } = this.props;
+    const { title, url, favIconUrl, groupName, removeTab } = this.props;
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
       <OverlayTrigger
@@ -74,12 +86,11 @@ class Tab extends React.Component {
           className="tabContainer"
           draggable="true"
           key={url}
-          onClick={() => this.openTab(url)}
           onDragStart={this.dragStart}
           onDragOver={this.dragOver}
           data-testid="tab-container"
         >
-          <p className="tabTitle">
+          <p className="tabTitle" onClick={() => this.openTab(url)}>
             {favIconUrl !== '' && (
               <img
                 className="tabFavIcon"
@@ -91,6 +102,12 @@ class Tab extends React.Component {
             )}
             {title}
           </p>
+          <div
+            className="closeButton"
+            onClick={() => removeTab(groupName, url)}
+          >
+            {groupName !== '' && <p>x</p>}
+          </div>
         </div>
       </OverlayTrigger>
     );

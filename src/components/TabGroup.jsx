@@ -142,25 +142,14 @@ class TabGroup extends React.Component {
         {view === 'menu' ? (
           <Card.Body id={name} droppable="true">
             {tabs.map((tab) => (
-              <div className="buttonHolder">
-                <div className="tabHolder">
-                  <Tab
-                    title={tab.title}
-                    url={tab.url}
-                    favIconUrl={tab.favIconUrl}
-                    key={uuid()}
-                  />
-                </div>
-                <div className="close">
-                  <button
-                    type="button"
-                    className="close_button"
-                    onClick={() => removeTab(name, tab.url)}
-                  >
-                    x
-                  </button>
-                </div>
-              </div>
+              <Tab
+                title={tab.title}
+                url={tab.url}
+                favIconUrl={tab.favIconUrl}
+                groupName={name}
+                removeTab={removeTab}
+                key={uuid()}
+              />
             ))}
           </Card.Body>
         ) : null}

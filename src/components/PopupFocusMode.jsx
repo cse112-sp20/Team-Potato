@@ -85,7 +85,11 @@ class PopupFocusMode extends React.Component {
         this.setState({ passedTime: response.time });
       });
       if (isFocusModeEnabled) {
-        return initClockTime - passedTime;
+        const newClockTime = initClockTime - passedTime;
+        if (newClockTime > 0) {
+          return newClockTime;
+        }
+        return 0;
       }
       return getStartingTime();
     };
@@ -105,6 +109,7 @@ class PopupFocusMode extends React.Component {
               // TODO: check if this works when extension isn't open, may need to check with background.js
               endFocusMode();
               hideFocusMode();
+              // this.props.stop();
             },
           }}
           // timeToUpdate={100}

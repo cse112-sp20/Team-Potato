@@ -5,13 +5,13 @@
 layout: default
 ---
 
-# Tired of too many tabs?
+<!-- # Tired of too many tabs?
 
 ![chaotic tabs](/assets/tab0-chaotic tabs.PNG){:height="50px" width="4000px"}
 
----
+--- -->
 
-# A one stop solution for avoiding distraction while working
+# A one stop solution for avoiding distraction while working.
 
 ![idea](/assets/idea.PNG)
 
@@ -23,7 +23,7 @@ layout: default
 2.  Unzip the file.
 3.  Type in "chrome://extension" on search bar of your chrome.
 4.  Toggle on Developer Mode by clicking the toggle switch on the top right corner of the page. (You should be able to see an extra white bar show up right below the blue bar)
-5.  Ckick in the LOAD UNPACKED button and select the ../eam-Potato/build folder of the file.
+5.  Click on the LOAD UNPACKED button and select the ../Team-Potato/build folder of the file.
 6.  Potato Tab is ready to go.
 
 ---
@@ -59,7 +59,7 @@ layout: default
 
 - What if you want to add new tabs into a group?
 
-### - We got you covered with easy to use drag and drop function!
+- We got you covered with easy to use drag and drop function!
 
 ![drag & drop](/assets/tab5-grouped tabs.PNG)
 

@@ -17,6 +17,7 @@ class Menu extends React.Component {
       activeTabs: [],
       tabGroups: [],
       savedTabs: [],
+      interval: 0,
       excludeUrls: [
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
         'chrome://newtab/',
@@ -28,6 +29,11 @@ class Menu extends React.Component {
     this.getActiveTabs();
     this.getTabGroups();
     this.getSavedTabs();
+    this.setInterval();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
   }
 
   getActiveTabs = () => {
@@ -91,6 +97,7 @@ class Menu extends React.Component {
   };
 
   drop = (e) => {
+    this.clearInterval();
     const { tabGroups } = this.state;
     if (
       e.target === undefined ||
@@ -147,14 +154,17 @@ class Menu extends React.Component {
       chrome.storage.sync.set({ tabGroups });
       this.setState({ tabGroups });
     }
-    this.getActiveTabs();
+    this.setInterval();
   };
 
   dragOver = (e) => {
+    this.clearInterval();
     e.preventDefault();
+    this.setInterval();
   };
 
   addGroup = (e) => {
+    this.clearInterval();
     if (e.type === 'submit') {
       e.preventDefault();
       const { activeTabs, tabGroups } = this.state;
@@ -197,6 +207,7 @@ class Menu extends React.Component {
 
       this.modalClose();
     }
+    this.setInterval();
   };
 
   deleteGroup = (target) => {
@@ -207,6 +218,7 @@ class Menu extends React.Component {
   };
 
   editGroup = (target, newName) => {
+    this.clearInterval();
     const { tabGroups } = this.state;
     const index = tabGroups.findIndex(
       (tabGroup) => tabGroup.trackid === target
@@ -229,6 +241,7 @@ class Menu extends React.Component {
     tabGroups[index].name = newName;
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
+    this.setInterval();
   };
 
   removeTab = (name, url) => {
@@ -239,6 +252,14 @@ class Menu extends React.Component {
     );
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
+  };
+
+  setInterval = () => {
+    this.state.interval = setInterval(this.getActiveTabs, 1000);
+  };
+
+  clearInterval = () => {
+    clearInterval(this.state.interval);
   };
 
   modalClose = () => {

@@ -52,7 +52,7 @@ class PopupFocusMode extends React.Component {
 
     return (
       <div className="popupFocusMode">
-        <h1>Focus Mode</h1>
+        <div className="popupFocusModeTitle">Focus Mode</div>
         <Timer
           initialTime={defaultTime}
           direction="backward"
@@ -61,16 +61,19 @@ class PopupFocusMode extends React.Component {
         >
           {({ start, stop }) => (
             <>
-              <div>
+              <div className="popupFocusModeTimer">
                 <Timer.Hours />
                 :
                 <Timer.Minutes />
                 :
                 <Timer.Seconds />
               </div>
-              <h1>{tabGroupName}</h1>
-              <div className="btnContainer">
+
+              <div className="popupFocusModeTabGroupName">{tabGroupName}</div>
+
+              <div className="popupFocusModeBtnContainer">
                 <button
+                  className="popupFocusModeButton btn btn-primary"
                   type="button"
                   onClick={() => {
                     if (isFocusModeEnabled) {
@@ -95,9 +98,10 @@ class PopupFocusMode extends React.Component {
             </>
           )}
         </Timer>
-        <br />
+
         {isFocusModeEnabled ? null : (
           <button
+            className="popupFocusModeBackButton btn btn-secondary"
             type="button"
             onClick={() => {
               const { hideFocusMode } = this.props;

@@ -47,7 +47,7 @@ class Menu extends React.Component {
             title: tabs[i].title,
             url: tabs[i].url,
             favIconUrl: tabs[i].favIconUrl,
-            // key: tabs[i].key,
+            stored: tabs[i].stored,
           });
         }
       }
@@ -92,8 +92,10 @@ class Menu extends React.Component {
 
   drop = (e) => {
     const { tabGroups } = this.state;
-    const droppable = e.target.attributes.getNamedItem('droppable').value;
-    if (droppable !== 'true' || e.target === undefined) {
+    if (
+      e.target === undefined ||
+      e.target.attributes.getNamedItem('droppable').value !== 'true'
+    ) {
       e.preventDefault();
       e.dataTransfer.effectAllowed = 'none';
       e.dataTransfer.dropEffect = 'none';
@@ -102,14 +104,13 @@ class Menu extends React.Component {
       const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
       const tab = document.getElementById(tabObj.id);
-
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
-
       const tabData = {
         title: tabObj.title,
         url: tabObj.url,
+        stored: tabGroups[index].trackid,
         favIconUrl: tabObj.favIconUrl,
       };
       let addable = true;
@@ -121,10 +122,30 @@ class Menu extends React.Component {
       if (addable === true) {
         tabGroups[index].tabs.push(tabData);
         tab.style.display = 'block';
-        e.target.appendChild(tab);
+        // delete from the old TabGroup
+        if (tabObj.stored !== 'activeTabs' && tabObj.stored !== 'savedTabs') {
+          const deleteGroup = tabGroups.findIndex((tabGroup) => tabGroup.trackid === tabObj.stored);
+          const deleteIndex = tabGroups[deleteGroup].tabs.findIndex(
+            (temp) => temp.url === tabObj.url
+          );
+          const updatedTabs = [];
+          for (let i = 0; i < tabGroups[deleteGroup].tabs.length; i += 1) {
+            if (i !== deleteIndex) {
+              updatedTabs.push({
+                title: tabGroups[deleteGroup].tabs[i].title,
+                url: tabGroups[deleteGroup].tabs[i].url,
+                stored: tabGroups[deleteGroup].tabs[i].stored,
+                favIconUrl: tabGroups[deleteGroup].tabs[i].favIconUrl,
+              });
+            }
+          }
+          tabGroups[deleteGroup].tabs = updatedTabs;
+        }
       }
       chrome.storage.sync.set({ tabGroups });
+      this.setState({ tabGroups});
     }
+    this.getActiveTabs();
   };
 
   dragOver = (e) => {
@@ -162,7 +183,6 @@ class Menu extends React.Component {
         }
       }
       groupName = tempGroupName;
-
       const newGroup = {
         name: groupName,
         trackid: uuid(),
@@ -231,15 +251,17 @@ class Menu extends React.Component {
           <div
             id="activeTabs"
             className="activeTabs"
-            droppable="true"
+            droppable="false"
             onDrop={this.drop}
             onDragOver={this.dragOver}
           >
             <h2>Active Tabs</h2>
             {activeTabs.map((tab) => (
               <Tab
+                //key={uuid()}
                 title={tab.title}
                 url={tab.url}
+                stored="activeTabs"
                 favIconUrl={tab.favIconUrl}
               />
             ))}
@@ -257,8 +279,10 @@ class Menu extends React.Component {
               </div>
               {savedTabs.map((tab) => (
                 <Tab
+                  //key={uuid()}
                   title={tab.title}
                   url={tab.url}
+                  stored="activeTabs"
                   favIconUrl={tab.favIconUrl}
                 />
               ))}

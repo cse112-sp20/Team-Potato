@@ -18,6 +18,7 @@ class TabGroup extends React.Component {
         PropTypes.shape({
           title: PropTypes.string.isRequired,
           url: PropTypes.string.isRequired,
+          stored: PropTypes.string.isRequired,
           favIconUrl: PropTypes.string,
         })
       ).isRequired,
@@ -40,7 +41,6 @@ class TabGroup extends React.Component {
     };
 
     this.state = {
-      nameChange: false,
       editMode: false,
       // eslint-disable-next-line react/destructuring-assignment
       newName: this.props.name,
@@ -71,7 +71,7 @@ class TabGroup extends React.Component {
       drop,
       dragOver,
     } = this.props;
-    const { editMode, nameChange, newName } = this.state;
+    const { editMode, newName } = this.state;
     return (
       <Card
         data-testid="tab-group"
@@ -91,13 +91,11 @@ class TabGroup extends React.Component {
                 this.setState({ newName: e.target.value });
               }}
               onKeyPress={(e) => {
-                this.setState({ nameChange: true });
                 if (e.key === 'Enter') {
                   if (name !== newName) {
                     editGroup(trackid, newName);
                   }
                   this.setState({ editMode: false });
-                  this.setState({ nameChange: false });
                 }
               }}
             />
@@ -149,6 +147,7 @@ class TabGroup extends React.Component {
                 groupName={name}
                 removeTab={removeTab}
                 key={uuid()}
+                stored={trackid}
               />
             ))}
           </Card.Body>

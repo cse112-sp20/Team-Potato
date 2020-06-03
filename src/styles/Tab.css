@@ -3,9 +3,9 @@ body {font-family: "Lato", sans-serif;}
 .tabContainer {
     position: relative;
     background-color: #555;
+    text-align: left;
     color: white;
     float: left;
-    border: none;
     border-radius: 10px;
     outline: none;
     cursor: pointer;
@@ -31,4 +31,20 @@ body {font-family: "Lato", sans-serif;}
 .tabTitle {
     text-align: left;
     font-size: 11px;
+    overflow: hidden;
+    margin-right: 20px;
+    text-overflow: ellipsis;
 }
+
+.closeButton {
+    z-index: 1001;
+    float: right;
+    margin: -42px 5px 0 0;
+    color: white;
+    font-size: 20px;
+}
+
+.closeButton:hover {
+    color: black;
+}
+

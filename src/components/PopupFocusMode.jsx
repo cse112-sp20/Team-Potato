@@ -1,3 +1,14 @@
+/**
+ *  @fileOverview Component for the Focus Mode Popup, which includes the timer,
+ *                buttons to start and end focus mode, and current tabgroup.
+ *
+ *  @author       Gary Chew
+ *  @author       Christopher Yeh
+ *
+ *  @requires     NPM:react,prop-types,react-compound-timer
+ *  @requires     ../styles/PopupFocusMode.css
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Timer from 'react-compound-timer';

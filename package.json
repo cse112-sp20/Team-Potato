@@ -91,6 +91,8 @@
     "bootstrap": "^4.5.0",
     "chromedriver": "^81.0.0",
     "debug": "^4.1.1",
+    "gulp-shell": "^0.8.0",
+    "jsdoc": "^3.6.4",
     "prop-types": "^15.7.2",
     "psl": "^1.8.0",
     "react": "^16.13.1",

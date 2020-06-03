@@ -11,6 +11,7 @@ class Tab extends React.Component {
     Tab.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
+      stored: PropTypes.string.isRequired,
       favIconUrl: PropTypes.string,
       groupName: PropTypes.string,
       removeTab: PropTypes.func,
@@ -24,7 +25,7 @@ class Tab extends React.Component {
 
   dragStart = (e) => {
     e.persist();
-    const { title, url, favIconUrl, groupName, removeTab } = this.props;
+    const { title, url, favIconUrl, groupName, removeTab, stored } = this.props;
     const tabObj = {
       title,
       url,
@@ -32,6 +33,7 @@ class Tab extends React.Component {
       groupName,
       removeTab,
       id: e.target.id,
+      stored,
     };
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
     setTimeout(() => {

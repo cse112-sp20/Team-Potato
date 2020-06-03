@@ -117,13 +117,10 @@ class PopupFocusMode extends React.Component {
           checkpoints={{
             time: 0,
             callback: () => {
-              // TODO: check if this works when extension isn't open, may need to check with background.js
               endFocusMode();
               hideFocusMode();
-              // this.props.stop();
             },
           }}
-          // timeToUpdate={100}
         >
           {({ start, stop, setTime, getTime }) => (
             <>
@@ -132,12 +129,13 @@ class PopupFocusMode extends React.Component {
                   className="clock"
                   type="button"
                   onClick={() => {
+                    // Clicking timer will prompt user to set custom time.
                     const newTime = prompt('Enter new time in minutes: ', '60');
                     const parsedTime = parseInt(newTime, 10);
                     if (
                       Number.isInteger(parsedTime) &&
                       parsedTime > 0 &&
-                      parsedTime <= 1440
+                      parsedTime < 1440
                     ) {
                       chrome.runtime.sendMessage({ msg: 'start' });
                       const msInitClockTime = 60000 * parsedTime;
@@ -177,7 +175,7 @@ class PopupFocusMode extends React.Component {
                   {buttonText}
                 </button>
                 {isFocusModeEnabled ? (
-                  [start(), setTime(getPassedTime())]
+                  [start(), setTime(getPassedTime())] // Where we get time from background
                 ) : (
                   <button
                     type="button"

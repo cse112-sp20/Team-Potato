@@ -240,7 +240,7 @@ class Menu extends React.Component {
     return (
       <div className="container-fluid maxHeight">
         <div className="row maxHeight">
-          <div className="col-2 leftSideBar maxHeight">
+          <div className="col-6 col-sm-4 col-md-3 col-lg-2 leftSideBar maxHeight">
             <div className="activeTabsContainer">
               <div className="activeTabsHeader">
                 <h2>Active Tabs</h2>
@@ -294,7 +294,7 @@ class Menu extends React.Component {
               </div>
             ) : null}
           </div>
-          <div className="col-10 content maxHeight">
+          <div className="col-6 col-sm-8 col-md-9 col-lg-10 content maxHeight">
             <div className="tabGroupsContainer">
               <div className="tabGroupsHeader">
                 <h2>Tab Groups</h2>

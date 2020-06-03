@@ -1,13 +1,37 @@
+/**
+ * @fileOverview This file contains Tab object and along side with its
+ *               functionalities, including drag, click, and render
+ *
+ * @author      David Dai
+ * @author      Gary Chew
+ * @author      Chau Vu
+ * @author      Fernando Vazquez
+ *
+ * @requires    NPM: react, prop-types, uuid, react-bootstrap
+ * @requires    ../styles/Tab.css
+ */
+
 import React from 'react';
 import '../styles/Tab.css';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
+/**
+ * A class to represent Tab components
+ * @class
+ */
 class Tab extends React.Component {
+  /**
+   * @constructor
+   *
+   * @property  title:      the title of the website
+   * @property  url:        the url of the website
+   * @property  stored:     the location where this tab is currently attached
+   * @property  favIconUrl: the url for the favicon
+   */
   constructor(props) {
     super(props);
-
     Tab.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
@@ -19,21 +43,36 @@ class Tab extends React.Component {
     };
   }
 
+  /**
+   * Get the information when the tab start to be dragged
+   * @param  {Tab} e   the tab that is being dragged
+   */
   dragStart = (e) => {
     e.persist();
     const { title, url, stored, favIconUrl } = this.props;
     const tabObj = { title, url, favIconUrl, id: e.target.id, stored };
+    /** pass information to drop in menu.jsx as JSON */
     e.dataTransfer.setData('text', JSON.stringify(tabObj));
+    /** to have the tab showing before dragged to a confirmed location */
     setTimeout(() => {
       e.target.style.display = 'always';
     }, 0);
   };
 
+  /**
+   *  prevents propagation of the same event from being called
+   *  @param   {Tab} e   the tab that is being dragged
+   */
   dragOver = (e) => {
     e.stopPropagation();
   };
 
+  /**
+   * Open the link url attached to the Tab
+   * @param     {string} link   the url of the Tab
+   */
   openTab = (link) => {
+    /** opens the link in a new window */
     window.open(link, '_blank');
   };
 
@@ -61,6 +100,11 @@ class Tab extends React.Component {
     );
   }
 
+  /**
+   * How the Tab is rendered
+   *
+   * @returns {*}
+   */
   render() {
     const { title, url, favIconUrl } = this.props;
     return (

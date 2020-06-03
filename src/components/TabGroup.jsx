@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { GrEdit } from 'react-icons/gr';
+import { v4 as uuid } from 'uuid';
 import Tab from './Tab';
 import '../styles/TabGroup.css';
 
@@ -56,6 +57,7 @@ class TabGroup extends React.Component {
       ).isRequired,
       deleteGroup: PropTypes.func,
       editGroup: PropTypes.func,
+      removeTab: PropTypes.func,
       displayFocusMode: PropTypes.func,
       drop: PropTypes.func,
       dragOver: PropTypes.func,
@@ -64,6 +66,7 @@ class TabGroup extends React.Component {
     TabGroup.defaultProps = {
       deleteGroup: () => {},
       editGroup: () => {},
+      removeTab: () => {},
       drop: () => {},
       dragOver: () => {},
       displayFocusMode: () => {},
@@ -106,6 +109,7 @@ class TabGroup extends React.Component {
       tabs,
       deleteGroup,
       editGroup,
+      removeTab,
       view,
       drop,
       dragOver,
@@ -183,6 +187,9 @@ class TabGroup extends React.Component {
                 title={tab.title}
                 url={tab.url}
                 favIconUrl={tab.favIconUrl}
+                groupName={name}
+                removeTab={removeTab}
+                key={uuid()}
                 stored={trackid}
               />
             ))}

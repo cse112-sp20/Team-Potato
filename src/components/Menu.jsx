@@ -72,6 +72,7 @@ class Menu extends React.Component {
         for (let j = 0; j < activeTabs.length; j += 1) {
           if (tabs[i].url === activeTabs[j].url) {
             addable = false;
+            break;
           }
         }
         /** only if not in the excluded urls and no redundancy, it is added */
@@ -359,6 +360,26 @@ class Menu extends React.Component {
     chrome.storage.sync.set({ tabGroups });
   };
 
+
+  /**
+   * remove a tab from a tabgroup given its TabGroup name and tab's url
+   *
+   * @param {string} name   the name of the tabgroup to delete the tab from
+   * @param {string} url    the url of the tab
+   */
+  removeTab = (name, url) => {
+    const { tabGroups } = this.state;
+    /** find the corresponding tabGroup */
+    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === name);
+    /** filter out the corresponding tab that has the same url as url passed in */
+    tabGroups[index].tabs = tabGroups[index].tabs.filter(
+      (tabGroup) => tabGroup.url !== url
+    );
+    /** update the state and chrome storage */
+    this.setState({ tabGroups });
+    chrome.storage.sync.set({ tabGroups });
+  };
+
   /**
    * close the modal when the add group modal is closed
    */
@@ -374,35 +395,82 @@ class Menu extends React.Component {
   render() {
     const { addGroupModal, activeTabs, tabGroups, savedTabs } = this.state;
     return (
-      <div className="menuContainer">
-        <div className="leftSideBar">
-          <div
-            id="activeTabs"
-            className="activeTabs"
-            droppable="false"
-            onDrop={this.drop}
-            onDragOver={this.dragOver}
-          >
-            <h2>Active Tabs</h2>
-            {activeTabs.map((tab) => (
-              <Tab
-                title={tab.title}
-                url={tab.url}
-                stored="activeTabs"
-                favIconUrl={tab.favIconUrl}
-              />
-            ))}
+      <div className="container-fluid maxHeight">
+        <div className="row maxHeight">
+          <div className="col-6 col-sm-4 col-md-3 col-lg-2 leftSideBar maxHeight">
+            <div className="activeTabsContainer">
+              <div className="activeTabsHeader">
+                <h2>Active Tabs</h2>
+              </div>
+              <div
+                id="activeTabs"
+                className="activeTabs"
+                droppable="false"
+                onDrop={this.drop}
+                onDragOver={this.dragOver}
+              >
+                {activeTabs.map((tab) => (
+                  <Tab
+                    title={tab.title}
+                    url={tab.url}
+                    stored="activeTabs"
+                    favIconUrl={tab.favIconUrl}
+                  />
+                ))}
+              </div>
+            </div>
+            {savedTabs.length !== 0 ? (
+              <div className="savedTabsContainer">
+                <div className="savedTabsHeader">
+                  <h2>Saved Tabs</h2>
+                  <button
+                    type="button"
+                    className="btn btn-primary savedTabsDeleteButton"
+                    onClick={this.deleteSavedTabs}
+                  >
+                    Delete All
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary savedTabsOpenButton"
+                    onClick={this.openSavedTabs}
+                  >
+                    Open All
+                  </button>
+                </div>
+                <div className="savedTabs">
+                  {savedTabs.map((tab) => (
+                    <Tab
+                      title={tab.title}
+                      url={tab.url}
+                      stored="activeTabs"
+                      favIconUrl={tab.favIconUrl}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
-          {savedTabs.length !== 0 ? (
-            <div className="savedTabs" data-testid="saved-tabs">
-              <div className="savedTabsHeader">
-                <h2>Saved Tabs</h2>
-                <button type="button" onClick={this.deleteSavedTabs}>
-                  Delete All
-                </button>
-                <button type="button" onClick={this.openSavedTabs}>
-                  Open All
-                </button>
+          <div className="col-6 col-sm-8 col-md-9 col-lg-10 content maxHeight">
+            <div className="tabGroupsContainer">
+              <div className="tabGroupsHeader">
+                <h2>Tab Groups</h2>
+              </div>
+              <div className="tabGroups">
+                {tabGroups.map((tabGroup) => (
+                  <TabGroup
+                    view="menu"
+                    key={tabGroup.trackid}
+                    trackid={tabGroup.trackid}
+                    name={tabGroup.name}
+                    tabs={tabGroup.tabs}
+                    deleteGroup={this.deleteGroup}
+                    editGroup={this.editGroup}
+                    removeTab={this.removeTab}
+                    drop={this.drop}
+                    dragOver={this.dragOver}
+                  />
+                ))}
               </div>
               {savedTabs.map((tab) => (
                 <Tab
@@ -414,35 +482,18 @@ class Menu extends React.Component {
                 />
               ))}
             </div>
-          ) : null}
+            <button
+              className="addGroup"
+              type="button"
+              onClick={() => {
+                this.setState({ addGroupModal: true });
+              }}
+              data-testid="add-button"
+            >
+              <IoMdAddCircle />
+            </button>
+          </div>
         </div>
-
-        <div className="tabGroups">
-          <h2>Tab Groups</h2>
-          {tabGroups.map((tabGroup) => (
-            <TabGroup
-              view="menu"
-              key={tabGroup.trackid}
-              trackid={tabGroup.trackid}
-              name={tabGroup.name}
-              tabs={tabGroup.tabs}
-              deleteGroup={this.deleteGroup}
-              editGroup={this.editGroup}
-              drop={this.drop}
-              dragOver={this.dragOver}
-            />
-          ))}
-        </div>
-        <button
-          className="addGroup"
-          type="button"
-          onClick={() => {
-            this.setState({ addGroupModal: true });
-          }}
-          data-testid="add-button"
-        >
-          <IoMdAddCircle />
-        </button>
 
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>

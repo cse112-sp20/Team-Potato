@@ -229,6 +229,16 @@ class Menu extends React.Component {
     chrome.storage.sync.set({ tabGroups });
   };
 
+  removeTab = (name, url) => {
+    const { tabGroups } = this.state;
+    const index = tabGroups.findIndex((tabGroup) => tabGroup.name === name);
+    tabGroups[index].tabs = tabGroups[index].tabs.filter(
+      (tabGroup) => tabGroup.url !== url
+    );
+    this.setState({ tabGroups });
+    chrome.storage.sync.set({ tabGroups });
+  };
+
   modalClose = () => {
     this.setState({ addGroupModal: false });
   };
@@ -291,6 +301,7 @@ class Menu extends React.Component {
               tabs={tabGroup.tabs}
               deleteGroup={this.deleteGroup}
               editGroup={this.editGroup}
+              removeTab={this.removeTab}
               drop={this.drop}
               dragOver={this.dragOver}
             />

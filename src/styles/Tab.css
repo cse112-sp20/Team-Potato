@@ -4,9 +4,9 @@ body {font-family: "Lato", sans-serif;}
 .tabContainer {
     position: relative;
     background-color: #555;
+    text-align: left;
     color: white;
     float: left;
-    border: none;
     border-radius: 10px;
     outline: none;
     cursor: pointer;
@@ -62,4 +62,16 @@ body {
 
 .tabContainer:hover {
   background-color: #777;
+}
+
+.closeButton {
+  z-index: 1001;
+  float: right;
+  margin: -40px 10px 0 0;
+  color: white;
+  font-size: 20px;
+}
+
+.closeButton:hover {
+  color: black;
 }

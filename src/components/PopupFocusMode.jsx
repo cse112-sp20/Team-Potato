@@ -46,7 +46,9 @@ class PopupFocusMode extends React.Component {
       const { tabGroupUrls } = this.props;
       // Open tabs in tab group
       tabGroupUrls.forEach((tabUrl) => {
-        chrome.tabs.create({ url: tabUrl });
+        if(tabUrl !== 'https://www.google.com/about/'){
+          chrome.tabs.create({ url: tabUrl });
+        }
       });
       // Save current tabs
       chrome.storage.sync.set({ savedTabs: currentTabs });
@@ -74,6 +76,9 @@ class PopupFocusMode extends React.Component {
     };
 
     const startFocusMode = (clock) => {
+      console.log(tabGroupUrls);
+      tabGroupUrls.push('https://www.google.com/about/');
+      console.log(tabGroupUrls);
       chrome.storage.sync.set({
         focusedTabGroupUrls: tabGroupUrls,
       });

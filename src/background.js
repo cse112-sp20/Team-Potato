@@ -11,6 +11,11 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
             const allowedUrls = focusedTabGroupUrlsObj.focusedTabGroupUrls;
             const tabDomain = psl.parse(tab.url.split('/')[2]).domain;
             const hasSameDomain = (u) => u.includes(tabDomain);
+            console.log('allowedUrls');
+            console.log(allowedUrls);
+            console.log('tabDomains');
+            console.log(tabDomain);
+            console.log(allowedUrls.some(hasSameDomain));
             // if current tab's url isn't in allowedDomains, block the site
             if (!allowedUrls.some(hasSameDomain)) {
               chrome.tabs.executeScript(tabId, {

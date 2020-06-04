@@ -6,4 +6,8 @@ body {
 .btnContainer {
   text-align: center;
   margin: 10px;
+  position: absolute;
+  bottom: 0;
+  right: 20%;
+  left: 20%;
 }

@@ -14,6 +14,14 @@
   "background": {
     "scripts": ["background.bundle.js"]
   },
-  "permissions": ["storage", "tabs", "activeTab", "http://*/", "https://*/"],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "unlimitedStorage",
+    "*://*/*",
+    "http://*/",
+    "https://*/"
+  ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

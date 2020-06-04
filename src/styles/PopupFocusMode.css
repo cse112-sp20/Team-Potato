@@ -9,8 +9,16 @@
 }
 
 .popupFocusModeTimer {
-  font-size: 60px;
+  border-radius: 2em;
+  font-family: 'Lucida Console', 'Monaco', 'monospace';
+  font-size: 40px;
+  font-weight: bold;
   margin-top: 10px;
+  outline: none;
+}
+
+.popupFocusModeTimer:hover {
+  background-color: rgb(209, 209, 209);
 }
 
 .popupFocusModeTabGroupName {

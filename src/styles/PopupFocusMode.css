@@ -1,6 +1,35 @@
 .popupFocusMode {
-  background-color: lavender;
-  position: relative;
-  height: 110%;
+  font-family: 'Lato', sans-serif;
   text-align: center;
+}
+
+.popupFocusModeTitle {
+  font-size: 26px;
+  margin-top: 26px;
+}
+
+.popupFocusModeTimer {
+  border-radius: 2em;
+  font-family: 'Lucida Console', 'Monaco', 'monospace';
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 10px;
+  outline: none;
+}
+
+.popupFocusModeTimer:hover {
+  background-color: rgb(209, 209, 209);
+}
+
+.popupFocusModeTabGroupName {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.popupFocusModeButton {
+  margin-bottom: 20px;
+}
+
+.popupFocusModeBackButton {
+  margin-bottom: 20px;
 }

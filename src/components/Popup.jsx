@@ -81,23 +81,24 @@ class Popup extends React.Component {
             hideFocusMode={this.hideFocusMode}
           />
         ) : (
-          tabGroups.map((tabGroup) => (
-            <TabGroup
-              view="popup"
-              key={tabGroup.name}
-              name={tabGroup.name}
-              id={tabGroup.id}
-              tabs={tabGroup.tabs}
-              displayFocusMode={this.displayFocusMode}
-            />
-          ))
+          <div>
+            {tabGroups.map((tabGroup) => (
+              <TabGroup
+                view="popup"
+                key={tabGroup.name}
+                name={tabGroup.name}
+                id={tabGroup.id}
+                tabs={tabGroup.tabs}
+                displayFocusMode={this.displayFocusMode}
+              />
+            ))}
+            <div className="btnContainer">
+              <Button type="button" className="menuBtn" onClick={this.openMenu}>
+                Open Potato Tab
+              </Button>
+            </div>
+          </div>
         )}
-
-        <div className="btnContainer">
-          <Button type="button" className="menuBtn" onClick={this.openMenu}>
-            Open Potato Tab
-          </Button>
-        </div>
       </div>
     );
   }

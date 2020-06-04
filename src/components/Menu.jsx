@@ -41,6 +41,7 @@ class Menu extends React.Component {
       activeTabs: [],
       tabGroups: [],
       savedTabs: [],
+      interval: 0,
       excludeUrls: [
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
         'chrome://newtab/',
@@ -56,6 +57,11 @@ class Menu extends React.Component {
     this.getActiveTabs();
     this.getTabGroups();
     this.getSavedTabs();
+    this.setInterval();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
   }
 
   /**
@@ -154,6 +160,7 @@ class Menu extends React.Component {
    * @param {Tab} e   the tab that is being dropped
    */
   drop = (e) => {
+    this.clearInterval();
     const { tabGroups } = this.state;
     /** check if the dropped target is droppable or valid */
     if (
@@ -232,6 +239,7 @@ class Menu extends React.Component {
     }
     /** this will keep refresh for newest number of tabs in ActiveTabs */
     this.getActiveTabs();
+    this.setInterval();
   };
 
   /**
@@ -240,7 +248,9 @@ class Menu extends React.Component {
    * @param {Tab} e   the tab that is being dropped
    */
   dragOver = (e) => {
+    this.clearInterval();
     e.preventDefault();
+    this.setInterval();
   };
 
   /**
@@ -250,6 +260,7 @@ class Menu extends React.Component {
    * @param {Modal} e   the modal jumped out to add a new group
    */
   addGroup = (e) => {
+    this.clearInterval();
     /** only execute when user hit submit button */
     if (e.type === 'submit') {
       e.preventDefault();
@@ -302,6 +313,7 @@ class Menu extends React.Component {
       /** close the modal since user submitted */
       this.modalClose();
     }
+    this.setInterval();
   };
 
   /**
@@ -325,6 +337,7 @@ class Menu extends React.Component {
    * @param {string} newName  The new name of the TabGroup
    */
   editGroup = (target, newName) => {
+    this.clearInterval();
     const { tabGroups } = this.state;
     /** find the index of the TabGroup to be renamed */
     const index = tabGroups.findIndex(
@@ -358,6 +371,7 @@ class Menu extends React.Component {
     /** update the current state and the chrom storage */
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
+    this.setInterval();
   };
 
 
@@ -380,11 +394,20 @@ class Menu extends React.Component {
     chrome.storage.sync.set({ tabGroups });
   };
 
+  setInterval = () => {
+    this.state.interval = setInterval(this.getActiveTabs, 1000);
+  };
+
+  clearInterval = () => {
+    clearInterval(this.state.interval);
+  };
+
   /**
    * close the modal when the add group modal is closed
    */
   modalClose = () => {
     this.setState({ addGroupModal: false });
+    this.setInterval();
   };
 
   /**
@@ -495,7 +518,12 @@ class Menu extends React.Component {
           </div>
         </div>
 
-        <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
+        <Modal
+          show={addGroupModal}
+          onHide={this.modalClose}
+          onShow={this.clearInterval}
+          animation={false}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>

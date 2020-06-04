@@ -49,6 +49,7 @@
 
 .closeButton:hover {
   color: black;
+
 }
 
 /* react-components need !important to override */

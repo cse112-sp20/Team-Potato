@@ -124,16 +124,41 @@ class PopupFocusMode extends React.Component {
         >
           {({ start, stop, setTime, getTime }) => (
             <>
-              <div className="popupFocusModeTimer">
-                <Timer.Hours />
-                :
-                <Timer.Minutes />
-                :
-                <Timer.Seconds />
+              <div>
+                <button
+                  className="popupFocusModeTimer"
+                  type="button"
+                  onClick={() => {
+                    // Clicking timer will prompt user to set custom time.
+                    const newTime = prompt(
+                      'Enter new time in minutes: (0-1439)',
+                      '60'
+                    );
+                    let parsedTime = parseInt(newTime, 10);
+                    if (Number.isInteger(parsedTime)) {
+                      if (parsedTime < 0) {
+                        parsedTime = 0;
+                      } else if (parsedTime > 1439) {
+                        parsedTime = 1439;
+                      }
+                      chrome.runtime.sendMessage({ msg: 'start' });
+                      const msInitClockTime = 60000 * parsedTime;
+                      chrome.storage.sync.set({
+                        initClockTime: msInitClockTime,
+                      });
+                      this.setState({ initClockTime: msInitClockTime });
+                      setTime(msInitClockTime);
+                    }
+                  }}
+                >
+                  <Timer.Hours />
+                  :
+                  <Timer.Minutes />
+                  :
+                  <Timer.Seconds />
+                </button>
               </div>
-
               <div className="popupFocusModeTabGroupName">{tabGroupName}</div>
-
               <div className="popupFocusModeBtnContainer">
                 <button
                   className="popupFocusModeButton btn btn-primary"
@@ -152,12 +177,13 @@ class PopupFocusMode extends React.Component {
                 >
                   {buttonText}
                 </button>
+                <br />
                 {isFocusModeEnabled ? (
                   [start(), setTime(getPassedTime())] // Where we get time from background
                 ) : (
                   <button
                     type="button"
-                    className="fm-button"
+                    className="popupFocusModeBackButton btn btn-secondary"
                     onClick={() => {
                       hideFocusMode();
                     }}
@@ -170,19 +196,6 @@ class PopupFocusMode extends React.Component {
             </>
           )}
         </Timer>
-
-        {isFocusModeEnabled ? null : (
-          <button
-            className="popupFocusModeBackButton btn btn-secondary"
-            type="button"
-            onClick={() => {
-              const { hideFocusMode } = this.props;
-              hideFocusMode();
-            }}
-          >
-            Go Back
-          </button>
-        )}
       </div>
     );
   }

@@ -21,10 +21,12 @@ layout: default
 
 1.  Download from our Github repository.
 2.  Unzip the file.
-3.  Type in "chrome://extension" on search bar of your chrome.
-4.  Toggle on Developer Mode by clicking the toggle switch on the top right corner of the page. (You should be able to see an extra white bar show up right below the blue bar)
-5.  Click on the LOAD UNPACKED button and select the ../Team-Potato/build folder of the file.
-6.  Potato Tab is ready to go.
+3.  Go to "Team-Potato" folder and open a terminal, type in `npm install`.
+4.  In your terminal type `npm run build-dev`.
+5.  Type in "chrome://extension" on search bar of your chrome.
+6.  Toggle on Developer Mode by clicking the toggle switch on the top right corner of the page. (You should be able to see an extra white bar show up right below the blue bar)
+7.  Click on the LOAD UNPACKED button and select the ../Team-Potato/build folder of the file.
+8.  Potato Tab is ready to go!
 
 ---
 
@@ -36,8 +38,8 @@ layout: default
 
 - Be ready for a whole new experience
 
-![open potato tabs](/assets/tab1.PNG)
-![active tabs](/assets/tab2-active tabs.PNG)
+![open potato tabs](/assets/tab1.PNG){:height="250px" width="275px"}
+![active tabs](/assets/tab2-active tabs.PNG){:height="250px" width="240px"}
 
 ---
 
@@ -51,7 +53,7 @@ layout: default
 
 - Or…. (to be continue)
 
-![create group](/assets/tab4-create group.PNG)
+![create group](/assets/tab4-create group.PNG){:height="350px" width="400px"}
 
 ---
 
@@ -69,6 +71,6 @@ layout: default
 
 - Focus Mode allows you to focus on one group of tabs with a customizable time.
 
-![focus1](/assets/tab6-groups small.PNG)
-![focus2](/assets/tab7-focus mode.PNG)
-![focus3](/assets/tab8-focus timer.PNG)
+![focus1](/assets/tab6-groups small.PNG){:height="180px" width="180px"}
+![focus2](/assets/tab7-focus mode.PNG){:height="180px" width="180px"}
+![focus3](/assets/tab8-focus timer.PNG){:height="180px" width="180px"}

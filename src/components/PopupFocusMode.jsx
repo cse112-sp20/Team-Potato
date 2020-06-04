@@ -76,9 +76,7 @@ class PopupFocusMode extends React.Component {
     };
 
     const startFocusMode = (clock) => {
-      console.log(tabGroupUrls);
       tabGroupUrls.push('https://www.google.com/about/');
-      console.log(tabGroupUrls);
       chrome.storage.sync.set({
         focusedTabGroupUrls: tabGroupUrls,
       });

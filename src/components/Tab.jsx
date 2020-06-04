@@ -70,7 +70,7 @@ class Tab extends React.Component {
       e.target.style.display = 'always';
     }, 0);
   };
-
+z
   /**
    *  prevents propagation of the same event from being called
    *  @param   {Tab} e   the tab that is being dragged

@@ -264,6 +264,7 @@ class Menu extends React.Component {
 
   modalClose = () => {
     this.setState({ addGroupModal: false });
+    this.setInterval();
   };
 
   render() {
@@ -360,7 +361,12 @@ class Menu extends React.Component {
           </div>
         </div>
 
-        <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
+        <Modal
+          show={addGroupModal}
+          onHide={this.modalClose}
+          onShow={this.clearInterval}
+          animation={false}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>

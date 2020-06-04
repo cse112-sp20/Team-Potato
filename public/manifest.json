@@ -15,10 +15,11 @@
     "scripts": ["background.bundle.js"]
   },
   "permissions": [
+    "activeTab",
     "storage",
     "tabs",
-    "activeTab",
     "unlimitedStorage",
+    "*://*/*",
     "http://*/",
     "https://*/"
   ],

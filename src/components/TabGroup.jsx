@@ -18,11 +18,13 @@ class TabGroup extends React.Component {
         PropTypes.shape({
           title: PropTypes.string.isRequired,
           url: PropTypes.string.isRequired,
+          stored: PropTypes.string.isRequired,
           favIconUrl: PropTypes.string,
         })
       ).isRequired,
       deleteGroup: PropTypes.func,
       editGroup: PropTypes.func,
+      removeTab: PropTypes.func,
       displayFocusMode: PropTypes.func,
       view: PropTypes.string.isRequired,
       drop: PropTypes.func,
@@ -32,13 +34,13 @@ class TabGroup extends React.Component {
     TabGroup.defaultProps = {
       deleteGroup: () => {},
       editGroup: () => {},
+      removeTab: () => {},
       drop: () => {},
       dragOver: () => {},
       displayFocusMode: () => {},
     };
 
     this.state = {
-      nameChange: false,
       editMode: false,
       // eslint-disable-next-line react/destructuring-assignment
       newName: this.props.name,
@@ -64,11 +66,12 @@ class TabGroup extends React.Component {
       tabs,
       deleteGroup,
       editGroup,
+      removeTab,
       view,
       drop,
       dragOver,
     } = this.props;
-    const { editMode, nameChange, newName } = this.state;
+    const { editMode, newName } = this.state;
     return (
       <Card
         data-testid="tab-group"
@@ -88,13 +91,11 @@ class TabGroup extends React.Component {
                 this.setState({ newName: e.target.value });
               }}
               onKeyPress={(e) => {
-                this.setState({ nameChange: true });
                 if (e.key === 'Enter') {
                   if (name !== newName) {
                     editGroup(trackid, newName);
                   }
                   this.setState({ editMode: false });
-                  this.setState({ nameChange: false });
                 }
               }}
             />
@@ -143,6 +144,10 @@ class TabGroup extends React.Component {
                 title={tab.title}
                 url={tab.url}
                 favIconUrl={tab.favIconUrl}
+                groupName={name}
+                removeTab={removeTab}
+                key={uuid()}
+                stored={trackid}
               />
             ))}
           </Card.Body>

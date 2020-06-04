@@ -253,7 +253,9 @@ class Menu extends React.Component {
           <div className="col-6 col-sm-4 col-md-3 col-lg-2 leftSideBar maxHeight">
             <div className="activeTabsContainer">
               <div className="activeTabsHeader">
-                <h2>Active Tabs</h2>
+                <h5>
+                  <strong>Active Tabs</strong>
+                </h5>
               </div>
               <div
                 id="activeTabs"
@@ -275,17 +277,19 @@ class Menu extends React.Component {
             {savedTabs.length !== 0 ? (
               <div className="savedTabsContainer">
                 <div className="savedTabsHeader">
-                  <h2>Saved Tabs</h2>
+                  <h5>
+                    <strong>Saved Tabs</strong>
+                  </h5>
                   <button
                     type="button"
-                    className="btn btn-primary savedTabsDeleteButton"
+                    className="btn btn-outline-dark savedTabsDeleteButton"
                     onClick={this.deleteSavedTabs}
                   >
                     Delete All
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary savedTabsOpenButton"
+                    className="btn btn-outline-dark savedTabsOpenButton"
                     onClick={this.openSavedTabs}
                   >
                     Open All
@@ -306,9 +310,9 @@ class Menu extends React.Component {
           </div>
           <div className="col-6 col-sm-8 col-md-9 col-lg-10 content maxHeight">
             <div className="tabGroupsContainer">
-              <div className="tabGroupsHeader">
+              {/* <div className="tabGroupsHeader">
                 <h2>Tab Groups</h2>
-              </div>
+              </div> */}
               <div className="tabGroups">
                 {tabGroups.map((tabGroup) => (
                   <TabGroup

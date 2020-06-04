@@ -108,17 +108,17 @@ class TabGroup extends React.Component {
               <div>
                 <button
                   type="button"
-                  onClick={() => deleteGroup(trackid)}
-                  data-testid="delete-button"
-                >
-                  <RiDeleteBinLine />
-                </button>
-                <button
-                  type="button"
                   onClick={this.toggleEdit}
                   data-testid="edit-button"
                 >
                   <GrEdit />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => deleteGroup(trackid)}
+                  data-testid="delete-button"
+                >
+                  <RiDeleteBinLine />
                 </button>
               </div>
             ) : (

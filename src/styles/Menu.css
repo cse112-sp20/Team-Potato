@@ -8,11 +8,14 @@ body {
 }
 
 .leftSideBar {
-  background-color: #24305e;
+  background-color: white;
+  border-right: 1px solid grey;
 }
 
 .content {
-  background-color: #535c7d;
+  background-color: white;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
 }
 
 .addGroup {
@@ -24,8 +27,17 @@ body {
   right: -95%;
 }
 
-h2 {
-  color: #eeeeee;
+h5 strong {
+  color: #333;
+  font-family: 'Ubuntu', Arial, sans-serif;
+}
+
+.activeTabsHeader {
+  text-align: center;
+}
+
+.savedTabsHeader {
+  text-align: center;
 }
 
 .activeTabsContainer {
@@ -76,4 +88,26 @@ h2 {
 
 .savedTabsOpenButton {
   margin-bottom: 5px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

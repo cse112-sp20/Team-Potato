@@ -1,44 +1,27 @@
 .popupFocusMode {
-  background-color: whitesmoke;
-  position: relative;
-  height: 110%;
+  font-family: 'Lato', sans-serif;
   text-align: center;
 }
 
-.clock {
-  border-radius: 2em;
-  font-family: 'Lucida Console', 'Monaco', 'monospace';
-  font-size: 150%;
-  font-weight: bold;
+.popupFocusModeTitle {
+  font-size: 26px;
+  margin-top: 26px;
 }
 
-.clock:hover {
-  background-color: lavender;
+.popupFocusModeTimer {
+  font-size: 60px;
+  margin-top: 10px;
 }
 
-.fm-button {
-  display: inline-block;
-  padding: 0.35em 1.2em;
-  border: 0.1em solid #000000;
-  margin: 0 0.3em 0.3em 0;
-  border-radius: 0.12em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  color: #000000;
-  text-align: center;
-  transition: all 0.2s;
+.popupFocusModeTabGroupName {
+  font-size: 26px;
+  margin-bottom: 20px;
 }
 
-.fm-button:hover {
-  color: #000000;
-  background-color: lavender;
+.popupFocusModeButton {
+  margin-bottom: 20px;
 }
 
-@media all and (max-width: 30em) {
-  .fm-button {
-    display: block;
-    margin: 0.4em auto;
-  }
+.popupFocusModeBackButton {
+  margin-bottom: 20px;
 }

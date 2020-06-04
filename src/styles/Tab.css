@@ -1,50 +1,40 @@
-body {font-family: "Lato", sans-serif;}
-
-.tabContainer {
-    position: relative;
-    background-color: #555;
-    text-align: left;
-    color: white;
-    float: left;
-    border-radius: 10px;
-    outline: none;
-    cursor: pointer;
-    padding: 5px 5px;
-    font-size: 14px;
-    width: 250px;
-    height: 30px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin: 5px;
-}
-
-.tabContainer:hover {
-    background-color: #777;
+body {
+  font-family: 'Lato', sans-serif;
 }
 
 .tabFavIcon {
-    vertical-align: middle;
-    margin-right: 5px;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
 .tabTitle {
-    text-align: left;
-    font-size: 11px;
-    overflow: hidden;
-    margin-right: 20px;
-    text-overflow: ellipsis;
+  text-align: left;
+  font-size: 11px;
+}
+
+.tabContainer {
+  position: relative;
+  background-color: #343a40;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px 0px 1px 10px;
+  margin: 5px;
+  float: inherit;
+}
+
+.tabContainer:hover {
+  background-color: #777;
 }
 
 .closeButton {
-    z-index: 1001;
-    float: right;
-    margin: -42px 5px 0 0;
-    color: white;
-    font-size: 20px;
+  z-index: 1001;
+  float: right;
+  margin: -40px 10px 0 0;
+  color: white;
+  font-size: 20px;
 }
 
 .closeButton:hover {
-    color: black;
+  color: black;
 }
-

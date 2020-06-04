@@ -18,7 +18,7 @@ body {
   color: #fff;
   border-radius: 10px;
   cursor: pointer;
-  padding: 10px 0px 1px 10px;
+  padding: 10px 0 1px 10px;
   margin: 5px;
   float: inherit;
 }
@@ -37,4 +37,5 @@ body {
 
 .closeButton:hover {
   color: black;
+
 }

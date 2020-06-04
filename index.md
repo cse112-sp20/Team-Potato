@@ -11,9 +11,21 @@ layout: default
 
 --- -->
 
+{: style=text-align: center;"}
+
 # A one stop solution for avoiding distraction while working.
 
 ![idea](/assets/idea.PNG)
+
+![background](/assets/background.PNG){:height="100px" width="4000px"}
+
+---
+
+# Potato Tabs®™ -- Your best choice
+
+- This extension is essentially a merge between focus mode and tab grouping extensions, allowing users to divide extensions into groups and activate focus mode within that group. Essentially, all tabs outside of that group become blocked and unavailable to use for a certain amount of time, and only the tabs within the active group will be available to the user, preventing distractions in the process and, as a result, potential increase in productivity.
+
+![background](/assets/background.PNG){:height="300px" width="4000px"}
 
 ---
 
@@ -27,6 +39,7 @@ layout: default
 6.  Toggle on Developer Mode by clicking the toggle switch on the top right corner of the page. (You should be able to see an extra white bar show up right below the blue bar)
 7.  Click on the LOAD UNPACKED button and select the ../Team-Potato/build folder of the file.
 8.  Potato Tab is ready to go!
+    ![background](/assets/background.PNG){:height="250px" width="4000px"}
 
 ---
 
@@ -40,6 +53,7 @@ layout: default
 
 ![open potato tabs](/assets/tab1.PNG){:height="250px" width="275px"}
 ![active tabs](/assets/tab2-active tabs.PNG){:height="250px" width="240px"}
+![background](/assets/background.PNG){:height="100px" width="4000px"}
 
 ---
 
@@ -54,6 +68,7 @@ layout: default
 - Or…. (to be continue)
 
 ![create group](/assets/tab4-create group.PNG){:height="350px" width="400px"}
+![background](/assets/background.PNG){:height="100px" width="4000px"}
 
 ---
 
@@ -64,6 +79,7 @@ layout: default
 - We got you covered with easy to use drag and drop function!
 
 ![drag & drop](/assets/tab5-grouped tabs.PNG)
+![background](/assets/background.PNG){:height="100px" width="4000px"}
 
 ---
 
@@ -74,3 +90,4 @@ layout: default
 ![focus1](/assets/tab6-groups small.PNG){:height="180px" width="180px"}
 ![focus2](/assets/tab7-focus mode.PNG){:height="180px" width="180px"}
 ![focus3](/assets/tab8-focus timer.PNG){:height="180px" width="180px"}
+![background](/assets/background.PNG){:height="150px" width="4000px"}

@@ -135,8 +135,11 @@ class PopupFocusMode extends React.Component {
                   type="button"
                   onClick={() => {
                     // Clicking timer will allow user to set custom time.
-                    if (!isFocusModeEnabled)
+                    if (!isFocusModeEnabled && !shouldDisplaySlider) {
                       this.setState({ shouldDisplaySlider: true });
+                    } else {
+                      this.setState({ shouldDisplaySlider: false });
+                    }
                   }}
                 >
                   <Timer.Hours />
@@ -145,18 +148,18 @@ class PopupFocusMode extends React.Component {
                   :
                   <Timer.Seconds />
                 </button>
+                <br />
                 {shouldDisplaySlider ? (
                   <ReactSlider
                     className="horizontal-slider"
-                    thumbClassName="thumb"
-                    trackClassName="track"
+                    thumbClassName="sliderThumb"
                     defaultValue={60}
                     min={5}
+                    step={5}
                     max={720}
+                    snapDragDisabled={false}
                     renderThumb={(props, state) => (
-                      <div {...props}>
-                        {[state.valueNow, setTime(60000 * state.valueNow)]}
-                      </div>
+                      <div {...props}>{[setTime(60000 * state.valueNow)]}</div>
                     )}
                   />
                 ) : null}

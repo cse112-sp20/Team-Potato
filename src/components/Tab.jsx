@@ -90,6 +90,7 @@ class Tab extends React.Component {
 
   /**
    * Returns the website name attached in a url
+   *
    * @param     {string} link   the url of the Tab
    * @returns   {string|null|*}   the host website or null if url is not given
    */

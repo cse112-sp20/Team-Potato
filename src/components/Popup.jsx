@@ -45,7 +45,7 @@ class Popup extends React.Component {
 
   displayFocusMode = (focusedTabGroupName, focusedTabGroupUrls) => {
     this.setState({ shouldDisplayFocusMode: true });
-    chrome.storage.sync.set({ shouldDisplayFocusMode: true });
+    chrome.storage.sync.set({ shouldDisplayFocusMode: false });
     this.setState({ focusedTabGroupName });
     chrome.storage.sync.set({ focusedTabGroupName });
     this.setState({ focusedTabGroupUrls });

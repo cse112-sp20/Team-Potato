@@ -61,7 +61,8 @@ class Menu extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.interval);
+    const { interval } = this.state;
+    clearInterval(interval);
   }
 
   /**
@@ -228,7 +229,7 @@ class Menu extends React.Component {
               });
             }
           }
-          /** update the state with the newest deletion*/
+          /** update the state with the newest deletion */
           tabGroups[deleteGroup].tabs = updatedTabs;
         }
       }
@@ -281,23 +282,21 @@ class Menu extends React.Component {
       /** check for redundant groupname and auto rename groupname */
       let count = 0;
       let nameCheck = true;
-      let tempGroupName = groupName;
       /** constantly loop through the names of all the tabgroups
        * if there is an redundant name, append a numerical number behind
        * and reloop through. This process will continue until there is
        * no redundant names */
       while (nameCheck) {
         const index = tabGroups.findIndex(
-          (tabGroup) => tabGroup.name === tempGroupName
+          (tabGroup) => tabGroup.name === groupName
         );
         if (index === -1) {
           nameCheck = false;
         } else {
           count += 1;
-          tempGroupName = groupName + count.toString();
+          groupName += count.toString();
         }
       }
-      groupName = tempGroupName;
       /** create the newGroup to be appended to chrome storage */
       const newGroup = {
         name: groupName,
@@ -392,11 +391,12 @@ class Menu extends React.Component {
   };
 
   setInterval = () => {
-    this.state.interval = setInterval(this.getActiveTabs, 1000);
+    this.setState({ interval: setInterval(this.getActiveTabs, 1000) });
   };
 
   clearInterval = () => {
-    clearInterval(this.state.interval);
+    const { interval } = this.state;
+    clearInterval(interval);
   };
 
   /**

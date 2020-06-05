@@ -28,11 +28,11 @@
     cursor: pointer;
     color: #fff;
     border-radius: 8px;
-    border: 0;
+    border: none;
     padding: 10px;
     width: 80%;
     text-align: center;
-    font-size: 18pt;
+    font-size: 17pt;
     margin: 10px;
 }
 
@@ -45,5 +45,6 @@
 .heading {
     font-weight: bold;
     font-size: 20pt;
-    padding: 40px;
+    padding: 30px;
+    padding-top: 40px;
 }

@@ -37,7 +37,7 @@ mainDiv.appendChild(heading);
 // Close Button
 const closeBtn = document.createElement('button');
 closeBtn.setAttribute('class', 'button');
-closeBtn.innerHTML = `You got me, close ${window.location.host}`;
+closeBtn.innerHTML = `You got me, close this tab`;
 closeBtn.style.background = '#18b53a';
 closeBtn.onclick = () => {
   chrome.runtime.sendMessage({ action: 'close' }, (response) => {

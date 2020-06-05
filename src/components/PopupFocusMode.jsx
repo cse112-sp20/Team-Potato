@@ -135,7 +135,8 @@ class PopupFocusMode extends React.Component {
                   type="button"
                   onClick={() => {
                     // Clicking timer will allow user to set custom time.
-                    this.setState({ shouldDisplaySlider: true });
+                    if (!isFocusModeEnabled)
+                      this.setState({ shouldDisplaySlider: true });
                   }}
                 >
                   <Timer.Hours />

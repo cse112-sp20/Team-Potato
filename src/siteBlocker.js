@@ -1,3 +1,12 @@
+/**
+ * @fileOverview
+ *
+ * @author  Gary Chew
+ * @author  Chau Vu
+ *
+ * @requires  ./styles/BlockPopup.css
+ */
+
 import './styles/BlockPopup.css';
 
 document.body.style.position = 'relative';

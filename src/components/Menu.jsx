@@ -26,8 +26,8 @@ import Tab from './Tab';
 import '../styles/Menu.css';
 
 /**
- * A class to represent Menu components which consists TabGroups, ActiveTabs
- * savedTabs, and Tabs
+ * @description   A class to represent Menu components which consists TabGroups, ActiveTabs
+ *                savedTabs, and Tabs
  * @class
  */
 class Menu extends React.Component {
@@ -36,6 +36,14 @@ class Menu extends React.Component {
    */
   constructor() {
     super();
+    /** set the current default state to the following
+     * @type  {boolean} addGroupModal: decide whether the modal render or not
+     * @type  {array} activeTabs:  current active tabs
+     * @type  {array} tabGroups: tabgroups being stored
+     * @type  {array} savedTabs: the tabs being saved after launch focus mdoe
+     * @type  {number} interval:  number of milisecond to get an update of activeTabs
+     * @type  {array}  excludeUrls: urls not being shown on the within the active tabs
+     */
     this.state = {
       addGroupModal: false,
       activeTabs: [],
@@ -43,29 +51,33 @@ class Menu extends React.Component {
       savedTabs: [],
       interval: 0,
       excludeUrls: [
+        /** this is the potato tab menu page */
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
+        /** new tab for chrome brower */
         'chrome://newtab/',
-        'localhost:',
       ],
     };
   }
 
   /**
-   * Method called to render at the beginning of the initial rendering
+   * @description Method called to render at the beginning of the initial rendering
    */
   componentDidMount() {
-    this.getActiveTabs();
-    this.getTabGroups();
-    this.getSavedTabs();
-    this.setInterval();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
+    this.getActiveTabs(); /** get current active tabs */
+    this.getTabGroups(); /** get current saved tabgroups */
+    this.getSavedTabs(); /** get current saved tabs after focus mode */
+    this.setInterval(); /** set an time of refreshing for new active tabs */
   }
 
   /**
-   * get the current chrome tabs opened to show up on the menu page
+   * @description Method called when a component is beingb removed from the DOM
+   */
+  componentWillUnmount() {
+    clearInterval(this.state.interval); /** stop the refreshing for new active tabs */
+  }
+
+  /**
+   * @description get the current chrome tabs opened to show up on the menu page
    */
   getActiveTabs = () => {
     const { excludeUrls } = this.state;
@@ -97,8 +109,8 @@ class Menu extends React.Component {
   };
 
   /**
-   * get the current saved tabGroups from the chrome storage
-   * to show up on the menu page
+   * @description get the current saved tabGroups from the chrome storage
+   *               to show up on the menu page
    */
   getTabGroups = () => {
     /** look into the chrome storage to find tabgroups */
@@ -115,7 +127,7 @@ class Menu extends React.Component {
   };
 
   /**
-   * get the saved tabs from the chrome storage to show in the menu
+   * @description   get the saved tabs from the chrome storage to show in the menu
    */
   getSavedTabs = () => {
     /** look into the chrome storage to find saved tabs */
@@ -131,7 +143,7 @@ class Menu extends React.Component {
   };
 
   /**
-   * delete all the tabs stored in the SavedTabs
+   * @description   delete all the tabs stored in the SavedTabs
    */
   deleteSavedTabs = () => {
     const savedTabs = [];
@@ -141,7 +153,7 @@ class Menu extends React.Component {
   };
 
   /**
-   * open all the tabs stored in the SavedTabs
+   * @description   open all the tabs stored in the SavedTabs
    */
   openSavedTabs = () => {
     const { savedTabs } = this.state;
@@ -154,12 +166,13 @@ class Menu extends React.Component {
   };
 
   /**
-   * drop a tab into a tabgroup and lead to a series of rendering and chrome
-   * storage update
+   * @description   drop a tab into a tabgroup and lead to a series of rendering and chrome
+   *                storage update
    *
    * @param {Tab} e   the tab that is being dropped
    */
   drop = (e) => {
+    /** stop the refreshing for new active tabs */
     this.clearInterval();
     const { tabGroups } = this.state;
     /** check if the dropped target is droppable or valid */
@@ -243,23 +256,24 @@ class Menu extends React.Component {
   };
 
   /**
-   * prevents propagation of the same event from being called
-   *
+   * @description   prevents propagation of the same event from being called
    * @param {Tab} e   the tab that is being dropped
    */
   dragOver = (e) => {
+    /** prevent the refresh of searching active tabs */
     this.clearInterval();
     e.preventDefault();
+    /** continue the interval of searchinga active tabs */
     this.setInterval();
   };
 
   /**
-   * Add a new TabGroup and triggers a series of rendering with
-   * chrome storage update
-   *
+   * @description   Add a new TabGroup and triggers a series of rendering with
+   *                chrome storage update
    * @param {Modal} e   the modal jumped out to add a new group
    */
   addGroup = (e) => {
+    /** prevent the refresh of searching active tabs */
     this.clearInterval();
     /** only execute when user hit submit button */
     if (e.type === 'submit') {
@@ -317,8 +331,7 @@ class Menu extends React.Component {
   };
 
   /**
-   * Delete the TabGroup by passing in the trackid
-   *
+   * @description   Delete the TabGroup by passing in the trackid
    * @param {string} target   The trackid of the TabGroup to be deleted
    */
   deleteGroup = (target) => {
@@ -331,12 +344,12 @@ class Menu extends React.Component {
   };
 
   /**
-   * Rename the Tabgroup by passing in the trackid and the new name
-   *
+   * @description   Rename the Tabgroup by passing in the trackid and the new name
    * @param {string} target   The trackid of the TabGroup to be editted
    * @param {string} newName  The new name of the TabGroup
    */
   editGroup = (target, newName) => {
+    /** prevent the refresh of searching active tabs */
     this.clearInterval();
     const { tabGroups } = this.state;
     /** find the index of the TabGroup to be renamed */
@@ -371,12 +384,12 @@ class Menu extends React.Component {
     /** update the current state and the chrom storage */
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
+    /** continue to search for new active tabs */
     this.setInterval();
   };
 
   /**
-   * remove a tab from a tabgroup given its TabGroup name and tab's url
-   *
+   * @description   remove a tab from a tabgroup given its TabGroup name and tab's url
    * @param {string} name   the name of the tabgroup to delete the tab from
    * @param {string} url    the url of the tab
    */
@@ -393,16 +406,22 @@ class Menu extends React.Component {
     chrome.storage.sync.set({ tabGroups });
   };
 
+  /**
+   * @description   set up a 1000 ms to get new active tabs to render in activeTabs
+   */
   setInterval = () => {
     this.state.interval = setInterval(this.getActiveTabs, 1000);
   };
 
+  /**
+   * @description   pause to get new active tabs until setInterval being called
+   */
   clearInterval = () => {
     clearInterval(this.state.interval);
   };
 
   /**
-   * close the modal when the add group modal is closed
+   * @description   close the modal when the add group modal is closed
    */
   modalClose = () => {
     this.setState({ addGroupModal: false });
@@ -410,11 +429,16 @@ class Menu extends React.Component {
   };
 
   /**
-   * render the menu
-   *
+   * @description   render the menu
    * @returns {*}
    */
   render() {
+    /** Add those to the current state
+     * addGroupModel: decide whether the add group modal pop oopen or not
+     * activeTabs: the tabs being active currently on chrome browser
+     * tabGroups: the tabGroups the user has created
+     * savedTabs: the tabs being closed when focus mode is launched
+     */
     const { addGroupModal, activeTabs, tabGroups, savedTabs } = this.state;
     return (
       <div className="container-fluid maxHeight">
@@ -427,12 +451,12 @@ class Menu extends React.Component {
               <div
                 id="activeTabs"
                 className="activeTabs"
-                droppable="false"
+                droppable="false" /** notify the drag drop algoithm that activeTabs is not droppable */
                 onDrop={this.drop}
                 onDragOver={this.dragOver}
               >
                 {activeTabs.map((tab) => (
-                  <Tab
+                  <Tab  /** display each tab in the activeTabs */
                     title={tab.title}
                     url={tab.url}
                     stored="activeTabs"
@@ -445,14 +469,14 @@ class Menu extends React.Component {
               <div className="savedTabsContainer">
                 <div className="savedTabsHeader">
                   <h2>Saved Tabs</h2>
-                  <button
+                  <button /** the user may delete all the saved tabs */
                     type="button"
                     className="btn btn-primary savedTabsDeleteButton"
                     onClick={this.deleteSavedTabs}
                   >
                     Delete All
                   </button>
-                  <button
+                  <button /** the user may also open all the saved tabs */
                     type="button"
                     className="btn btn-primary savedTabsOpenButton"
                     onClick={this.openSavedTabs}
@@ -462,7 +486,7 @@ class Menu extends React.Component {
                 </div>
                 <div className="savedTabs">
                   {savedTabs.map((tab) => (
-                    <Tab
+                    <Tab /** display all the tabs being closed after focus mode launched */
                       title={tab.title}
                       url={tab.url}
                       stored="activeTabs"
@@ -482,8 +506,10 @@ class Menu extends React.Component {
                 {tabGroups.map((tabGroup) => (
                   <TabGroup
                     view="menu"
-                    key={tabGroup.trackid}
-                    trackid={tabGroup.trackid}
+                    key={
+                      tabGroup.trackid
+                    } /** track the tabgrouop by trackid which unique to each tabgroup */
+                    trackid={tabGroup.trackid} /** trackid assignmemnt */
                     name={tabGroup.name}
                     tabs={tabGroup.tabs}
                     deleteGroup={this.deleteGroup}
@@ -498,27 +524,31 @@ class Menu extends React.Component {
             <button
               className="addGroup"
               type="button"
+              /** add a group then we set the addGroupModal to be true */
               onClick={() => {
                 this.setState({ addGroupModal: true });
               }}
-              data-testid="add-button"
+              data-testid="add-button" /** for testing purposes */
             >
               <IoMdAddCircle />
             </button>
           </div>
         </div>
-
+        /** this modal is opened when the user is attempting to add a new tabgroup */
         <Modal
           show={addGroupModal}
           onHide={this.modalClose}
-          onShow={this.clearInterval}
+          onShow={this.clearInterval} /** stop refreshing for new active tab */
           animation={false}
         >
           <Modal.Header closeButton>
             <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={this.addGroup} data-testid="form">
+            <Form
+              onSubmit={this.addGroup}
+              data-testid="form" /** for testing purpose */
+            >
               <Form.Group controlId="groupName">
                 <Form.Label>Group Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter Group Name..." />
@@ -527,11 +557,18 @@ class Menu extends React.Component {
                 <Form.Label>Add Tabs to tabGroup</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (
+                    /** user may select each tab to add into the created tabrgoup */
                     <option key={uuid()}>{tab.title}</option>
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Button variant="primary" type="submit" onClick={this.addGroup}>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={
+                  this.addGroup
+                } /** run addGroup when user clicks submit */
+              >
                 Create Group
               </Button>
             </Form>

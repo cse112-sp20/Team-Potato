@@ -81,6 +81,7 @@ class PopupFocusMode extends React.Component {
         focusedTabGroupUrls: tabGroupUrls,
       });
       this.setState({ isFocusModeEnabled: true });
+      chrome.storage.sync.set({ shouldDisplayFocusMode: true });
       chrome.storage.sync.set({ isFocusModeEnabled: true });
       chrome.runtime.sendMessage({ msg: 'start' });
       chrome.storage.sync.set({ initClockTime: clock });
@@ -88,6 +89,7 @@ class PopupFocusMode extends React.Component {
     };
 
     const getStartingTime = () => {
+      // How much time to start clock with.
       if (isFocusModeEnabled) {
         return initClockTime;
       }

@@ -374,7 +374,6 @@ class Menu extends React.Component {
     this.setInterval();
   };
 
-
   /**
    * remove a tab from a tabgroup given its TabGroup name and tab's url
    *
@@ -495,15 +494,6 @@ class Menu extends React.Component {
                   />
                 ))}
               </div>
-              {savedTabs.map((tab) => (
-                <Tab
-                  // key={uuid()}
-                  title={tab.title}
-                  url={tab.url}
-                  stored="activeTabs"
-                  favIconUrl={tab.favIconUrl}
-                />
-              ))}
             </div>
             <button
               className="addGroup"

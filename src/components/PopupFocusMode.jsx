@@ -12,6 +12,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Timer from 'react-compound-timer';
+import ReactSlider from 'react-slider';
 import '../styles/PopupFocusMode.css';
 
 class PopupFocusMode extends React.Component {
@@ -19,6 +20,7 @@ class PopupFocusMode extends React.Component {
     super();
     this.state = {
       isFocusModeEnabled: false,
+      shouldDisplaySlider: false,
       defaultTime: 3600000,
       passedTime: 0,
     };
@@ -61,6 +63,7 @@ class PopupFocusMode extends React.Component {
     const { tabGroupName, tabGroupUrls, hideFocusMode } = this.props;
     const {
       isFocusModeEnabled,
+      shouldDisplaySlider,
       defaultTime,
       initClockTime,
       passedTime,
@@ -131,26 +134,8 @@ class PopupFocusMode extends React.Component {
                   className="popupFocusModeTimer"
                   type="button"
                   onClick={() => {
-                    // Clicking timer will prompt user to set custom time.
-                    const newTime = prompt(
-                      'Enter new time in minutes: (0-1439)',
-                      '60'
-                    );
-                    let parsedTime = parseInt(newTime, 10);
-                    if (Number.isInteger(parsedTime)) {
-                      if (parsedTime < 0) {
-                        parsedTime = 0;
-                      } else if (parsedTime > 1439) {
-                        parsedTime = 1439;
-                      }
-                      chrome.runtime.sendMessage({ msg: 'start' });
-                      const msInitClockTime = 60000 * parsedTime;
-                      chrome.storage.sync.set({
-                        initClockTime: msInitClockTime,
-                      });
-                      this.setState({ initClockTime: msInitClockTime });
-                      setTime(msInitClockTime);
-                    }
+                    // Clicking timer will allow user to set custom time.
+                    this.setState({ shouldDisplaySlider: true });
                   }}
                 >
                   <Timer.Hours />
@@ -159,7 +144,23 @@ class PopupFocusMode extends React.Component {
                   :
                   <Timer.Seconds />
                 </button>
+                {shouldDisplaySlider ? (
+                  <ReactSlider
+                    className="horizontal-slider"
+                    thumbClassName="thumb"
+                    trackClassName="track"
+                    defaultValue={60}
+                    min={5}
+                    max={720}
+                    renderThumb={(props, state) => (
+                      <div {...props}>
+                        {[state.valueNow, setTime(60000 * state.valueNow)]}
+                      </div>
+                    )}
+                  />
+                ) : null}
               </div>
+              <br />
               <div className="popupFocusModeTabGroupName">{tabGroupName}</div>
               <div className="popupFocusModeBtnContainer">
                 <button

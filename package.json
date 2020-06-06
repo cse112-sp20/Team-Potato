@@ -105,6 +105,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
+    "react-slider": "^1.0.7",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "uuid": "^8.0.0"
   }

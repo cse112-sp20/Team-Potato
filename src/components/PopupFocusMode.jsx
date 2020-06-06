@@ -4,7 +4,7 @@
  *
  *  @author       Gary Chew
  *  @author       Christopher Yeh
- *  @author       Stephen Yeh
+ *  @author       Stephen Cheung
  *  @author       Chau Vu
  *  @author       David Dai
  *

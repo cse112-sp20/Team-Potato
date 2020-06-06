@@ -1,3 +1,12 @@
+/**
+ * @fileOverview
+ *
+ * @author  Gary Chew
+ * @author  Chau Vu
+ *
+ * @requires  ./styles/BlockPopup.css
+ */
+
 import './styles/BlockPopup.css';
 
 document.body.style.position = 'relative';
@@ -44,6 +53,7 @@ closeBtn.onclick = () => {
 mainDiv.appendChild(closeBtn);
 
 // Unblock Button
+console.log('Unblock once');
 const unblockBtn = document.createElement('button');
 unblockBtn.setAttribute('class', 'button');
 unblockBtn.innerHTML = 'Unblock Once';
@@ -72,7 +82,6 @@ addBtn.onclick = () => {
   );
 };
 mainDiv.appendChild(addBtn);
-
 document.body.style.padding = '0';
 document.body.style.margin = '0';
 document.body.parentNode.insertBefore(overlay, document.body.previousSibling);

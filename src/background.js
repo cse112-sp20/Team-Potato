@@ -1,3 +1,12 @@
+/**
+ * @fileOverview
+ *
+ * @author  Chau Vu
+ * @author  Gary Chew
+ * @author  Christopher Yeh
+ * @author  Stephen Cheung
+ */
+
 const psl = require('psl');
 
 chrome.tabs.onUpdated.addListener((tabId, tab) => {

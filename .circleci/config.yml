@@ -62,7 +62,7 @@ jobs:
     #setup python docker and environment
     executor: python
     environment:
-      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
+      CC_TEST_REPORTER_ID: f1ce64aeaeee4334811ddc112d46eef3d3d4fca92efacadc5ce9719a6c920f2b
     steps:
       - checkout
       #attach the build repo and test-reporter from previous job
@@ -128,11 +128,11 @@ jobs:
           paths:
             - .nyc_output
 
-  upload-coverage:
+  jest-and-upload-coverage:
     #setup nodejs docker and environment
     executor: nodejs
     environment:
-      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
+      CC_TEST_REPORTER_ID: f1ce64aeaeee4334811ddc112d46eef3d3d4fca92efacadc5ce9719a6c920f2b
     steps:
       - checkout
       #attach the nyc_output raw coverage repo from previous job
@@ -161,6 +161,14 @@ jobs:
           #attach the build repo and test-reporter from previous job
           name: Fix Vulnerabilities
           command: sudo npm audit fix
+      #      - run:
+      #          #run jest unit tests and genereate reports
+      #          name: Run Jest tests
+      #          command: sudo npm run test
+      #      - run:
+      #          #Copy the jest tests coverage file before merging report
+      #          name: Copy Jest coverage file
+      #          command: cp coverage/coverage-final.json .nyc_output/coverage-jest.json
       - run:
           #take the raw report to generate code climate report
           name: Generate coverage report
@@ -180,7 +188,7 @@ workflows:
       - test:
           requires:
             - build
-      - upload-coverage:
+      - jest-and-upload-coverage:
           requires:
             - build
             - test

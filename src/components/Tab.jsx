@@ -88,20 +88,41 @@ class Tab extends React.Component {
     window.open(link, '_blank');
   };
 
+  /**
+   * Returns the website name attached in a url
+   *
+   * @param     {string} link   the url of the Tab
+   * @returns   {string|null|*}   the host website or null if url is not given
+   */
   getWebsite = (link) => {
-    if (!link) return null;
+    if (!link || link === '') return null;
+    /** split the url path by '/' */
     const path = link.split('/');
+    /** differentiate the website protocol and host */
     const protocol = path[0];
     const host = path[2];
+    /** check if the host is part of www */
     if (host.search('www.') !== -1) {
+      /** if so, return the host name without the extension */
       return host.substr(host.search('www.') + 4);
     }
+    /** check if the protocol is not https */
     if (protocol.search('https') === -1) {
+      /** if so, return the protocol concatenated with the host */
       return `${protocol}//${host}`;
     }
+    /** if all checks fail, just return the host */
     return host;
   };
 
+  /**
+   * Returns the tooltip with the full url name and host website
+   *
+   * @param     {string} title  the full url title name
+   * @param     {string} url   the url of the Tab
+   *
+   * @returns {*} tooltip with full Tab name and host website
+   */
   renderTooltip(title, url) {
     return (
       <Tooltip id="button-tooltip">

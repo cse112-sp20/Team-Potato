@@ -228,7 +228,7 @@ class Menu extends React.Component {
               });
             }
           }
-          /** update the state with the newest deletion*/
+          /** update the state with the newest deletion */
           tabGroups[deleteGroup].tabs = updatedTabs;
         }
       }
@@ -391,10 +391,16 @@ class Menu extends React.Component {
     chrome.storage.sync.set({ tabGroups });
   };
 
+  /**
+   * Set the refresh interval of getActiveTabs to 1000ms
+   */
   setInterval = () => {
     this.state.interval = setInterval(this.getActiveTabs, 1000);
   };
 
+  /**
+   * Clear and stop the refresh interval of getActiveTabs
+   */
   clearInterval = () => {
     clearInterval(this.state.interval);
   };

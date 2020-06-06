@@ -161,14 +161,14 @@ jobs:
           #attach the build repo and test-reporter from previous job
           name: Fix Vulnerabilities
           command: sudo npm audit fix
-      #      - run:
-      #          #run jest unit tests and genereate reports
-      #          name: Run Jest tests
-      #          command: sudo npm run test
-      #      - run:
-      #          #Copy the jest tests coverage file before merging report
-      #          name: Copy Jest coverage file
-      #          command: cp coverage/coverage-final.json .nyc_output/coverage-jest.json
+      - run:
+          #run jest unit tests and genereate reports
+          name: Run Jest tests
+          command: sudo npm run test
+      - run:
+          #Copy the jest tests coverage file before merging report
+          name: Copy Jest coverage file
+          command: cp coverage/coverage-final.json .nyc_output/coverage-jest.json
       - run:
           #take the raw report to generate code climate report
           name: Generate coverage report

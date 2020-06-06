@@ -241,7 +241,7 @@ class Menu extends React.Component {
               });
             }
           }
-          /** update the state with the newest deletion*/
+          /** update the state with the newest deletion */
           tabGroups[deleteGroup].tabs = updatedTabs;
         }
       }
@@ -407,14 +407,22 @@ class Menu extends React.Component {
   };
 
   /**
+<<<<<<< HEAD
    * @description   set up a 1000 ms to get new active tabs to render in activeTabs
+=======
+   * @description   set the refresh interval of getActiveTabs to 1000ms
+>>>>>>> 6e411afd0a4175d17d50fc8f5b738ab587abf988
    */
   setInterval = () => {
     this.state.interval = setInterval(this.getActiveTabs, 1000);
   };
 
   /**
+<<<<<<< HEAD
    * @description   pause to get new active tabs until setInterval being called
+=======
+   * @description   clear and stop the refresh interval of getActiveTabs
+>>>>>>> 6e411afd0a4175d17d50fc8f5b738ab587abf988
    */
   clearInterval = () => {
     clearInterval(this.state.interval);

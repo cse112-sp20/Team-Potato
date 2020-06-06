@@ -18,6 +18,7 @@ options.add_argument("--no-sandbox") # Bypass OS security model
 
 driver = webdriver.Chrome(options=options)
 
+
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
@@ -74,23 +75,24 @@ focus_mode_check = 0
 name_focus_mode_check = 0
 popup_view_fm = driver.find_element_by_class_name("popupFocusMode")
 
-h1_elements = popup_view_fm.find_elements_by_tag_name("h1")
-for h in h1_elements:
-    if h.text == "Focus Mode":
-        focus_mode_check = 1
-    elif h.text == "Test Group":
-        name_focus_mode_check = 1
+h = popup_view_fm.find_element_by_class_name("popupFocusModeTitle")
+f = popup_view_fm.find_element_by_class_name("popupFocusModeTabGroupName")
+if h.text == "Focus Mode":
+    focus_mode_check = 1
+if f.text == "Test Group":
+    name_focus_mode_check = 1
 assert focus_mode_check == 1,"Not moving to focus mode"
 assert name_focus_mode_check == 1, "Not showing focus mode name"
 
-start_button = popup_view_fm.find_element_by_tag_name("button")
+pop_up_div = driver.find_element_by_class_name("popupFocusMode")
+start_button = pop_up_div.find_element_by_class_name("popupFocusModeButton")
 start_button.click()
 driver.switch_to.window(driver.window_handles[4])
 
 driver.get("chrome-extension://"+ uid +"/popup.html")
 driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[1])
-driver.get("https://netflix.com")
+driver.get("https://gradescope.com")
 sleep(2)
 h1_blocking = driver.find_element_by_class_name("focusModeText")
 assert "You are in Focus Mode for" in h1_blocking.text, "Website not blocked"
@@ -98,5 +100,6 @@ print("All Tests Passed")
 coverage_json_file = open("./project/.nyc_output/#73_#62.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()
+driver.quit()
 
 

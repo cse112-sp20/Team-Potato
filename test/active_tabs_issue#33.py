@@ -15,6 +15,7 @@ options.add_argument("--disable-dev-shm-usage") # overcome limited resource prob
 options.add_argument("--no-sandbox") # Bypass OS security model
 
 driver = webdriver.Chrome(options=options)
+
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 driver.get("https://cse.ucsd.edu")
 driver.execute_script("window.open('');")
@@ -29,7 +30,8 @@ driver.get("https://stackoverflow.com")
 driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[4])
 driver.get("https://piazza.com")
-driver.switch_to.window(driver.window_handles[4])
+driver.execute_script("window.open('');")
+driver.switch_to.window(driver.window_handles[5])
 driver.get("chrome-extension://" + uid + "/menu.html")
 
 active_tabs = driver.find_element_by_class_name("activeTabs")
@@ -53,6 +55,21 @@ for i in list_of_active_tabs:
         final_check_tab = 1
 assert final_check_tab == 1, "Active Tabs are not correct"
 print("All Tests Passed")
+
+#checking active tabs updating without reloading
+driver.execute_script("window.open('');")
+driver.switch_to.window(driver.window_handles[6])
+driver.get("https://gradescope.com")
+driver.switch_to.window(driver.window_handles[5])
+active_tabs = driver.find_element_by_class_name("activeTabs")
+list_of_active_tabs = active_tabs.find_elements_by_class_name("tabContainer")
+active_non_reload_check = 0
+for i in list_of_active_tabs:
+    if "Gradescope" in i.text:
+        active_non_reload_check = 1
+assert active_non_reload_check == 1, "Active Tabs are not correct w/o reload"
+
 coverage_json_file = open("./project/.nyc_output/#33.json", "w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()
+driver.quit()

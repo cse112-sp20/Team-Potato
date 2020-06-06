@@ -19,6 +19,7 @@ options.add_argument("--no-sandbox") # Bypass OS security model
 
 driver = webdriver.Chrome(options=options)
 
+
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
@@ -142,3 +143,4 @@ print("All Tests Passed")
 coverage_json_file = open("./project/.nyc_output/#34.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()
+driver.quit()

@@ -19,6 +19,7 @@ options.add_argument("--no-sandbox") # Bypass OS security model
 
 driver = webdriver.Chrome(options=options)
 
+
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 
 driver.get("https://cse.ucsd.edu")
@@ -90,7 +91,7 @@ first_check_el = driver.find_element_by_class_name("popupFocusMode")
 
 h1_elements = first_check_el.find_elements_by_tag_name("h1")
 pop_up_div = driver.find_element_by_class_name("popupFocusMode")
-button_timer_start = pop_up_div.find_element_by_tag_name("button")
+button_timer_start = pop_up_div.find_element_by_class_name("popupFocusModeButton")
 original_display = pop_up_div.text
 button_timer_start.click()
 sleep(0.3)
@@ -111,12 +112,12 @@ assert saved_tabs_comp == 1, "Saved Tabs Component is not rendered"
 # checking if saved tab header rendered properly
 saved_tab_header = 0
 try:
-    saved_tabs_component.find_element_by_class_name("savedTabsHeader")
+    driver.find_element_by_class_name("savedTabsHeader")
 except NoSuchElementException:
     saved_tab_header = 0
 else:
     saved_tab_header = 1
-    saved_tab_header_div = saved_tabs_component.find_element_by_class_name("savedTabsHeader")
+    saved_tab_header_div = driver.find_element_by_class_name("savedTabsHeader")
 assert saved_tab_header == 1, "Saved Tab Header is not rendered"
 
 # checking if the save tab header title is rendered correctly
@@ -147,7 +148,7 @@ for i in buttons:
 assert delete_all_check == 1 and open_all_check == 1, "Either delete all or open all button not checked properly"
 
 # checking if the saved tabs are correct
-tabs = saved_tabs_component.find_elements_by_tag_name("div")
+tabs = driver.find_element_by_class_name("savedTabs").find_elements_by_tag_name("div")
 sav_tab_1 = 0
 sav_tab_2 = 0
 sav_tab_3 = 0
@@ -170,15 +171,7 @@ for i in tabs:
         sav_tab_5 = 1
     elif "Instagram" in i.text:
         sav_tab_6 = 1
-    elif "Netflix" in i.text:
-        sav_tab_7 = 1
-    elif "leading software" in i.text:
-        sav_tab_8 = 1
-    elif "Potato Tab Popup" in i.text:
-        sav_tab_9 = 1
-
-assert sav_tab_1 == 1 and sav_tab_2 == 1 and sav_tab_3 == 1 and sav_tab_4 == 1 and sav_tab_5 == 1 and sav_tab_6 == 1 \
-       and sav_tab_7 == 1 and sav_tab_8 == 1 and sav_tab_9 == 1, "All previous tabs not rendered"
+assert sav_tab_1 == 1 and sav_tab_2 == 1 and sav_tab_3 == 1 and sav_tab_4 == 1 and sav_tab_5 == 1 and sav_tab_6 == 1, "All previous tabs not rendered"
 
 driver.find_elements_by_class_name("tabContainer")
 sleep(10)
@@ -193,8 +186,11 @@ else:
     after_delete_check = 0
 
 assert after_delete_check == 1, "Saved Tabs not deleted"
-
+coverage_json_file = open("./project/.nyc_output/#98.json","w+")
+json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
+coverage_json_file.close()
 print("All Tests Passed")
+driver.quit()
 
 
 

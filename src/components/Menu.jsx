@@ -197,6 +197,7 @@ class Menu extends React.Component {
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
+      console.log(index);
       /** create the data to be appended to the TabGroup */
       const tabData = {
         title: tabObj.title,
@@ -407,7 +408,7 @@ class Menu extends React.Component {
   };
 
   /**
-   * @description   set the refresh interval of getActiveTabs to 1000ms
+   * @description   set up a 1000 ms to get new active tabs to render in activeTabs
    */
   setInterval = () => {
     this.state.interval = setInterval(this.getActiveTabs, 1000);

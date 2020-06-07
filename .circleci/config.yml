@@ -30,10 +30,10 @@ jobs:
           #install all the packages from package.json
           name: install-dependencies
           command: sudo npm install
-      - run:
-          #audit package dependencies for security vulnerabilities
-          name: Fix Vulnerabilities
-          command: sudo npm audit fix
+      #- run:
+      #    #audit package dependencies for security vulnerabilities
+      #    name: Fix Vulnerabilities
+      #    command: sudo npm audit fix
       - run:
           #install selenium
           name: Install Selenium
@@ -81,7 +81,7 @@ jobs:
       - run:
           #set up selenium for python environment
           name: Selenium-setup
-          command: sudo pip install selenium
+          command: sudo pip install selenium==3.141.0
       - run:
           #notify the test reporter that test is going to start
           name: Notify CC before tests
@@ -102,10 +102,10 @@ jobs:
           #testing to see duplicate tabs or tab groups will be avoided (issue 103 105)
           name: Duplicate-prevention-test
           command: python test/no_duplicate_tabs_or_tab_groups_issue\#103_and_issue\#105.py
-      - run:
-          #testing for timer functionality issue 30
-          name: Focus-popup-timer-test
-          command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
+      #- run:
+      #testing for timer functionality issue 30
+      #   name: Focus-popup-timer-test
+      #   command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
       - run:
           #testing to see if tabs will be saved after focus mode (issue 98)
           name: Saving-tabs-test

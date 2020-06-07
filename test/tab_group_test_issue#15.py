@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+import json
 import os
 
 print(os.getcwd())
@@ -9,12 +10,15 @@ print(os.getcwd())
 options = webdriver.ChromeOptions()
 
 print("loading packed extension")
+
 options.add_argument("load-extension=./project/build/")
 #options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
 
+
 driver = webdriver.Chrome(options=options)
+
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 driver.get("chrome://extensions")
 
@@ -55,4 +59,8 @@ for i in cards:
 
 h3_header = test_group.find_element_by_tag_name("h5")
 assert h3_header.text == "Test Group", "Group Button Does not work"
+coverage_json_file = open("./project/.nyc_output/#15.json","w+")
+json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
+coverage_json_file.close()
 print("Passed All Tests")
+driver.quit()

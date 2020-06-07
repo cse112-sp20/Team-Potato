@@ -37,7 +37,7 @@ jobs:
       - run:
           #install selenium
           name: Install Selenium
-          command: sudo npm install selenium-webdriver@3.141.0
+          command: sudo npm install selenium-webdriver
       - run:
           #build the dev branch which generate a build repo to be loaded as chrome extension
           name: Generate Build

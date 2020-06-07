@@ -478,14 +478,14 @@ class Menu extends React.Component {
                   </h5>
                   <button /** the user may delete all the saved tabs */
                     type="button"
-                    className="btn btn-outline-dark savedTabsDeleteButton"
+                    className="btn savedTabsDeleteButton"
                     onClick={this.deleteSavedTabs}
                   >
                     Delete All
                   </button>
                   <button /** the user may also open all the saved tabs */
                     type="button"
-                    className="btn btn-outline-dark savedTabsOpenButton"
+                    className="btn savedTabsOpenButton"
                     onClick={this.openSavedTabs}
                   >
                     Open All

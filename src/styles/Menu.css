@@ -8,7 +8,7 @@ body {
 }
 
 .leftSideBar {
-  background-color: white;
+  background-color: aliceblue;
   border-right: 1px solid grey;
   width: 220px;
 }
@@ -35,15 +35,21 @@ body {
 }
 
 h5 strong {
-  color: #333;
+  color: darkslategrey;
   font-family: 'Ubuntu', Arial, sans-serif;
 }
 
+.tabGroupsHeader h2 {
+  color: green;
+}
+
 .activeTabsHeader strong {
+  color: green;
   margin-left: 23%;
 }
 
 .savedTabsHeader strong {
+  color: green;
   margin-left: 23%;
 }
 
@@ -98,10 +104,24 @@ h5 strong {
   margin-right: 10px;
   margin-bottom: 5px;
   margin-left: 12px;
+  color: green !important;
+  border-color: green !important;
+}
+
+.savedTabsDeleteButton:hover {
+  background-color: green !important;
+  color: white !important;
 }
 
 .savedTabsOpenButton {
   margin-bottom: 5px;
+  color: green !important;
+  border-color: green !important;
+}
+
+.savedTabsOpenButton:hover {
+  background-color: green !important;
+  color: white !important;
 }
 
 /* width */

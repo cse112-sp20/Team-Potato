@@ -37,7 +37,7 @@ jobs:
       - run:
           #install selenium
           name: Install Selenium
-          command: sudo npm install selenium-webdriver@4.0.0-alpha.7
+          command: sudo npm install selenium-webdriver@3.141.0
       - run:
           #build the dev branch which generate a build repo to be loaded as chrome extension
           name: Generate Build
@@ -81,7 +81,7 @@ jobs:
       - run:
           #set up selenium for python environment
           name: Selenium-setup
-          command: sudo pip install selenium==4.0.0a6
+          command: sudo pip install selenium==3.141.0
       - run:
           #notify the test reporter that test is going to start
           name: Notify CC before tests

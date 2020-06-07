@@ -26,6 +26,7 @@ body {
   font-size: 60px;
   position: relative;
   right: -93%;
+  color: green;
 }
 
 @media screen and (max-width: 671px) {

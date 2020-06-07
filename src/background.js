@@ -33,16 +33,27 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
   });
 });
 
-// Timer for Focus Mode, add delays to improve runtime
+// Timer for Focus Mode
 let startTime;
 let passedTime;
+let timeOut; // Displays chrome notification
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.msg === 'start') {
     startTime = Date.now();
     passedTime = 0;
+    chrome.storage.sync.get('initClockTime', (obj) => {
+      if (obj) {
+        timeOut = setTimeout(
+          () => chrome.notifications.create('Focus mode ended! Good work'),
+          obj.initClockTime
+        );
+      }
+    });
   } else if (request.msg === 'get') {
     passedTime = Date.now() - startTime;
     sendResponse({ time: passedTime });
+  } else if (request.msg === 'end') {
+    window.clearTimeout(timeOut);
   }
 });
 

@@ -122,6 +122,7 @@ class PopupFocusMode extends React.Component {
       chrome.storage.sync.set({ focusedTabGroupUrls: [] });
       this.setState({ isFocusModeEnabled: false });
       chrome.storage.sync.set({ isFocusModeEnabled: false });
+      chrome.runtime.sendMessage({ msg: 'end' });
     };
 
     /**
@@ -134,13 +135,14 @@ class PopupFocusMode extends React.Component {
       chrome.storage.sync.set({
         focusedTabGroupUrls: tabGroupUrls,
       });
-      /** update the state and set chrome storage to start focus mode */
+      /** update the states */
       this.setState({ isFocusModeEnabled: true });
       chrome.storage.sync.set({ shouldDisplayFocusMode: true });
       chrome.storage.sync.set({ isFocusModeEnabled: true });
-      chrome.runtime.sendMessage({ msg: 'start' });
       /** pass in the time for the initial time of the clock */
       chrome.storage.sync.set({ initClockTime: clock });
+      /** set chrome storage to start focus mode */
+      chrome.runtime.sendMessage({ msg: 'start' });
       /** launch the focus mode */
       this.launchFocusMode();
     };
@@ -194,6 +196,13 @@ class PopupFocusMode extends React.Component {
             },
           }}
         >
+          {/* <Timer.Hours formatValue={(value) => `${value}`} />
+          <Timer.Minutes
+            formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
+          />
+          <Timer.Seconds
+            formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
+          /> */}
           {({ start, stop, setTime, getTime }) => (
             <>
               <div>
@@ -221,7 +230,7 @@ class PopupFocusMode extends React.Component {
                     className="horizontal-slider"
                     thumbClassName="sliderThumb"
                     defaultValue={60}
-                    min={5}
+                    min={1}
                     step={5}
                     max={120}
                     snapDragDisabled={false}

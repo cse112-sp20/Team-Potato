@@ -179,7 +179,11 @@ class PopupFocusMode extends React.Component {
 
     return (
       <div className="popupFocusMode">
-        <div className="popupFocusModeTitle">Focus Mode</div>
+        <div className="popupFocusModeTitle">
+          <h2>
+            <strong>Focus Mode</strong>
+          </h2>
+        </div>
         <Timer
           // Note this is only set ONCE
           initialTime={getStartingTime()} /** get the starting time */
@@ -196,7 +200,7 @@ class PopupFocusMode extends React.Component {
         >
           {({ start, stop, setTime, getTime }) => (
             <>
-              <div>
+              <div className="popupFocusModeBodyContainer">
                 <button
                   className="popupFocusModeTimer"
                   type="button"
@@ -215,7 +219,7 @@ class PopupFocusMode extends React.Component {
                   :
                   <Timer.Seconds />
                 </button>
-                <br />
+                {/* <br /> */}
                 {shouldDisplaySlider ? (
                   <ReactSlider
                     className="horizontal-slider"
@@ -231,11 +235,11 @@ class PopupFocusMode extends React.Component {
                   />
                 ) : null}
               </div>
-              <br />
-              <div className="popupFocusModeTabGroupName">{tabGroupName}</div>
+              {/* <br /> */}
+              {/* <div className="popupFocusModeTabGroupName">{tabGroupName}</div> */}
               <div className="popupFocusModeBtnContainer">
                 <button
-                  className="popupFocusModeButton"
+                  className="popupFocusModeButton btn"
                   type="button"
                   onClick={() => {
                     if (isFocusModeEnabled) {
@@ -257,7 +261,7 @@ class PopupFocusMode extends React.Component {
                 ) : (
                   <button
                     type="button"
-                    className="popupFocusModeBackButton"
+                    className="popupFocusModeBackButton btn"
                     onClick={() => {
                       hideFocusMode();
                     }}

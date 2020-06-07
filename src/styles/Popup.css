@@ -18,6 +18,7 @@
 }
 
 .menuBtn {
+  height: 50px;
   width: 100%;
   background-color: mediumseagreen !important;
   color: white !important;
@@ -25,13 +26,14 @@
 }
 
 .menuBtn:hover {
-  background-color: peachpuff !important;
+  background-color: limegreen !important;
 }
 
 .popupTabGroupHeader {
   background-color: mediumseagreen;
-  height: 60px;
+  height: 70px;
   padding-left: 10px;
-  padding-top: 10px;
+  padding-top: 15px;
   color: white;
+  text-align: center;
 }

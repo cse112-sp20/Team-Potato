@@ -1,9 +1,13 @@
 .buttonGroup {
-    float: right;
+  float: right;
 }
 
 button {
-    background: none;
-    border: none;
-    margin: 10px;
+  background: none;
+  border: none;
+  margin: 10px;
+}
+
+.card {
+  margin: 10px;
 }

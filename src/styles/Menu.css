@@ -1,45 +1,79 @@
+html,
 body {
-    height: 100%;
-    overflow: hidden;
-}
-.addGroup {
-    padding: 0;
-    border: none;
-    background: none;
-    font-size: 50px;
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+  height: 100%;
 }
 
-.menuContainer {
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.activeTabs {
-    margin: 1rem;
-    text-align: center;
-    max-height: 70vh;
-    height: auto;
-    overflow: auto;
-}
-
-.tabGroups {
-    margin: 1rem;
-    width: 80%;
+.maxHeight {
+  height: 100%;
 }
 
 .leftSideBar {
-    display: flex;
-    flex-direction: column;
+  background-color: #24305e;
+}
+
+.content {
+  background-color: #535c7d;
+}
+
+.addGroup {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 60px;
+  position: relative;
+  right: -95%;
+}
+
+h2 {
+  color: #eeeeee;
+}
+
+.activeTabsContainer {
+  height: 45vh;
+  margin-top: 10px;
+}
+
+.activeTabs {
+  overflow-y: hidden;
+  height: 80%;
+}
+
+.activeTabs:hover {
+  overflow-y: auto;
+}
+
+.savedTabsContainer {
+  height: 45vh;
 }
 
 .savedTabs {
-    margin: 1rem;
-    text-align: center;
-    max-height: 30vh;
-    height: auto;
-    overflow: auto;
+  overflow-y: hidden;
+  height: 80%;
+}
+
+.savedTabs:hover {
+  overflow-y: auto;
+}
+
+.tabGroupsContainer {
+  height: 85vh;
+  margin-top: 10px;
+}
+
+.tabGroups {
+  overflow-y: hidden;
+  height: 95%;
+}
+
+.tabGroups:hover {
+  overflow-y: auto;
+}
+
+.savedTabsDeleteButton {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.savedTabsOpenButton {
+  margin-bottom: 5px;
 }

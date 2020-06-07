@@ -1,14 +1,48 @@
+/**
+ *  @fileOverview Component for the Focus Mode Popup, which includes the timer,
+ *                buttons to start and end focus mode, and current tabgroup.
+ *
+ *  @author       Gary Chew
+ *  @author       Christopher Yeh
+ *  @author       Stephen Cheung
+ *  @author       Chau Vu
+ *  @author       David Dai
+ *
+ *  @requires     NPM:react,prop-types,react-compound-timer
+ *  @requires     ../styles/PopupFocusMode.css
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Timer from 'react-compound-timer';
+import ReactSlider from 'react-slider';
 import '../styles/PopupFocusMode.css';
 
+/**
+ * @description  The class of popup behavior to setup focusmode settings
+ * @class
+ */
 class PopupFocusMode extends React.Component {
+  /**
+   * @constructor
+   *
+   * @type  {string} tabGroupName: the name of the focused group
+   * @type  {array} tabGroupUrls: the tabgroup urls for the focused group
+   * @type  {func} hideFocusMode: function to hide focusMode option for other tabgroups
+   */
   constructor() {
     super();
+    /**
+     * those states are the intial default state
+     * @type {boolean} isFocusModeEnables: whether the focus mode has started or not
+     * @type {number} defaultTime: the default time for the length of focusmode
+     * @type {number} passedTime: the amount of time passed since start focusmode
+     */
     this.state = {
       isFocusModeEnabled: false,
+      shouldDisplaySlider: false,
       defaultTime: 3600000,
+      passedTime: 0,
     };
 
     PopupFocusMode.propTypes = {
@@ -16,97 +50,226 @@ class PopupFocusMode extends React.Component {
       tabGroupUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
       hideFocusMode: PropTypes.func.isRequired,
     };
-
+    /** set the default props */
     PopupFocusMode.defaultProps = {};
   }
 
-  componentDidMount() {
+  /**
+   * @description Method called to render at the beginning of the initial rendering
+   */
+  componentDidMount = () => {
+    /** set the state that focusMode is started or not */
     chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
       this.setState({ isFocusModeEnabled: obj.isFocusModeEnabled });
     });
-  }
+    /** start the clocktime to be the initclocktime */
+    chrome.storage.sync.get('initClockTime', (obj) => {
+      this.setState({ initClockTime: obj.initClockTime });
+    });
+  };
 
+  /**
+   * @description Function of when the focus mode decided to be luanched from the popup
+   */
   launchFocusMode = () => {
+    /** first get all the tabs */
     chrome.tabs.query({}, (currentTabs) => {
       const { tabGroupUrls } = this.props;
-
       // Open tabs in tab group
+      /** for each tab in the tabgroup, open a seperate window */
       tabGroupUrls.forEach((tabUrl) => {
         chrome.tabs.create({ url: tabUrl });
       });
-
-      // Save current tabs
+      /** Save current tabs */
       chrome.storage.sync.set({ savedTabs: currentTabs });
-
-      // Close current tabs
+      /** Close current tabs */
       currentTabs.forEach((tab) => {
         chrome.tabs.remove(tab.id);
       });
     });
   };
 
+  /**
+   * @description render the popup focus part to initiate focus mode
+   * @returns {*}
+   */
   render() {
-    const { tabGroupName, tabGroupUrls } = this.props;
-    const { isFocusModeEnabled, defaultTime } = this.state;
+    /** set the following to be props
+     * tabGroupname: the name of the tabgroup to launch focus mode
+     * tabGroupUrls: the urls stored in the tabgroup which is to be launched into focus mode
+     * hideFocusMode: forbidden other tabgroups to start focus mode
+     */
+    const { tabGroupName, tabGroupUrls, hideFocusMode } = this.props;
+    /** set the following to be the current state
+     * isFocusModeEnabled: decide whether the focus mode start or end
+     * defaultime: the 1 hour default value for focus mode
+     * initClockTime: the time when the focus mode is launched
+     * passedTime: the amount of time passed by
+     */
+    const {
+      isFocusModeEnabled,
+      shouldDisplaySlider,
+      defaultTime,
+      initClockTime,
+      passedTime,
+    } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
+
+    /**
+     * @description end the focus mode by setting urls and enabled boolen to empty and false
+     */
+    const endFocusMode = () => {
+      chrome.storage.sync.set({ focusedTabGroupUrls: [] });
+      this.setState({ isFocusModeEnabled: false });
+      chrome.storage.sync.set({ isFocusModeEnabled: false });
+    };
+
+    /**
+     * @description the set of actions to update state and so forth when focus
+     *              mode is launched
+     * @param {number} clock  the initial time of the clock
+     */
+    const startFocusMode = (clock) => {
+      /** set the urls to the tabgroupRuls */
+      chrome.storage.sync.set({
+        focusedTabGroupUrls: tabGroupUrls,
+      });
+      /** update the state and set chrome storage to start focus mode */
+      this.setState({ isFocusModeEnabled: true });
+      chrome.storage.sync.set({ shouldDisplayFocusMode: true });
+      chrome.storage.sync.set({ isFocusModeEnabled: true });
+      chrome.runtime.sendMessage({ msg: 'start' });
+      /** pass in the time for the initial time of the clock */
+      chrome.storage.sync.set({ initClockTime: clock });
+      /** launch the focus mode */
+      this.launchFocusMode();
+    };
+
+    /**
+     * @description get the starting time
+     */
+    const getStartingTime = () => {
+      /** How much time to start clock with */
+      if (isFocusModeEnabled) {
+        return initClockTime;
+      }
+      return defaultTime;
+    };
+
+    /**
+     * @description get the passed time updating for the focuspopup
+     * @returns {number}  return the starting time
+     */
+    const getPassedTime = () => {
+      /** get the passed time */
+      chrome.runtime.sendMessage({ msg: 'get' }, (response) => {
+        this.setState({ passedTime: response.time });
+      });
+      if (isFocusModeEnabled) {
+        /** update the clock time only if focusmode is enabled */
+        const newClockTime = initClockTime - passedTime;
+        if (newClockTime > 0) {
+          return newClockTime;
+        }
+        return 0;
+      }
+      /** get the time when focus mode is launched */
+      return getStartingTime();
+    };
 
     return (
       <div className="popupFocusMode">
-        <h1>Focus Mode</h1>
+        <div className="popupFocusModeTitle">Focus Mode</div>
         <Timer
-          initialTime={defaultTime}
+          // Note this is only set ONCE
+          initialTime={getStartingTime()} /** get the starting time */
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
+          checkpoints={{
+            time: 0,
+            callback: () => {
+              endFocusMode();
+              hideFocusMode();
+            },
+          }}
         >
-          {({ start, stop }) => (
+          {({ start, stop, setTime, getTime }) => (
             <>
               <div>
-                <Timer.Hours />
-                :
-                <Timer.Minutes />
-                :
-                <Timer.Seconds />
-              </div>
-              <h1>{tabGroupName}</h1>
-              <div className="btnContainer">
                 <button
+                  className="popupFocusModeTimer"
+                  type="button"
+                  onClick={() => {
+                    // Clicking timer will allow user to set custom time.
+                    if (!isFocusModeEnabled && !shouldDisplaySlider) {
+                      this.setState({ shouldDisplaySlider: true });
+                    } else {
+                      this.setState({ shouldDisplaySlider: false });
+                    }
+                  }}
+                >
+                  <Timer.Hours />
+                  :
+                  <Timer.Minutes />
+                  :
+                  <Timer.Seconds />
+                </button>
+                <br />
+                {shouldDisplaySlider ? (
+                  <ReactSlider
+                    className="horizontal-slider"
+                    thumbClassName="sliderThumb"
+                    defaultValue={60}
+                    min={5}
+                    step={5}
+                    max={720}
+                    snapDragDisabled={false}
+                    renderThumb={(props, state) => (
+                      <div {...props}>{[setTime(60000 * state.valueNow)]}</div>
+                    )}
+                  />
+                ) : null}
+              </div>
+              <br />
+              <div className="popupFocusModeTabGroupName">{tabGroupName}</div>
+              <div className="popupFocusModeBtnContainer">
+                <button
+                  className="popupFocusModeButton btn btn-primary"
                   type="button"
                   onClick={() => {
                     if (isFocusModeEnabled) {
                       stop();
-                      chrome.storage.sync.set({ focusedTabGroupUrls: [] });
-                      this.setState({ isFocusModeEnabled: false });
-                      chrome.storage.sync.set({ isFocusModeEnabled: false });
+                      endFocusMode();
+                      hideFocusMode();
                     } else {
                       start();
-                      chrome.storage.sync.set({
-                        focusedTabGroupUrls: tabGroupUrls,
-                      });
-                      this.setState({ isFocusModeEnabled: true });
-                      chrome.storage.sync.set({ isFocusModeEnabled: true });
-                      this.launchFocusMode();
+                      // Set initial time so we can set a new time when popup is reopened
+                      startFocusMode(getTime());
                     }
                   }}
                 >
                   {buttonText}
                 </button>
+                <br />
+                {isFocusModeEnabled ? (
+                  [start(), setTime(getPassedTime())] // Where we get time from background
+                ) : (
+                  <button
+                    type="button"
+                    className="popupFocusModeBackButton btn btn-secondary"
+                    onClick={() => {
+                      hideFocusMode();
+                    }}
+                  >
+                    Go Back
+                  </button>
+                )}
+                <br />
               </div>
             </>
           )}
         </Timer>
-        <br />
-        {isFocusModeEnabled ? null : (
-          <button
-            type="button"
-            onClick={() => {
-              const { hideFocusMode } = this.props;
-              hideFocusMode();
-            }}
-          >
-            Go Back
-          </button>
-        )}
       </div>
     );
   }

@@ -1,51 +1,41 @@
-body {font-family: "Lato", sans-serif;}
-
-.tablink {
-    position: relative;
-    display: inline-block;
+body {
+  font-family: 'Lato', sans-serif;
 }
 
-.button {
-    background-color: #555;
-    color: white;
-    float: left;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    cursor: pointer;
-    padding: 5px 5px;
-    font-size: 14px;
-    width: 250px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin: 5px;
+.tabFavIcon {
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
-.tooltiptext {
-    visibility: hidden;
-    width: 250px;
-    background-color: #2d2d2d;
-    color: #ffffff;
-    text-align: left;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border-radius: 6px;
-    padding: 5px 5px 5px 5px;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
+.tabTitle {
+  text-align: left;
+  font-size: 11px;
 }
 
-.button:hover {
-    background-color: #777;
+.tabContainer {
+  position: relative;
+  background-color: #343a40;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px 0 1px 10px;
+  margin: 5px;
+  float: inherit;
 }
 
-.tablink:hover .tooltiptext {
-    visibility: visible;
+.tabContainer:hover {
+  background-color: #777;
 }
 
+.closeButton {
+  z-index: 1001;
+  float: right;
+  margin: -40px 10px 0 0;
+  color: white;
+  font-size: 20px;
+}
 
+.closeButton:hover {
+  color: black;
 
+}

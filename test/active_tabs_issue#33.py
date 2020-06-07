@@ -3,9 +3,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import json
 import os
+import selenium
 
 print(os.getcwd())
-
+print(selenium.__version__)
 options = webdriver.ChromeOptions()
 
 print("loading packed extension")
@@ -13,8 +14,9 @@ options.add_argument("load-extension=./project/build/")
 #options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
-print("set up driver")
+
 driver = webdriver.Chrome(options=options)
+
 
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 driver.get("https://cse.ucsd.edu")

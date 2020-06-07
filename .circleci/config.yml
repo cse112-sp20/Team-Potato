@@ -81,7 +81,7 @@ jobs:
       - run:
           #set up selenium for python environment
           name: Selenium-setup
-          command: sudo pip install selenium=4.0.0-alpha.7
+          command: sudo pip install selenium==4.0.0a6
       - run:
           #notify the test reporter that test is going to start
           name: Notify CC before tests

@@ -223,7 +223,7 @@ class PopupFocusMode extends React.Component {
                     defaultValue={60}
                     min={5}
                     step={5}
-                    max={720}
+                    max={120}
                     snapDragDisabled={false}
                     renderThumb={(props, state) => (
                       <div {...props}>{[setTime(60000 * state.valueNow)]}</div>

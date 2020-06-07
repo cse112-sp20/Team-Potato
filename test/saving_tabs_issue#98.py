@@ -5,9 +5,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 import json
-​import os
-
-print(os.getcwd())
 
 options = webdriver.ChromeOptions()
 

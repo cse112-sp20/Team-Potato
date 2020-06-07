@@ -81,6 +81,7 @@ class Menu extends React.Component {
    * @description get the current chrome tabs opened to show up on the menu page
    */
   getActiveTabs = () => {
+    console.log('in getActiveTabs');
     const { excludeUrls } = this.state;
     /** call for the current tabs opened with Chrome */
     chrome.tabs.query({}, (tabs) => {
@@ -274,8 +275,6 @@ class Menu extends React.Component {
    * @param {Modal} e   the modal jumped out to add a new group
    */
   addGroup = (e) => {
-    /** prevent the refresh of searching active tabs */
-    this.clearInterval();
     /** only execute when user hit submit button */
     if (e.type === 'submit') {
       e.preventDefault();
@@ -411,13 +410,14 @@ class Menu extends React.Component {
    * @description   set the refresh interval of getActiveTabs to 1000ms
    */
   setInterval = () => {
-    this.state.interval = setInterval(this.getActiveTabs, 1000);
+    this.setState({ interval: setInterval(this.getActiveTabs, 1000) });
   };
 
   /**
    * @description   clear and stop the refresh interval of getActiveTabs
    */
   clearInterval = () => {
+    console.log("in clearInterval")
     const { interval } = this.state;
     clearInterval(interval);
   };
@@ -427,7 +427,6 @@ class Menu extends React.Component {
    */
   modalClose = () => {
     this.setState({ addGroupModal: false });
-    this.setInterval();
   };
 
   /**
@@ -529,6 +528,7 @@ class Menu extends React.Component {
               type="button"
               /** add a group then we set the addGroupModal to be true */
               onClick={() => {
+                this.clearInterval();
                 this.setState({ addGroupModal: true });
               }}
               data-testid="add-button" /** for testing purposes */
@@ -538,12 +538,7 @@ class Menu extends React.Component {
           </div>
         </div>
         {/** this modal is opened when the user is attempting to add a new tabgroup */}
-        <Modal
-          show={addGroupModal}
-          onHide={this.modalClose}
-          onShow={this.clearInterval} /** stop refreshing for new active tab */
-          animation={false}
-        >
+        <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>
             <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>

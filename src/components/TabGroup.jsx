@@ -140,7 +140,7 @@ class TabGroup extends React.Component {
         onDragOver={dragOver}
         droppable="true"
       >
-        <Card.Header as="h5" droppable="false">
+        <Card.Header as="h5" droppable="true" id={name}>
           {editMode ? (
             /** if enters editMode */
             <input

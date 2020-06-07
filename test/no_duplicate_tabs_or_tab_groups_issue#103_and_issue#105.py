@@ -11,6 +11,7 @@ print(os.getcwd())
 options = webdriver.ChromeOptions()
 
 print("loading packed extension")
+
 options.add_argument("load-extension=./project/build/")
 #options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
@@ -105,3 +106,7 @@ for i in cards:
         test_group_3_count += 1
 assert test_group_3_count == 1 and test_group_count == 1, "Duplicate Tab Groups Being Created"
 print("All Tests Passed")
+coverage_json_file = open("./project/.nyc_output/#103_#105.json","w+")
+json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
+coverage_json_file.close()
+driver.quit()

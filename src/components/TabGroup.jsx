@@ -23,7 +23,7 @@ import Tab from './Tab';
 import '../styles/TabGroup.css';
 
 /**
- * A class to represent TabGroup components
+ * @description   A class to represent TabGroup components
  * @class
  */
 class TabGroup extends React.Component {
@@ -63,7 +63,7 @@ class TabGroup extends React.Component {
       drop: PropTypes.func,
       dragOver: PropTypes.func,
     };
-
+    /** default function properties definition */
     TabGroup.defaultProps = {
       deleteGroup: () => {},
       editGroup: () => {},
@@ -72,7 +72,10 @@ class TabGroup extends React.Component {
       dragOver: () => {},
       displayFocusMode: () => {},
     };
-
+    /** set the current default states
+     * @type  {boolean} editMode: decide whether the tabgroup name is changable
+     * @type   {string} newName:  the new name to assign to the tabgroup
+     * */
     this.state = {
       editMode: false,
       // eslint-disable-next-line react/destructuring-assignment
@@ -81,7 +84,7 @@ class TabGroup extends React.Component {
   }
 
   /**
-   * The display of the current TabGroup once focuemode is launched
+   * @description:  The display of the current TabGroup once focuemode is launched
    */
   onFocusModeClick = () => {
     const { name, tabs, displayFocusMode } = this.props;
@@ -92,18 +95,28 @@ class TabGroup extends React.Component {
   };
 
   /**
-   * Change the state of making the TabGroup editable
+   * @description:  Change the state of making the TabGroup editable
    */
   toggleEdit = () => {
     this.setState({ editMode: true });
   };
 
   /**
-   * How the TabGroup is rendered
+   * @description:  How the TabGroup is rendered
    *
    * @returns {*}
    */
   render() {
+    /** add the following to the props
+     * name: the name of the tabgroup
+     * trackid: uuid for each tabgroup
+     * deleteGroup: function to delete a tabgroup
+     * editGroup: function to rename a tabgroup
+     * removeTab: function to remove a tabgroup
+     * view: the location of where the tabgroup is shown
+     * drop: function to drop a tab into the tabgroup
+     * dragOver: function to drag a tab over
+     */
     const {
       name,
       trackid,
@@ -115,17 +128,22 @@ class TabGroup extends React.Component {
       drop,
       dragOver,
     } = this.props;
+    /** set the following to the state
+     *  editMode: whether the name is changable or not
+     *  newName: the new name for the tabgroup
+     */
     const { editMode, newName } = this.state;
     return (
       <Card
-        data-testid="tab-group"
+        data-testid="tab-group" /** for unit testing */
         id={trackid}
         onDrop={drop}
         onDragOver={dragOver}
         droppable="true"
       >
-        <Card.Header as="h5" droppable="false">
+        <Card.Header as="h5" droppable="true" id={name}>
           {editMode ? (
+            /** if enters editMode */
             <input
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
@@ -139,6 +157,7 @@ class TabGroup extends React.Component {
                   if (name !== newName) {
                     editGroup(trackid, newName);
                   }
+                  /** change state so the page will render */
                   this.setState({ editMode: false });
                 }
               }}
@@ -151,6 +170,7 @@ class TabGroup extends React.Component {
             {view === 'menu' ? (
               <div>
                 <button
+                  /** delete group button */
                   type="button"
                   onClick={() => deleteGroup(trackid)}
                   data-testid="delete-button"
@@ -166,12 +186,14 @@ class TabGroup extends React.Component {
                 </button>
               </div>
             ) : (
+              /** view that is not on the menu, which means on the popup */
               <button
                 type="button"
                 data-testid="focus-button"
                 onClick={this.onFocusModeClick}
               >
                 <img
+                  /** this is the start green triangle image source */
                   src="https://icons.iconarchive.com/icons/icons-land/vista-multimedia/256/Play-1-Hot-icon.png"
                   alt="start-button"
                   width="25px"
@@ -182,6 +204,7 @@ class TabGroup extends React.Component {
           </div>
         </Card.Header>
         {view === 'menu' ? (
+          /** inside the menu, where the tabs being drag and droppable in respect to tabgroups */
           <Card.Body id={name} droppable="true">
             {tabs.map((tab) => (
               <Tab

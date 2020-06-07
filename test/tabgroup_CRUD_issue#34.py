@@ -133,6 +133,7 @@ for c in cards:
         final_header_to_search = c.find_element_by_tag_name("h5")
 assert name_check_edit_2 == 1, "Edit enter bug"
 
+
 #checking delete functionality
 buttons_to_check = final_header_to_search.find_elements_by_tag_name("button")
 delete_button = buttons_to_check[0]

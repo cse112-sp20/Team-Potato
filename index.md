@@ -11,9 +11,9 @@ layout: default
 
 --- -->
 
-{: style=text-align: center;"}
+<!-- {: style=text-align: center;"} -->
 
-# A One Stop Solution for Avoiding Distraction While Working.
+# A One Stop Solution for Avoiding Distraction.
 
 ![idea](/assets/idea.PNG)
 
@@ -35,18 +35,18 @@ layout: default
 
 <br/><br/>
 
-# Easy Installation from Github
+# Easy Installation
 
-1.  Download from our Github repository.
+1.  Click the [ZIP](https://github.com/cse112-sp20/Team-Potato/zipball/master) or [TAR](https://github.com/cse112-sp20/Team-Potato/tarball/master) button above to download. You can also visit our Github page by clicking [View On Github](https://github.com/cse112-sp20/Team-Potato).
 2.  Unzip the file.
 3.  Go to "Team-Potato" folder and open a terminal, type in `npm install`.
 4.  In your terminal type `npm run build-dev`.
 5.  Type in `chrome://extension` on search bar of your chrome.
 6.  Toggle on Developer Mode by clicking the toggle switch on the top right corner of the page. (You should be able to see an extra white bar show up right below the blue bar)
-7.  Click on the LOAD UNPACKED button and select the `../Team-Potato/build` folder of the file.
+7.  Click on the `Load Unpacked` button and select the `../Team-Potato/build` folder of the file.
 8.  Potato Tab is ready to go!
     <!-- ![background](/assets/background.PNG){:height="250px" width="4000px"} -->
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 ---
 
@@ -143,7 +143,7 @@ layout: default
 
 # After Focus
 
-- You can see `Github` is now in the `study` group.
+- You can see `GitHub` is now in the `study` group.
 - If you want to recover the tab that was closed by starting focus mode, follow the instruction below.
 
 1.  Navigate to the potato tab menu page.
@@ -162,6 +162,6 @@ layout: default
 
 # Links
 
-- [Internal Documentation](https://docs.google.com/document/d/19klQtOh9hJeNKfznFzHogWWHw1x1KwPm-bwxG1LLSbs/)
+- [Internal Documentation](https://docs.google.com/document/d/e/2PACX-1vQ9jYJH3R0LjTRGLDlCvhLH6hUojKYQnMfCXxr_T3mSJH5PPaO-8bpuu8hHUl2cAfhxLJnnwWC3tP5r/pub)
 
 <br/><br/><br/><br/><br/><br/>

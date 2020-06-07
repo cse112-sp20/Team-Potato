@@ -70,12 +70,11 @@ class Menu extends React.Component {
   }
 
   /**
-   * @description Method called when a component is beingb removed from the DOM
+   * @description Method called when a component is being removed from the DOM
    */
   componentWillUnmount() {
-    clearInterval(
-      this.state.interval
-    ); /** stop the refreshing for new active tabs */
+    const { interval } = this.state;
+    clearInterval(interval); /** stop the refreshing for new active tabs */
   }
 
   /**
@@ -299,23 +298,21 @@ class Menu extends React.Component {
       /** check for redundant groupname and auto rename groupname */
       let count = 0;
       let nameCheck = true;
-      let tempGroupName = groupName;
       /** constantly loop through the names of all the tabgroups
        * if there is an redundant name, append a numerical number behind
        * and reloop through. This process will continue until there is
        * no redundant names */
       while (nameCheck) {
         const index = tabGroups.findIndex(
-          (tabGroup) => tabGroup.name === tempGroupName
+          (tabGroup) => tabGroup.name === groupName
         );
         if (index === -1) {
           nameCheck = false;
         } else {
           count += 1;
-          tempGroupName = groupName + count.toString();
+          groupName += groupName + count.toString();
         }
       }
-      groupName = tempGroupName;
       /** create the newGroup to be appended to chrome storage */
       const newGroup = {
         name: groupName,
@@ -421,7 +418,8 @@ class Menu extends React.Component {
    * @description   clear and stop the refresh interval of getActiveTabs
    */
   clearInterval = () => {
-    clearInterval(this.state.interval);
+    const { interval } = this.state;
+    clearInterval(interval);
   };
 
   /**
@@ -455,12 +453,13 @@ class Menu extends React.Component {
               <div
                 id="activeTabs"
                 className="activeTabs"
-                droppable="false" /** notify the drag drop algoithm that activeTabs is not droppable */
+                droppable="false" /** notify the drag drop algorithm that activeTabs is not droppable */
                 onDrop={this.drop}
                 onDragOver={this.dragOver}
               >
                 {activeTabs.map((tab) => (
-                  <Tab /** display each tab in the activeTabs */
+                  /** display each tab in the activeTabs */
+                  <Tab
                     title={tab.title}
                     url={tab.url}
                     stored="activeTabs"
@@ -538,8 +537,7 @@ class Menu extends React.Component {
             </button>
           </div>
         </div>
-        /** this modal is opened when the user is attempting to add a new
-        tabgroup */
+        {/** this modal is opened when the user is attempting to add a new tabgroup */}
         <Modal
           show={addGroupModal}
           onHide={this.modalClose}

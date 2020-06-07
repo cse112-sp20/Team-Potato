@@ -40,7 +40,7 @@ class PopupFocusMode extends React.Component {
      */
     this.state = {
       isFocusModeEnabled: false,
-      shouldDisplaySlider: false,
+      shouldDisplaySlider: true,
       defaultTime: 3600000,
       passedTime: 0,
     };
@@ -61,6 +61,9 @@ class PopupFocusMode extends React.Component {
     /** set the state that focusMode is started or not */
     chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
       this.setState({ isFocusModeEnabled: obj.isFocusModeEnabled });
+      if (obj.isFocusModeEnabled) {
+        this.setState({ shouldDisplaySlider: false });
+      }
     });
     /** start the clocktime to be the initclocktime */
     chrome.storage.sync.get('initClockTime', (obj) => {
@@ -201,6 +204,7 @@ class PopupFocusMode extends React.Component {
           {({ start, stop, setTime, getTime }) => (
             <>
               <div className="popupFocusModeBodyContainer">
+                <div className="popupFocusModeTabGroupName">{tabGroupName}</div>
                 <button
                   className="popupFocusModeTimer"
                   type="button"

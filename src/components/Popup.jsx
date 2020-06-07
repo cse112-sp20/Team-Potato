@@ -147,7 +147,9 @@ class Popup extends React.Component {
         ) : (
           <div>
             <div className="popupTabGroupHeader">
-              <h2>Tab Groups</h2>
+              <h2>
+                <strong>Tab Groups</strong>
+              </h2>
             </div>
             <div className="popupTabGroupContainer">
               {tabGroups.map((tabGroup) => (

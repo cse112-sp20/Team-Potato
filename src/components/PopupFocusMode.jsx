@@ -188,13 +188,6 @@ class PopupFocusMode extends React.Component {
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
-          checkpoints={{
-            time: 0,
-            callback: () => {
-              endFocusMode();
-              hideFocusMode();
-            },
-          }}
         >
           {({ start, stop, setTime, getTime }) => (
             <>

@@ -146,18 +146,20 @@ class Popup extends React.Component {
           />
         ) : (
           <div>
-            {tabGroups.map((tabGroup) => (
-              /** if should display focuemode */
-              <TabGroup
-                view="popup"
-                key={tabGroup.name}
-                name={tabGroup.name}
-                id={tabGroup.id}
-                tabs={tabGroup.tabs}
-                /** update state and chrome storage */
-                displayFocusMode={this.displayFocusMode}
-              />
-            ))}
+            <div className="popupTabGroupContainer">
+              {tabGroups.map((tabGroup) => (
+                /** if should display focuemode */
+                <TabGroup
+                  view="popup"
+                  key={tabGroup.name}
+                  name={tabGroup.name}
+                  id={tabGroup.id}
+                  tabs={tabGroup.tabs}
+                  /** update state and chrome storage */
+                  displayFocusMode={this.displayFocusMode}
+                />
+              ))}
+            </div>
             <div className="btnContainer">
               <Button
                 type="button"

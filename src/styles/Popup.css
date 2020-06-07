@@ -1,13 +1,18 @@
-body {
+/* body {
   height: 300px;
   width: 320px;
-}
+} */
 
 .btnContainer {
   text-align: center;
   margin: 10px;
-  position: absolute;
   bottom: 0;
   right: 20%;
   left: 20%;
+}
+
+.popupTabGroupContainer {
+  height: 300px;
+  width: 320px;
+  overflow-y: auto;
 }

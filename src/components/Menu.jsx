@@ -73,7 +73,6 @@ class Menu extends React.Component {
    * @description Method called when a component is beingb removed from the DOM
    */
   componentWillUnmount() {
-    console.log("in componentWillUnmount")
     const { interval } = this.state;
     clearInterval(interval); /** stop the refreshing for new active tabs */
   }
@@ -82,7 +81,6 @@ class Menu extends React.Component {
    * @description get the current chrome tabs opened to show up on the menu page
    */
   getActiveTabs = () => {
-    console.log('in getActiveTabs');
     const { excludeUrls } = this.state;
     /** call for the current tabs opened with Chrome */
     chrome.tabs.query({}, (tabs) => {
@@ -417,7 +415,6 @@ class Menu extends React.Component {
    * @description   clear and stop the refresh interval of getActiveTabs
    */
   clearInterval = () => {
-    console.log("in clearInterval")
     const { interval } = this.state;
     clearInterval(interval);
   };

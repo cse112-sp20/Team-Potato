@@ -217,7 +217,7 @@ class Menu extends React.Component {
         /** here means no redundancy */
         /** push the Tab to the corresponding TabGroup (append) */
         tabGroups[index].tabs.push(tabData);
-        tab.style.display = 'block';
+        // tab.style.display = 'block';
         /** if the tab is originally stored in activeTabs or savedTabs
          *  when we drop this tab, we keep a copy in the activeTabs or
          *  savedTabs instead of remove it */

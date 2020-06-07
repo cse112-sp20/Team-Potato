@@ -17,6 +17,7 @@ options.add_argument("load-extension=./project/build/")
 #options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
+options.add_argument("--start-maximized")
 
 
 driver = webdriver.Chrome(options=options)

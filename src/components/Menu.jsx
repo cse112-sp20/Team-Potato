@@ -276,8 +276,6 @@ class Menu extends React.Component {
    * @param {Modal} e   the modal jumped out to add a new group
    */
   addGroup = (e) => {
-    /** prevent the refresh of searching active tabs */
-    this.clearInterval();
     /** only execute when user hit submit button */
     if (e.type === 'submit') {
       e.preventDefault();
@@ -300,21 +298,23 @@ class Menu extends React.Component {
       /** check for redundant groupname and auto rename groupname */
       let count = 0;
       let nameCheck = true;
+      let tempGroupName = groupName;
       /** constantly loop through the names of all the tabgroups
        * if there is an redundant name, append a numerical number behind
        * and reloop through. This process will continue until there is
        * no redundant names */
       while (nameCheck) {
         const index = tabGroups.findIndex(
-          (tabGroup) => tabGroup.name === groupName
+          (tabGroup) => tabGroup.name === tempGroupName
         );
         if (index === -1) {
           nameCheck = false;
         } else {
           count += 1;
-          groupName += groupName + count.toString();
+          tempGroupName = groupName + count.toString();
         }
       }
+      groupName = tempGroupName;
       /** create the newGroup to be appended to chrome storage */
       const newGroup = {
         name: groupName,
@@ -328,7 +328,6 @@ class Menu extends React.Component {
       /** close the modal since user submitted */
       this.modalClose();
     }
-    this.setInterval();
   };
 
   /**
@@ -411,7 +410,7 @@ class Menu extends React.Component {
    * @description   set up a 1000 ms to get new active tabs to render in activeTabs
    */
   setInterval = () => {
-    this.state.interval = setInterval(this.getActiveTabs, 1000);
+    this.setState({ interval: setInterval(this.getActiveTabs, 1000) });
   };
 
   /**
@@ -533,6 +532,7 @@ class Menu extends React.Component {
               type="button"
               /** add a group then we set the addGroupModal to be true */
               onClick={() => {
+                this.clearInterval();
                 this.setState({ addGroupModal: true });
               }}
               data-testid="add-button" /** for testing purposes */
@@ -541,13 +541,8 @@ class Menu extends React.Component {
             </button>
           </div>
         </div>
-        {/* this modal is opened when the user is attempting to add a new tabgroup  */}
-        <Modal
-          show={addGroupModal}
-          onHide={this.modalClose}
-          onShow={this.clearInterval} /** stop refreshing for new active tab */
-          animation={false}
-        >
+        {/** this modal is opened when the user is attempting to add a new tabgroup */}
+        <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>
             <Modal.Title>Create a New tabGroup</Modal.Title>
           </Modal.Header>

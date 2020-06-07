@@ -162,7 +162,15 @@ class TabGroup extends React.Component {
               }}
             />
           ) : (
-            <strong>{name}</strong>
+            <button
+              /** edit group button */
+              className="editButton"
+              type="button"
+              onClick={this.toggleEdit}
+              data-testid="edit-button"
+            >
+              <strong>{name}</strong>
+            </button>
           )}
 
           <div className="buttonGroup">
@@ -170,13 +178,7 @@ class TabGroup extends React.Component {
               <div>
                 <button
                   /** delete group button */
-                  type="button"
-                  onClick={this.toggleEdit}
-                  data-testid="edit-button"
-                >
-                  <GrEdit />
-                </button>
-                <button
+                  className="deleteButton"
                   type="button"
                   onClick={() => deleteGroup(trackid)}
                   data-testid="delete-button"
@@ -187,6 +189,7 @@ class TabGroup extends React.Component {
             ) : (
               /** view that is not on the menu, which means on the popup */
               <button
+                className="focusButton"
                 type="button"
                 data-testid="focus-button"
                 onClick={this.onFocusModeClick}

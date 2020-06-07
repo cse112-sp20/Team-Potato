@@ -11,3 +11,13 @@ button {
 .card {
   margin: 10px;
 }
+
+.focusButton {
+  border: 4px solid mediumseagreen;
+  background-color: #fff;
+  height: 40px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  width: 40px;
+}

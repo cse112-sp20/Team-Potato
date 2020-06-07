@@ -10,6 +10,7 @@ body {
 .leftSideBar {
   background-color: white;
   border-right: 1px solid grey;
+  width: 220px;
 }
 
 .content {
@@ -39,11 +40,11 @@ h5 strong {
 }
 
 .activeTabsHeader strong {
-  margin-left: 17%;
+  margin-left: 23%;
 }
 
 .savedTabsHeader strong {
-  margin-left: 17%;
+  margin-left: 23%;
 }
 
 .activeTabsContainer {
@@ -54,6 +55,7 @@ h5 strong {
 .activeTabs {
   overflow-y: hidden;
   height: 80%;
+  margin-left: 10px;
 }
 
 .activeTabs:hover {
@@ -67,6 +69,7 @@ h5 strong {
 .savedTabs {
   overflow-y: hidden;
   height: 80%;
+  margin-left: 10px;
 }
 
 .savedTabs:hover {
@@ -76,6 +79,10 @@ h5 strong {
 .tabGroupsContainer {
   height: 85%;
   margin-top: 10px;
+}
+
+.tabGroupsHeader {
+  margin-left: 10px;
 }
 
 .tabGroups {
@@ -90,6 +97,7 @@ h5 strong {
 .savedTabsDeleteButton {
   margin-right: 10px;
   margin-bottom: 5px;
+  margin-left: 12px;
 }
 
 .savedTabsOpenButton {

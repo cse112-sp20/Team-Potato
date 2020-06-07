@@ -19,11 +19,19 @@
 
 .menuBtn {
   width: 100%;
-  background-color: gainsboro !important;
-  color: black !important;
+  background-color: mediumseagreen !important;
+  color: white !important;
   border: none !important;
 }
 
 .menuBtn:hover {
   background-color: peachpuff !important;
+}
+
+.popupTabGroupHeader {
+  background-color: mediumseagreen;
+  height: 60px;
+  padding-left: 10px;
+  padding-top: 10px;
+  color: white;
 }

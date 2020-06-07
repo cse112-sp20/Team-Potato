@@ -146,6 +146,9 @@ class Popup extends React.Component {
           />
         ) : (
           <div>
+            <div className="popupTabGroupHeader">
+              <h2>Tab Groups</h2>
+            </div>
             <div className="popupTabGroupContainer">
               {tabGroups.map((tabGroup) => (
                 /** if should display focuemode */

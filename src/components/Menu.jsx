@@ -298,21 +298,23 @@ class Menu extends React.Component {
       /** check for redundant groupname and auto rename groupname */
       let count = 0;
       let nameCheck = true;
+      let tempGroupName = groupName;
       /** constantly loop through the names of all the tabgroups
        * if there is an redundant name, append a numerical number behind
        * and reloop through. This process will continue until there is
        * no redundant names */
       while (nameCheck) {
         const index = tabGroups.findIndex(
-          (tabGroup) => tabGroup.name === groupName
+          (tabGroup) => tabGroup.name === tempGroupName
         );
         if (index === -1) {
           nameCheck = false;
         } else {
           count += 1;
-          groupName += groupName + count.toString();
+          tempGroupName = groupName + count.toString();
         }
       }
+      groupName = tempGroupName;
       /** create the newGroup to be appended to chrome storage */
       const newGroup = {
         name: groupName,

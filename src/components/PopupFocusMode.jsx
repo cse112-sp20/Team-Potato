@@ -223,7 +223,7 @@ class PopupFocusMode extends React.Component {
                     className="horizontal-slider"
                     thumbClassName="sliderThumb"
                     defaultValue={60}
-                    min={1}
+                    min={5}
                     step={5}
                     max={180}
                     snapDragDisabled={false}
@@ -261,6 +261,15 @@ class PopupFocusMode extends React.Component {
                     type="button"
                     className="popupFocusModeBackButton btn btn-secondary"
                     onClick={() => {
+                      const opt = {
+                        type: 'basic',
+                        title: 'Primary Title',
+                        message: 'Primary message to display',
+                        iconUrl: '../../logo.png',
+                      };
+                      chrome.notifications.create('fm-end', opt, () =>
+                        console.log('Focus mode ended')
+                      );
                       hideFocusMode();
                     }}
                   >

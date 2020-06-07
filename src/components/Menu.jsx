@@ -544,7 +544,7 @@ class Menu extends React.Component {
         {/** this modal is opened when the user is attempting to add a new tabgroup */}
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Create a New tabGroup</Modal.Title>
+            <Modal.Title>Create TabGroup</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form
@@ -565,6 +565,7 @@ class Menu extends React.Component {
                 </Form.Control>
               </Form.Group>
               <Button
+                className="createTabGroupButton"
                 variant="primary"
                 type="submit"
                 onClick={

@@ -24,8 +24,7 @@ body {
   border: none;
   background: none;
   font-size: 45px;
-  /* position: relative; */
-  /* right: -93%; */
+  margin-left: 5px;
   color: green;
 }
 

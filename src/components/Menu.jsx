@@ -179,13 +179,14 @@ class Menu extends React.Component {
     const { tabGroups } = this.state;
     /** check if the dropped target is droppable or valid */
     if (
-      e.target === undefined || e.target.attributes.getNamedItem('droppable') === null
+      e.target === undefined ||
+      e.target.attributes.getNamedItem('droppable') === null
     ) {
       /** if invalid, do nothing */
       e.preventDefault();
       e.dataTransfer.effectAllowed = 'none';
       e.dataTransfer.dropEffect = 'none';
-    } else if (e.target.attributes.getNamedItem('droppable').value !== 'true'){
+    } else if (e.target.attributes.getNamedItem('droppable').value !== 'true') {
       /** if not droppable, do nothing */
       e.preventDefault();
       e.dataTransfer.effectAllowed = 'none';

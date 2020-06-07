@@ -5,21 +5,17 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 import json
-import os
-
 print(os.getcwd())
 
 options = webdriver.ChromeOptions()
 
 print("loading packed extension")
-
 options.add_argument("load-extension=./project/build/")
 #options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
 options.add_argument("--start-maximized")
-
-
+print("set up driver")
 driver = webdriver.Chrome(options=options)
 
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
@@ -36,18 +32,6 @@ driver.switch_to.window(driver.window_handles[3])
 driver.get("https://stackoverflow.com")
 driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[4])
-driver.get("https://piazza.com")
-driver.execute_script("window.open('');")
-driver.switch_to.window(driver.window_handles[5])
-driver.get("https://instagram.com")
-driver.execute_script("window.open('');")
-driver.switch_to.window(driver.window_handles[6])
-driver.get("https://netflix.com")
-driver.execute_script("window.open('');")
-driver.switch_to.window(driver.window_handles[7])
-driver.get("https://github.com")
-driver.execute_script("window.open('');")
-driver.switch_to.window(driver.window_handles[8])
 driver.get("chrome-extension://"+ uid +"/menu.html")
 
 # created a group that only contains the https://cse.uscd.edu website
@@ -58,7 +42,7 @@ elements = master_elem.find_elements_by_tag_name("option")
 old_count = len(driver.find_elements_by_class_name("card"))
 count = 0
 for i in elements:
-    if count <= 5:
+    if count <= 2:
         ActionChains(driver) \
             .key_down(Keys.SHIFT) \
             .click(i) \
@@ -96,8 +80,7 @@ pop_up_div = driver.find_element_by_class_name("popupFocusMode")
 button_timer_start = pop_up_div.find_element_by_class_name("popupFocusModeButton")
 original_display = pop_up_div.text
 button_timer_start.click()
-sleep(0.3)
-driver.switch_to.window(driver.window_handles[4])
+driver.switch_to.window(driver.window_handles[1])
 driver.get("chrome-extension://"+ uid +"/menu.html")
 
 # trying to find saved tabs component
@@ -156,10 +139,6 @@ sav_tab_2 = 0
 sav_tab_3 = 0
 sav_tab_4 = 0
 sav_tab_5 = 0
-sav_tab_6 = 0
-sav_tab_7 = 0
-sav_tab_8 = 0
-sav_tab_9 = 0
 for i in tabs:
     if "Computer Science" in i.text:
         sav_tab_1 = 1
@@ -169,11 +148,8 @@ for i in tabs:
         sav_tab_3 = 1
     elif "Stack Overflow" in i.text:
         sav_tab_4 = 1
-    elif "Piazza" in i.text:
-        sav_tab_5 = 1
-    elif "Instagram" in i.text:
-        sav_tab_6 = 1
-assert sav_tab_1 == 1 and sav_tab_2 == 1 and sav_tab_3 == 1 and sav_tab_4 == 1 and sav_tab_5 == 1 and sav_tab_6 == 1, "All previous tabs not rendered"
+
+assert sav_tab_1 == 1 and sav_tab_2 == 1 and sav_tab_3 == 1 and sav_tab_4 == 1, "All previous tabs not rendered"
 
 driver.find_elements_by_class_name("tabContainer")
 sleep(10)

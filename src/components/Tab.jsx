@@ -18,7 +18,7 @@ import { v4 as uuid } from 'uuid';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 /**
- * A class to represent Tab components
+ * @description   A class to represent Tab components
  * @class
  */
 class Tab extends React.Component {
@@ -40,6 +40,7 @@ class Tab extends React.Component {
       groupName: PropTypes.string,
       removeTab: PropTypes.func,
     };
+    /** if not defined, then those are the default properties */
     Tab.defaultProps = {
       favIconUrl: '',
       groupName: '',
@@ -48,7 +49,7 @@ class Tab extends React.Component {
   }
 
   /**
-   * Get the information when the tab start to be dragged
+   * @description      Get the information when the tab start to be dragged
    * @param  {Tab} e   the tab that is being dragged
    */
   dragStart = (e) => {
@@ -72,7 +73,7 @@ class Tab extends React.Component {
   };
 
   /**
-   *  prevents propagation of the same event from being called
+   *  @description       prevents propagation of the same event from being called
    *  @param   {Tab} e   the tab that is being dragged
    */
   dragOver = (e) => {
@@ -80,8 +81,8 @@ class Tab extends React.Component {
   };
 
   /**
-   * Open the link url attached to the Tab
-   * @param     {string} link   the url of the Tab
+   * @description           Open the link url attached to the Tab
+   * @param {string} link   the url of the Tab
    */
   openTab = (link) => {
     /** opens the link in a new window */
@@ -89,10 +90,9 @@ class Tab extends React.Component {
   };
 
   /**
-   * Returns the website name attached in a url
-   *
-   * @param     {string} link   the url of the Tab
-   * @returns   {string|null|*}   the host website or null if url is not given
+   * @description             Get the host / domain from the link
+   * @param {string} link     the url of the Tab
+   * @returns {string|null|*} the host website or null if url is not given
    */
   getWebsite = (link) => {
     if (!link || link === '') return null;
@@ -101,12 +101,12 @@ class Tab extends React.Component {
     /** differentiate the website protocol and host */
     const protocol = path[0];
     const host = path[2];
-    /** check if the host is part of www */
+    /** case 1: the link start with www */
     if (host.search('www.') !== -1) {
       /** if so, return the host name without the extension */
       return host.substr(host.search('www.') + 4);
     }
-    /** check if the protocol is not https */
+    /** case 2: the protocol is not https */
     if (protocol.search('https') === -1) {
       /** if so, return the protocol concatenated with the host */
       return `${protocol}//${host}`;
@@ -116,12 +116,10 @@ class Tab extends React.Component {
   };
 
   /**
-   * Returns the tooltip with the full url name and host website
-   *
-   * @param     {string} title  the full url title name
-   * @param     {string} url   the url of the Tab
-   *
-   * @returns {*} tooltip with full Tab name and host website
+   * @description           Render the tool tip
+   * @param {string} title  the title of the website
+   * @param {string} url    the url of the website
+   * @returns {*}           tooltip with full Tab name and host website
    */
   renderTooltip(title, url) {
     return (
@@ -134,11 +132,17 @@ class Tab extends React.Component {
   }
 
   /**
-   * How the Tab is rendered
-   *
+   * @description   How the Tab is rendered
    * @returns {*}
    */
   render() {
+    /** add the following to props
+     * title: the title of webiste stored in the tab
+     * url: the link of the website
+     * favIconUrl: the favIcon of the website
+     * groupName: the place where the tab is stored
+     * removeTab: function to remove the tab
+     * */
     const { title, url, favIconUrl, groupName, removeTab } = this.props;
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus
@@ -148,14 +152,14 @@ class Tab extends React.Component {
       >
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
         <div
-          id={uuid()}
+          id={uuid()} /** find element by id, so each id need to be different */
           role="button"
           className="tabContainer"
-          draggable="true"
-          key={url}
+          draggable="true" /** for the drag-drop to know */
+          key={url} /** because each url is different so we set it to be key */
           onDragStart={this.dragStart}
           onDragOver={this.dragOver}
-          data-testid="tab-container"
+          data-testid="tab-container" /** for testing */
         >
           <p className="tabTitle" onClick={() => this.openTab(url)}>
             {favIconUrl !== '' && (

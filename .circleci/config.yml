@@ -94,10 +94,10 @@ jobs:
           #test if the envrionment is setup
           name: HelloWorld-test
           command: python test/hello_world_tests.py
-      - run:
-          #testing to see active tab works with issue 33
-          name: Activetab-test
-          command: python test/active_tabs_issue\#33.py
+      #- run:
+      #    #testing to see active tab works with issue 33
+      #    name: Activetab-test
+      #    command: python test/active_tabs_issue\#33.py
       - run:
           #testing to see duplicate tabs or tab groups will be avoided (issue 103 105)
           name: Duplicate-prevention-test

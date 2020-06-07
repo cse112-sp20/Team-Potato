@@ -1,5 +1,7 @@
 .popupFocusMode {
   text-align: center;
+  height: 300px;
+  width: 320px;
 }
 
 .popupFocusModeTitle {

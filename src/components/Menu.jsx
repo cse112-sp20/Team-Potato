@@ -506,7 +506,21 @@ class Menu extends React.Component {
           <div className="col content maxHeight">
             <div className="tabGroupsContainer">
               <div className="tabGroupsHeader">
-                <h2>Tab Groups</h2>
+                <h2>
+                  <span className="verticalAlignMiddle">Tab Groups</span>
+                  <button
+                    className="addGroup"
+                    type="button"
+                    /** add a group then we set the addGroupModal to be true */
+                    onClick={() => {
+                      this.clearInterval();
+                      this.setState({ addGroupModal: true });
+                    }}
+                    data-testid="add-button" /** for testing purposes */
+                  >
+                    <IoMdAddCircle />
+                  </button>
+                </h2>
               </div>
               <div className="tabGroups">
                 {tabGroups.map((tabGroup) => (
@@ -527,18 +541,6 @@ class Menu extends React.Component {
                 ))}
               </div>
             </div>
-            <button
-              className="addGroup"
-              type="button"
-              /** add a group then we set the addGroupModal to be true */
-              onClick={() => {
-                this.clearInterval();
-                this.setState({ addGroupModal: true });
-              }}
-              data-testid="add-button" /** for testing purposes */
-            >
-              <IoMdAddCircle />
-            </button>
           </div>
         </div>
         {/** this modal is opened when the user is attempting to add a new tabgroup */}

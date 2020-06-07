@@ -77,13 +77,13 @@
 
 .popupFocusModeBackButton {
   width: 100%;
-  background-color: mediumseagreen !important;
+  background-color: lightslategrey !important;
   color: white !important;
   border: none !important;
 }
 
 .popupFocusModeBackButton:hover {
-  background-color: limegreen !important;
+  background-color: grey !important;
 }
 
 .popupFocusModeBodyContainer {

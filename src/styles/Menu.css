@@ -35,12 +35,13 @@ body {
 }
 
 h5 strong {
-  color: darkslategrey;
+  /* color: darkslategrey; */
   font-family: 'Ubuntu', Arial, sans-serif;
 }
 
 .tabGroupsHeader h2 {
   color: green;
+  font-size: 38px;
 }
 
 .activeTabsHeader strong {
@@ -89,6 +90,7 @@ h5 strong {
 
 .tabGroupsHeader {
   margin-left: 10px;
+  font-family: sans-serif;
 }
 
 .tabGroups {

@@ -32,12 +32,12 @@ h5 strong {
   font-family: 'Ubuntu', Arial, sans-serif;
 }
 
-.activeTabsHeader {
-  text-align: center;
+.activeTabsHeader strong {
+  margin-left: 17%;
 }
 
-.savedTabsHeader {
-  text-align: center;
+.savedTabsHeader strong {
+  margin-left: 17%;
 }
 
 .activeTabsContainer {

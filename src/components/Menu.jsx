@@ -415,7 +415,7 @@ class Menu extends React.Component {
    * @description   set up a 1000 ms to get new active tabs to render in activeTabs
    */
   setInterval = () => {
-    this.setState({ interval: setInterval(this.getActiveTabs, 1000) });
+    this.setState({ interval: setInterval(this.getActiveTabs, 100) });
   };
 
   /**

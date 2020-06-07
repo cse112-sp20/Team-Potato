@@ -32,14 +32,12 @@ class Popup extends React.Component {
       this.setState({ focusedTabGroupUrls: obj.focusedTabGroupUrls });
     });
     chrome.storage.sync.get('tabGroups', (obj) => {
-      if (obj) {
-        const { tabGroups } = obj;
-        // TODO: why are we doing this?
-        if (tabGroups.length === 0) {
-          chrome.storage.sync.set({ tabGroups: [] });
-        }
-        this.setState({ tabGroups });
+      const { tabGroups } = obj;
+      /** if there is no tabgroups being created set it to an empty array */
+      if (tabGroups.length === 0) {
+        chrome.storage.sync.set({ tabGroups: [] });
       }
+      this.setState({ tabGroups });
     });
   }
 

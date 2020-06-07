@@ -93,16 +93,15 @@ class PopupFocusMode extends React.Component {
 
     const getPassedTime = () => {
       chrome.runtime.sendMessage({ msg: 'get' }, (response) => {
-        this.setState({ passedTime: response.time });
+        if (response) this.setState({ passedTime: response.time });
       });
-      if (isFocusModeEnabled) {
-        const newClockTime = initClockTime - passedTime;
-        if (newClockTime > 0) {
-          return newClockTime;
-        }
-        return 0;
+
+      /** update the clock time */
+      const newClockTime = initClockTime - passedTime;
+      if (newClockTime > 0) {
+        return newClockTime;
       }
-      return getStartingTime();
+      return 0;
     };
 
     return (
@@ -150,6 +149,7 @@ class PopupFocusMode extends React.Component {
                       setTime(msInitClockTime);
                     }
                   }}
+                  data-testid="timer-button"
                 >
                   <Timer.Hours />
                   :

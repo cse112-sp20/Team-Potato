@@ -41,6 +41,7 @@ class TabGroup extends React.Component {
    * @property  {function}  dragOver          Drag the selected tab from the TabGroup
    *
    */
+  /* istanbul ignore next */
   constructor(props) {
     super(props);
     TabGroup.propTypes = {

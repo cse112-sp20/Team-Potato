@@ -235,7 +235,7 @@ class PopupFocusMode extends React.Component {
               <div className="popupFocusModeTabGroupName">{tabGroupName}</div>
               <div className="popupFocusModeBtnContainer">
                 <button
-                  className="popupFocusModeButton btn btn-primary"
+                  className="popupFocusModeButton"
                   type="button"
                   onClick={() => {
                     if (isFocusModeEnabled) {
@@ -257,7 +257,7 @@ class PopupFocusMode extends React.Component {
                 ) : (
                   <button
                     type="button"
-                    className="popupFocusModeBackButton btn btn-secondary"
+                    className="popupFocusModeBackButton"
                     onClick={() => {
                       hideFocusMode();
                     }}

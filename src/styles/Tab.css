@@ -58,10 +58,11 @@
 }
 
 .card-body {
-  background-color: white !important;
+  background-color: aliceblue !important;
   margin-top: 10px !important;
   margin-left: 15px !important;
   padding: 0px !important;
+  min-height: 32px !important;
 }
 
 .card {

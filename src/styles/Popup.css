@@ -12,7 +12,18 @@
 }
 
 .popupTabGroupContainer {
-  height: 300px;
-  width: 320px;
+  width: 300px;
+  height: 310px;
   overflow-y: auto;
+}
+
+.menuBtn {
+  width: 100%;
+  background-color: gainsboro !important;
+  color: black !important;
+  border: none !important;
+}
+
+.menuBtn:hover {
+  background-color: peachpuff !important;
 }

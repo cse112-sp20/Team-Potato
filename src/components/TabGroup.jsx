@@ -163,7 +163,7 @@ class TabGroup extends React.Component {
               }}
             />
           ) : (
-            <div>
+            <div id={name} droppable="true">
               <strong className="tabGroupName">{name}</strong>
               {view === 'menu' ? (
                 <button

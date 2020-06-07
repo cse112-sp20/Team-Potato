@@ -4,19 +4,12 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 import json
-import os
 
-print(os.getcwd())
+chrome_options = Options()
 
-options = webdriver.ChromeOptions()
+chrome_options.add_argument("load-extension=C:/Users/Computing centre/PycharmProjects/extension_testing/Team-Potato/build")
 
-print("loading packed extension")
-options.add_argument("load-extension=./project/build/")
-#options.add_extension('./build.crx')
-options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
-options.add_argument("--no-sandbox") # Bypass OS security model
-
-driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome("./chromedriver", options=chrome_options)
 
 # This is only when using an unpacked version as UID key is not set until package is manually packed on the developer dashboard
 

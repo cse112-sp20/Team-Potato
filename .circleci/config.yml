@@ -102,10 +102,10 @@ jobs:
           #testing to see duplicate tabs or tab groups will be avoided (issue 103 105)
           name: Duplicate-prevention-test
           command: python test/no_duplicate_tabs_or_tab_groups_issue\#103_and_issue\#105.py
-      - run:
-          #testing for timer functionality issue 30
-          name: Focus-popup-timer-test
-          command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
+      #- run:
+      #testing for timer functionality issue 30
+      #    name: Focus-popup-timer-test
+      #    command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
       - run:
           #testing to see if tabs will be saved after focus mode (issue 98)
           name: Saving-tabs-test

@@ -17,8 +17,6 @@ options.add_argument("--no-sandbox") # Bypass OS security model
 options.add_argument("--start-maximized")
 
 driver = webdriver.Chrome(options=options)
-
-
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 driver.get("https://cse.ucsd.edu")
 driver.execute_script("window.open('');")
@@ -60,7 +58,6 @@ assert final_check_tab == 1, "Active Tabs are not correct"
 print("All Tests Passed")
 
 #checking active tabs updating without reloading
-'''
 driver.execute_script("window.open('');")
 driver.switch_to.window(driver.window_handles[6])
 driver.get("https://gradescope.com")
@@ -72,7 +69,7 @@ for i in list_of_active_tabs:
     if "Gradescope" in i.text:
         active_non_reload_check = 1
 assert active_non_reload_check == 1, "Active Tabs are not correct w/o reload"
-'''
+
 coverage_json_file = open("./project/.nyc_output/#33.json", "w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()

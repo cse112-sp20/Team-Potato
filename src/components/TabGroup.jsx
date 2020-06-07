@@ -140,7 +140,7 @@ class TabGroup extends React.Component {
         onDragOver={dragOver}
         droppable="true"
       >
-        <Card.Header as="h5" droppable="false">
+        <Card.Header as="h5" droppable="true" id={name} location="header">
           {editMode ? (
             /** if enters editMode */
             <input
@@ -204,7 +204,7 @@ class TabGroup extends React.Component {
         </Card.Header>
         {view === 'menu' ? (
           /** inside the menu, where the tabs being drag and droppable in respect to tabgroups */
-          <Card.Body id={name} droppable="true">
+          <Card.Body id={name} droppable="true" location="body">
             {tabs.map((tab) => (
               <Tab
                 title={tab.title}

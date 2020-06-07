@@ -10,10 +10,12 @@ print(os.getcwd())
 options = webdriver.ChromeOptions()
 
 print("loading packed extension")
+
 options.add_argument("load-extension=./project/build/")
 #options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
+
 
 driver = webdriver.Chrome(options=options)
 

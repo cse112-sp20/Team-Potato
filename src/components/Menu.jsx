@@ -187,13 +187,11 @@ class Menu extends React.Component {
       e.dataTransfer.dropEffect = 'none';
     } else {
       e.preventDefault();
-      console.log(e.target.attributes.getNamedItem('location').value);
       /** receive the tab data from dragStart of Tab */
       const tabObj = JSON.parse(e.dataTransfer.getData('text'));
       // get the element by the id
       /** grab the element by id for visual movement */
       const tab = document.getElementById(tabObj.id);
-      console.log(e.target.id)
       /** find the index of the TabGroup to add the Tab */
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id

@@ -73,6 +73,7 @@ class Menu extends React.Component {
    * @description Method called when a component is beingb removed from the DOM
    */
   componentWillUnmount() {
+    console.log("in componentWillUnmount")
     const { interval } = this.state;
     clearInterval(interval); /** stop the refreshing for new active tabs */
   }
@@ -327,7 +328,6 @@ class Menu extends React.Component {
       /** close the modal since user submitted */
       this.modalClose();
     }
-    this.setInterval();
   };
 
   /**
@@ -427,6 +427,7 @@ class Menu extends React.Component {
    */
   modalClose = () => {
     this.setState({ addGroupModal: false });
+    this.setInterval();
   };
 
   /**

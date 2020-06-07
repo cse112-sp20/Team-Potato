@@ -196,13 +196,6 @@ class PopupFocusMode extends React.Component {
             },
           }}
         >
-          {/* <Timer.Hours formatValue={(value) => `${value}`} />
-          <Timer.Minutes
-            formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
-          />
-          <Timer.Seconds
-            formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
-          /> */}
           {({ start, stop, setTime, getTime }) => (
             <>
               <div>
@@ -218,7 +211,7 @@ class PopupFocusMode extends React.Component {
                     }
                   }}
                 >
-                  <Timer.Hours />
+                  <Timer.Hours formatValue={(value) => `${value}`} />
                   :
                   <Timer.Minutes />
                   :
@@ -232,7 +225,7 @@ class PopupFocusMode extends React.Component {
                     defaultValue={60}
                     min={1}
                     step={5}
-                    max={120}
+                    max={180}
                     snapDragDisabled={false}
                     renderThumb={(props, state) => (
                       <div {...props}>{[setTime(60000 * state.valueNow)]}</div>

@@ -162,15 +162,19 @@ class TabGroup extends React.Component {
               }}
             />
           ) : (
-            <button
-              /** edit group button */
-              className="editButton"
-              type="button"
-              onClick={this.toggleEdit}
-              data-testid="edit-button"
-            >
+            <div>
               <strong>{name}</strong>
-            </button>
+              {view === 'menu' ? (
+                <button
+                  /** delete group button */
+                  type="button"
+                  onClick={this.toggleEdit}
+                  data-testid="edit-button"
+                >
+                  <GrEdit />
+                </button>
+              ) : null}
+            </div>
           )}
 
           <div className="buttonGroup">

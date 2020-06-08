@@ -37,7 +37,7 @@ test('renders tab group correctly in menu view', () => {
   expect(getByTestId('edit-button')).toBeInTheDocument();
 
   // expect to see 2 tabs in tabgroup
-  const tabs = getAllByTestId('tab-container');
+  const tabs = getAllByTestId('tab-title');
   expect(tabs.length).toEqual(2);
 });
 

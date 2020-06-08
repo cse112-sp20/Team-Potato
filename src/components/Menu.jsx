@@ -88,15 +88,14 @@ class Menu extends React.Component {
       const activeTabs = [];
       /** checking for redundancy chrome tabs */
       for (let i = 0; i < tabs.length; i += 1) {
-        let addable = true;
-        for (let j = 0; j < activeTabs.length; j += 1) {
-          if (tabs[i].url === activeTabs[j].url) {
-            addable = false;
-            break;
-          }
-        }
+        const activeUrls = activeTabs.map((tab) => tab.url);
         /** only if not in the excluded urls and no redundancy, it is added */
-        if (addable && !excludeUrls.includes(tabs[i].url)) {
+        if (
+          !(
+            activeUrls.includes(tabs[i].url) ||
+            excludeUrls.includes(tabs[i].url)
+          )
+        ) {
           activeTabs.push({
             title: tabs[i].title,
             url: tabs[i].url,
@@ -195,9 +194,6 @@ class Menu extends React.Component {
       e.preventDefault();
       /** receive the tab data from dragStart of Tab */
       const tabObj = JSON.parse(e.dataTransfer.getData('text'));
-      // get the element by the id
-      /** grab the element by id for visual movement */
-      const tab = document.getElementById(tabObj.id);
       /** find the index of the TabGroup to add the Tab */
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
@@ -222,7 +218,7 @@ class Menu extends React.Component {
         /** here means no redundancy */
         /** push the Tab to the corresponding TabGroup (append) */
         tabGroups[index].tabs.push(tabData);
-        // tab.style.display = 'block';
+
         /** if the tab is originally stored in activeTabs or savedTabs
          *  when we drop this tab, we keep a copy in the activeTabs or
          *  savedTabs instead of remove it */
@@ -271,7 +267,7 @@ class Menu extends React.Component {
     /** prevent the refresh of searching active tabs */
     this.clearInterval();
     e.preventDefault();
-    /** continue the interval of searchinga active tabs */
+    /** continue the interval of searching active tabs */
     this.setInterval();
   };
 
@@ -470,6 +466,7 @@ class Menu extends React.Component {
                 droppable="false" /** notify the drag drop algoithm that activeTabs is not droppable */
                 onDrop={this.drop}
                 onDragOver={this.dragOver}
+                data-testid="active-tabs"
               >
                 {activeTabs.map((tab) => (
                   /** display each tab in the activeTabs */
@@ -503,7 +500,7 @@ class Menu extends React.Component {
                     Open All
                   </button>
                 </div>
-                <div className="savedTabs">
+                <div className="savedTabs" data-testid="saved-tabs">
                   {savedTabs.map((tab) => (
                     <Tab /** display all the tabs being closed after focus mode launched */
                       title={tab.title}

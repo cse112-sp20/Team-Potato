@@ -393,6 +393,8 @@ class Menu extends React.Component {
     /** update the state and chrome storage */
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
+    /** this will keep refresh for newest number of tabs in ActiveTabs */
+    this.getActiveTabs();
   };
 
   /**

@@ -161,7 +161,12 @@ class Tab extends React.Component {
           onDragOver={this.dragOver}
           data-testid="tab-container" /** for testing */
         >
-          <p className="tabTitle" onClick={() => this.openTab(url)}>
+          <p
+            className="tabTitle"
+            onClick={() =>
+              this.openTab(url)
+            } /** if click then open the url in a new tab */
+          >
             {favIconUrl !== '' && (
               <img
                 className="tabFavIcon"
@@ -175,7 +180,13 @@ class Tab extends React.Component {
           </p>
           <div
             className="closeButton"
-            onClick={() => removeTab(groupName, url)}
+            onClick={
+              () =>
+                removeTab(
+                  groupName,
+                  url
+                ) /** if the button is clicked then it will be removed */
+            }
           >
             {groupName !== '' && <p>x</p>}
           </div>

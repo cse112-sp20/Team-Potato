@@ -12,10 +12,12 @@ print(os.getcwd())
 options = webdriver.ChromeOptions()
 
 print("loading packed extension")
+
 options.add_argument("load-extension=./project/build/")
 #options.add_extension('./build.crx')
 options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
 options.add_argument("--no-sandbox") # Bypass OS security model
+
 
 driver = webdriver.Chrome(options=options)
 
@@ -131,6 +133,7 @@ for c in cards:
         final_header_to_search = c.find_element_by_tag_name("h5")
 assert name_check_edit_2 == 1, "Edit enter bug"
 
+
 #checking delete functionality
 buttons_to_check = final_header_to_search.find_elements_by_tag_name("button")
 delete_button = buttons_to_check[0]
@@ -142,3 +145,4 @@ print("All Tests Passed")
 coverage_json_file = open("./project/.nyc_output/#34.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()
+driver.quit()

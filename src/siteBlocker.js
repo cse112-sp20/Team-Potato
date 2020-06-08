@@ -49,9 +49,7 @@ closeBtn.setAttribute('class', 'button');
 closeBtn.innerHTML = `You got me, close this tab`;
 closeBtn.style.background = '#18b53a';
 closeBtn.onclick = () => {
-  chrome.runtime.sendMessage({ action: 'close' }, (response) => {
-    console.log(response);
-  });
+  chrome.runtime.sendMessage({ action: 'close' });
 };
 mainDiv.appendChild(closeBtn);
 
@@ -62,16 +60,11 @@ unblockSessionBtn.setAttribute('id', 'unblockSessionBtn');
 unblockSessionBtn.innerHTML = `Please, I really need ${window.location.host}`;
 unblockSessionBtn.style.background = '#ff3b3b';
 unblockSessionBtn.onclick = () => {
-  chrome.runtime.sendMessage(
-    {
-      action: 'unblockSession',
-      title: document.title,
-      url: window.location.origin,
-    },
-    (response) => {
-      console.log(response);
-    }
-  );
+  chrome.runtime.sendMessage({
+    action: 'unblockSession',
+    title: document.title,
+    url: window.location.origin,
+  });
 };
 mainDiv.appendChild(unblockSessionBtn);
 

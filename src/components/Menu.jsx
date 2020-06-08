@@ -42,7 +42,6 @@ class Menu extends React.Component {
      * @type  {array} activeTabs:  current active tabs
      * @type  {array} tabGroups: tabgroups being stored
      * @type  {array} savedTabs: the tabs being saved after launch focus mdoe
-     * @type  {number} interval:  number of milisecond to get an update of activeTabs
      * @type  {array}  excludeUrls: urls not being shown on the within the active tabs
      */
     this.state = {
@@ -50,7 +49,6 @@ class Menu extends React.Component {
       activeTabs: [],
       tabGroups: [],
       savedTabs: [],
-      interval: 0,
       excludeUrls: [
         /** this is the potato tab menu page */
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
@@ -67,15 +65,6 @@ class Menu extends React.Component {
     this.getActiveTabs(); /** get current active tabs */
     this.getTabGroups(); /** get current saved tabgroups */
     this.getSavedTabs(); /** get current saved tabs after focus mode */
-    this.setInterval(); /** set an time of refreshing for new active tabs */
-  }
-
-  /**
-   * @description Method called when a component is beingb removed from the DOM
-   */
-  componentWillUnmount() {
-    const { interval } = this.state;
-    clearInterval(interval); /** stop the refreshing for new active tabs */
   }
 
   /**
@@ -173,8 +162,6 @@ class Menu extends React.Component {
    * @param {Tab} e   the tab that is being dropped
    */
   drop = (e) => {
-    /** stop the refreshing for new active tabs */
-    this.clearInterval();
     const { tabGroups } = this.state;
     /** check if the dropped target is droppable or valid */
     if (
@@ -254,7 +241,6 @@ class Menu extends React.Component {
     }
     /** this will keep refresh for newest number of tabs in ActiveTabs */
     this.getActiveTabs();
-    // this.setInterval();
   };
 
   /**
@@ -262,11 +248,7 @@ class Menu extends React.Component {
    * @param {Tab} e   the tab that is being dropped
    */
   dragOver = (e) => {
-    /** prevent the refresh of searching active tabs */
-    this.clearInterval();
     e.preventDefault();
-    /** continue the interval of searching active tabs */
-    this.setInterval();
   };
 
   /**
@@ -330,6 +312,8 @@ class Menu extends React.Component {
       chrome.storage.sync.set({ tabGroups }, () => {});
       /** close the modal since user submitted */
       this.modalClose();
+      /** this will keep refresh for newest number of tabs in ActiveTabs */
+      this.getActiveTabs();
     }
   };
 
@@ -352,8 +336,6 @@ class Menu extends React.Component {
    * @param {string} newName  The new name of the TabGroup
    */
   editGroup = (target, newName) => {
-    /** prevent the refresh of searching active tabs */
-    this.clearInterval();
     const { tabGroups } = this.state;
     /** find the index of the TabGroup to be renamed */
     const index = tabGroups.findIndex(
@@ -393,7 +375,6 @@ class Menu extends React.Component {
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
     /** continue to search for new active tabs */
-    this.setInterval();
   };
 
   /**
@@ -415,26 +396,10 @@ class Menu extends React.Component {
   };
 
   /**
-   * @description   set up a 5000 ms to get new active tabs to render in activeTabs
-   */
-  setInterval = () => {
-    this.setState({ interval: setInterval(this.getActiveTabs, 5000) });
-  };
-
-  /**
-   * @description   clear and stop the refresh interval of getActiveTabs
-   */
-  clearInterval = () => {
-    const { interval } = this.state;
-    clearInterval(interval);
-  };
-
-  /**
    * @description   close the modal when the add group modal is closed
    */
   modalClose = () => {
     this.setState({ addGroupModal: false });
-    this.setInterval();
   };
 
   /**
@@ -522,7 +487,6 @@ class Menu extends React.Component {
                     type="button"
                     /** add a group then we set the addGroupModal to be true */
                     onClick={() => {
-                      this.clearInterval();
                       this.setState({ addGroupModal: true });
                     }}
                     data-testid="add-button" /** for testing purposes */

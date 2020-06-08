@@ -155,6 +155,19 @@ h5 strong {
   opacity: 0.6;
 }
 
+.noTabGroups {
+  text-align: center;
+  border: 4px dotted mediumseagreen;
+  color: mediumseagreen;
+  opacity: 0.6;
+  background: aliceblue;
+  margin: 10px;
+}
+
+.noTabGroupsText {
+  margin-top: 20%;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 8px;

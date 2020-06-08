@@ -532,24 +532,39 @@ class Menu extends React.Component {
                   </button>
                 </h2>
               </div>
-              <div className="tabGroups">
-                {tabGroups.map((tabGroup) => (
-                  <TabGroup
-                    view="menu"
-                    key={
-                      tabGroup.trackid
-                    } /** track the tabgrouop by trackid which unique to each tabgroup */
-                    trackid={tabGroup.trackid} /** trackid assignmemnt */
-                    name={tabGroup.name}
-                    tabs={tabGroup.tabs}
-                    deleteGroup={this.deleteGroup}
-                    editGroup={this.editGroup}
-                    removeTab={this.removeTab}
-                    drop={this.drop}
-                    dragOver={this.dragOver}
-                  />
-                ))}
-              </div>
+
+              {tabGroups.length !== 0 ? (
+                <div className="tabGroups">
+                  {tabGroups.map((tabGroup) => (
+                    <TabGroup
+                      view="menu"
+                      key={
+                        tabGroup.trackid
+                      } /** track the tabgrouop by trackid which unique to each tabgroup */
+                      trackid={tabGroup.trackid} /** trackid assignmemnt */
+                      name={tabGroup.name}
+                      tabs={tabGroup.tabs}
+                      deleteGroup={this.deleteGroup}
+                      editGroup={this.editGroup}
+                      removeTab={this.removeTab}
+                      drop={this.drop}
+                      dragOver={this.dragOver}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="tabGroups noTabGroups">
+                  <p className="noTabGroupsText">
+                    There are no tabgroups. Click the
+                    {'\u00a0'}
+                    <span>
+                      <IoMdAddCircle />
+                    </span>
+                    {'\u00a0'}
+                    button to add tabgroups.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

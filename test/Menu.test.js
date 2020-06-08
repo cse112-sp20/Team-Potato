@@ -88,39 +88,47 @@ test('edits tabgroup correctly', () => {
   const { getByRole, getByTestId } = render(<Menu />);
 
   // expect tabgroup name to be 'Test'
-  let tabgroup = getByTestId('tab-group');
-  expect(tabgroup).toHaveTextContent('Test');
+  expect(getByTestId('tab-group')).toHaveTextContent('Test');
 
   // click edit button and press Enter key without changing name
-  const editButton = getByTestId('edit-button');
-  fireEvent.click(editButton);
+  fireEvent.click(getByTestId('edit-button'));
   let input = getByRole('textbox');
   fireEvent.keyPress(input, { key: 'a', code: 65, charCode: 65 });
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
 
   // expect tabgroup name to still be 'Test'
-  tabgroup = getByTestId('tab-group');
-  expect(tabgroup).toHaveTextContent('Test');
+  expect(getByTestId('tab-group')).toHaveTextContent('Test');
 
   // click edit button and change name to 'Test'
-  fireEvent.click(editButton);
+  fireEvent.click(getByTestId('edit-button'));
   input = getByRole('textbox');
   fireEvent.change(input, { target: { value: 'Test' } });
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
 
   // expect tabgroup name to still be 'Test'
-  tabgroup = getByTestId('tab-group');
-  expect(tabgroup).toHaveTextContent('Test');
+  expect(getByTestId('tab-group')).toHaveTextContent('Test');
 
   // click edit button and change name to 'Edited'
-  fireEvent.click(editButton);
+  fireEvent.click(getByTestId('edit-button'));
   input = getByRole('textbox');
   fireEvent.change(input, { target: { value: 'Edited' } });
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
 
   // expect tabgroup name to have changed to 'Edited'
-  tabgroup = getByTestId('tab-group');
-  expect(tabgroup).toHaveTextContent('Edited');
+  expect(getByTestId('tab-group')).toHaveTextContent('Edited');
+
+  // click edit button and change name to long name
+  fireEvent.click(getByTestId('edit-button'));
+  input = getByRole('textbox');
+  fireEvent.change(input, {
+    target: { value: 'super long name longer than 30 chars' },
+  });
+  fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
+
+  // expect tabgroup name to have been truncated
+  expect(getByTestId('tab-group')).toHaveTextContent(
+    'super long name longer than 30'
+  );
 });
 
 // Test 5
@@ -201,6 +209,36 @@ test('adds tabgroup correctly', () => {
   const after = queryAllByTestId('tab-group');
   expect(after.length).toEqual(1);
   expect(after[0]).toHaveTextContent('Test');
+});
+
+// Test 7
+test('truncates long tabgroup names correctly', () => {
+  // start with no tabgroups in chrome storage
+  chrome.storage.sync.set({
+    tabGroups: [],
+  });
+
+  const { getByTestId } = render(<Menu />);
+
+  // click Add Group button
+  fireEvent.click(getByTestId('add-button'));
+
+  // submit form to create tabgroup
+  const createGroup = getByTestId('form');
+  fireEvent.change(createGroup, {
+    target: [
+      { value: 'super long name longer than 30 chars' },
+      {
+        options: [],
+      },
+    ],
+  });
+  fireEvent.submit(createGroup);
+
+  // expect to see tabgroup with truncated name
+  expect(getByTestId('tab-group')).toHaveTextContent(
+    'super long name longer than 30'
+  );
 });
 
 // Test 8

@@ -152,13 +152,10 @@ test('toggles custom time slider', () => {
 
   const { queryByRole, getByTestId } = render(<Popup />);
 
-  // click timer
-  fireEvent.click(getByTestId('timer-button'));
-
   // expect to see slider
   expect(queryByRole('slider')).toBeInTheDocument();
 
-  // click timer again
+  // click timer
   fireEvent.click(getByTestId('timer-button'));
 
   // expect to not see slider

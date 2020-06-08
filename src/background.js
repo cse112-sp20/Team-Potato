@@ -53,10 +53,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.sync.get('initClockTime', (obj) => {
       if (obj) {
         timeOut = setTimeout(
-          () =>
-            chrome.notifications.create('fm-end', opt, () =>
-              console.log('Focus mode ended')
-            ),
+          () => chrome.notifications.create('fm-end', opt),
           obj.initClockTime
         );
       }

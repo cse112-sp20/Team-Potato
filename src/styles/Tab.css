@@ -1,41 +1,73 @@
-body {
-  font-family: 'Lato', sans-serif;
-}
-
 .tabFavIcon {
   vertical-align: middle;
   margin-right: 5px;
+  margin-top: -2px;
 }
 
 .tabTitle {
-  text-align: left;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .tabContainer {
   position: relative;
-  background-color: #343a40;
-  color: #fff;
-  border-radius: 10px;
+  background-color: gainsboro;
+  color: black;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   cursor: pointer;
-  padding: 10px 0 1px 10px;
-  margin: 5px;
-  float: inherit;
+  padding-left: 9px;
+  padding-top: 9px;
+  margin-bottom: 3px;
+  margin-right: 3px;
+  float: left;
+  width: 200px;
+  height: 32px;
 }
 
 .tabContainer:hover {
-  background-color: #777;
+  background-color: peachpuff;
+}
+
+.tabContainer p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 160px;
 }
 
 .closeButton {
   z-index: 1001;
   float: right;
-  margin: -40px 10px 0 0;
-  color: white;
+  margin: -42px 7px 0 0;
+  color: black;
   font-size: 20px;
+}
+
+.closeButton p {
+  width: 10px;
 }
 
 .closeButton:hover {
   color: black;
+}
 
+/* react-components need !important to override */
+.card-header {
+  background-color: white !important;
+  border-bottom: 0px !important;
+}
+
+.card-body {
+  background-color: aliceblue !important;
+  margin-top: 10px !important;
+  margin-left: 15px !important;
+  padding: 0px !important;
+  min-height: 32px !important;
+}
+
+.card {
+  border-top: 0px solid white !important;
+  border-bottom: 2px solid grey !important;
+  border-left: 0px solid white !important;
+  border-right: 0px solid white !important;
 }

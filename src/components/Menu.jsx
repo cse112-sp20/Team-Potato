@@ -291,6 +291,10 @@ class Menu extends React.Component {
       if (groupName === '') {
         groupName = 'Untitled';
       }
+      /** set limitation of name length */
+      if (groupName.length > 30 ){
+        groupName = groupName.substring(0, 30);
+      }
       const { options } = e.target[1];
       /** allow user to append the tabs to the newly created TabGroup
        * from the active Tabs */
@@ -361,6 +365,10 @@ class Menu extends React.Component {
     const index = tabGroups.findIndex(
       (tabGroup) => tabGroup.trackid === target
     );
+    /** limit the name input to be under 30 */
+    if (newName.length > 30 ){
+        newName = newName.substring(0, 30);
+    }
     /** change the name only if the name is different */
     if (tabGroups[index].name !== newName) {
       /** check if there is a redundant name existed */

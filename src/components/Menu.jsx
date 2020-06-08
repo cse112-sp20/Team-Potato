@@ -198,7 +198,6 @@ class Menu extends React.Component {
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
-      console.log(index);
       /** create the data to be appended to the TabGroup */
       const tabData = {
         title: tabObj.title,
@@ -555,13 +554,13 @@ class Menu extends React.Component {
               ) : (
                 <div className="tabGroups noTabGroups">
                   <p className="noTabGroupsText">
-                    There are no tabgroups. Click the
+                    You have no tab groups. Click the
                     {'\u00a0'}
                     <span>
                       <IoMdAddCircle />
                     </span>
                     {'\u00a0'}
-                    button to add tabgroups.
+                    button to get started.
                   </p>
                 </div>
               )}
@@ -571,7 +570,7 @@ class Menu extends React.Component {
         {/** this modal is opened when the user is attempting to add a new tabgroup */}
         <Modal show={addGroupModal} onHide={this.modalClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Create TabGroup</Modal.Title>
+            <Modal.Title>Create Tab Group</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form
@@ -583,7 +582,7 @@ class Menu extends React.Component {
                 <Form.Control type="text" placeholder="Enter Group Name..." />
               </Form.Group>
               <Form.Group controlId="selectedTabs">
-                <Form.Label>Add Tabs to tabGroup</Form.Label>
+                <Form.Label>Add Tabs to Group</Form.Label>
                 <Form.Control as="select" multiple>
                   {activeTabs.map((tab) => (
                     /** user may select each tab to add into the created tabrgoup */

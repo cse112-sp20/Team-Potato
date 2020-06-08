@@ -24,32 +24,35 @@ test('renders tab correctly', () => {
 });
 
 // Test 3
-test('opens menu when tab is clicked', () => {
-  // mock window.open(), so we can analyze its inputs/outputs
+test('opens tab in new window correctly', () => {
+  // create a stub of window.open()
   window.open = jest.fn();
 
-  const { getByRole } = render(<Tab title="test" url="https://www.test.com" />);
+  const { getByTestId } = render(
+    <Tab title="test" url="https://www.test.com" />
+  );
 
   // click on tab
-  fireEvent.click(getByRole('button'));
+  fireEvent.click(getByTestId('tab-title'));
 
   // expect new tab with url of 'https://www.test.com' to have opened
   expect(window.open).toHaveBeenCalledWith('https://www.test.com', '_blank');
 });
 
 // Test 4
-test('', () => {
-  // create a mock of the Event.dataTransfer.setData() method
+test('handles dragging tab around', () => {
+  // create a stub of Event.dataTransfer.setData()
   const setData = jest.fn();
 
   const { getByRole } = render(<Tab title="test" url="https://www.test.com" />);
 
-  // start draggging tab
+  // drag tab
   const tab = getByRole('button');
   fireEvent.dragStart(tab, {
     dataTransfer: { setData },
   });
+  fireEvent.dragOver(tab);
 
-  // expect Event.dataTransfer.setData() to have been called
+  // expect data of tab-to-drag to have been set
   expect(setData).toHaveBeenCalled();
 });

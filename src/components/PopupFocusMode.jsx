@@ -113,7 +113,7 @@ class PopupFocusMode extends React.Component {
       defaultTime,
       initClockTime,
       passedTime,
-      whitelistUrls, 
+      whitelistUrls,
     } = this.state;
     const buttonText = isFocusModeEnabled ? 'End\nFocus' : 'Start\nFocus';
 
@@ -124,6 +124,7 @@ class PopupFocusMode extends React.Component {
       chrome.storage.sync.set({ focusedTabGroupUrls: [] });
       this.setState({ isFocusModeEnabled: false });
       chrome.storage.sync.set({ isFocusModeEnabled: false });
+      chrome.runtime.sendMessage({ msg: 'end' });
     };
 
     /**
@@ -139,9 +140,10 @@ class PopupFocusMode extends React.Component {
       this.setState({ isFocusModeEnabled: true });
       chrome.storage.sync.set({ shouldDisplayFocusMode: true });
       chrome.storage.sync.set({ isFocusModeEnabled: true });
-      chrome.runtime.sendMessage({ msg: 'start' });
       /** pass in the time for the initial time of the clock */
       chrome.storage.sync.set({ initClockTime: clock });
+      /** set chrome storage to start focus mode */
+      chrome.runtime.sendMessage({ msg: 'start' });
       /** launch the focus mode */
       this.launchFocusMode();
     };
@@ -164,18 +166,15 @@ class PopupFocusMode extends React.Component {
     const getPassedTime = () => {
       /** get the passed time */
       chrome.runtime.sendMessage({ msg: 'get' }, (response) => {
-        this.setState({ passedTime: response.time });
+        if (response) this.setState({ passedTime: response.time });
       });
-      if (isFocusModeEnabled) {
-        /** update the clock time only if focusmode is enabled */
-        const newClockTime = initClockTime - passedTime;
-        if (newClockTime > 0) {
-          return newClockTime;
-        }
-        return 0;
+
+      /** update the clock time */
+      const newClockTime = initClockTime - passedTime;
+      if (newClockTime > 0) {
+        return newClockTime;
       }
-      /** get the time when focus mode is launched */
-      return getStartingTime();
+      return 0;
     };
 
     return (
@@ -187,13 +186,6 @@ class PopupFocusMode extends React.Component {
           direction="backward"
           startImmediately={false}
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
-          checkpoints={{
-            time: 0,
-            callback: () => {
-              endFocusMode();
-              hideFocusMode();
-            },
-          }}
         >
           {({ start, stop, setTime, getTime }) => (
             <>
@@ -209,8 +201,9 @@ class PopupFocusMode extends React.Component {
                       this.setState({ shouldDisplaySlider: false });
                     }
                   }}
+                  data-testid="timer-button"
                 >
-                  <Timer.Hours />
+                  <Timer.Hours formatValue={(value) => `${value}`} />
                   :
                   <Timer.Minutes />
                   :
@@ -224,7 +217,7 @@ class PopupFocusMode extends React.Component {
                     defaultValue={60}
                     min={5}
                     step={5}
-                    max={120}
+                    max={180}
                     snapDragDisabled={false}
                     renderThumb={(props, state) => (
                       <div {...props}>{[setTime(60000 * state.valueNow)]}</div>

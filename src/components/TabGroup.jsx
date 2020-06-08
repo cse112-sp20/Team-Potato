@@ -212,7 +212,7 @@ class TabGroup extends React.Component {
         {view === 'menu' ? (
           /** inside the menu, where the tabs being drag and droppable in respect to tabgroups */
           <div>
-            {tabs.length !== 0 ? (
+            {tabs && tabs.length !== 0 ? (
               <Card.Body id={name} droppable="true">
                 {tabs.map((tab) => (
                   <Tab

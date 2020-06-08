@@ -474,7 +474,7 @@ class Menu extends React.Component {
                 ))}
               </div>
             </div>
-            {savedTabs.length !== 0 ? (
+            {savedTabs && savedTabs.length !== 0 ? (
               <div className="savedTabsContainer">
                 <div className="savedTabsHeader">
                   <h5>

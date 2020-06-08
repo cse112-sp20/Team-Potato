@@ -1,9 +1,65 @@
-body {
+/* body {
   height: 300px;
   width: 320px;
-}
+} */
 
 .btnContainer {
   text-align: center;
   margin: 10px;
+  bottom: 0;
+  right: 20%;
+  left: 20%;
+}
+
+.popupTabGroupContainer {
+  width: 300px;
+  height: 310px;
+  overflow-y: hidden;
+}
+
+.popupTabGroupContainer:hover {
+  overflow-y: auto;
+}
+
+.menuBtn {
+  height: 50px;
+  width: 100%;
+  background-color: mediumseagreen !important;
+  color: white !important;
+  border: none !important;
+}
+
+.menuBtn:hover {
+  background-color: limegreen !important;
+}
+
+.popupTabGroupHeader {
+  background-color: mediumseagreen;
+  height: 70px;
+  padding-left: 10px;
+  padding-top: 15px;
+  color: white;
+  text-align: center;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

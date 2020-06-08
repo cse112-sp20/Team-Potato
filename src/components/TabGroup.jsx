@@ -7,6 +7,7 @@
  * @author      Gary Chew
  * @author      Chau Vu
  * @author      Fernando Vazquez
+ * @author      Stephen Cheung
  *
  * @requires    NPM: react, prop-types, react-bootstrap, react-icons
  * @requires    ../styles/TabGroup.css
@@ -163,61 +164,75 @@ class TabGroup extends React.Component {
               }}
             />
           ) : (
-            <strong>{name}</strong>
-          )}
-
-          <div className="buttonGroup">
-            {view === 'menu' ? (
-              <div>
+            <div id={name} droppable="true">
+              <strong className="tabGroupName">{name}</strong>
+              {view === 'menu' ? (
                 <button
-                  /** delete group button */
-                  type="button"
-                  onClick={() => deleteGroup(trackid)}
-                  data-testid="delete-button"
-                >
-                  <RiDeleteBinLine />
-                </button>
-                <button
+                  /** edit group button */
                   type="button"
                   onClick={this.toggleEdit}
                   data-testid="edit-button"
                 >
                   <GrEdit />
                 </button>
-              </div>
-            ) : (
-              /** view that is not on the menu, which means on the popup */
-              <button
-                type="button"
-                data-testid="focus-button"
-                onClick={this.onFocusModeClick}
-              >
-                <img
-                  /** this is the start green triangle image source */
-                  src="https://icons.iconarchive.com/icons/icons-land/vista-multimedia/256/Play-1-Hot-icon.png"
-                  alt="start-button"
-                  width="25px"
-                  height="25px"
-                />
-              </button>
-            )}
-          </div>
+              ) : null}
+              {view === 'menu' ? (
+                <div className="buttonGroup">
+                  <button
+                    /** delete group button */
+                    className="deleteButton"
+                    type="button"
+                    onClick={() => deleteGroup(trackid)}
+                    data-testid="delete-button"
+                  >
+                    <RiDeleteBinLine />
+                  </button>
+                </div>
+              ) : (
+                /** view that is not on the menu, which means on the popup */
+                <div className="buttonGroup">
+                  <button
+                    className="focusButton"
+                    type="button"
+                    data-testid="focus-button"
+                    onClick={this.onFocusModeClick}
+                  >
+                    <img
+                      /** this is the start green triangle image source */
+                      src="https://icons.iconarchive.com/icons/icons-land/vista-multimedia/256/Play-1-Hot-icon.png"
+                      alt="start-button"
+                      width="25px"
+                      height="25px"
+                    />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </Card.Header>
         {view === 'menu' ? (
           /** inside the menu, where the tabs being drag and droppable in respect to tabgroups */
-          <Card.Body id={name} droppable="true">
-            {tabs.map((tab) => (
-              <Tab
-                title={tab.title}
-                url={tab.url}
-                favIconUrl={tab.favIconUrl}
-                groupName={name}
-                removeTab={removeTab}
-                key={uuid()}
-                stored={trackid}
-              />
-            ))}
-          </Card.Body>
+          <div>
+            {tabs.length !== 0 ? (
+              <Card.Body id={name} droppable="true">
+                {tabs.map((tab) => (
+                  <Tab
+                    title={tab.title}
+                    url={tab.url}
+                    favIconUrl={tab.favIconUrl}
+                    groupName={name}
+                    removeTab={removeTab}
+                    key={uuid()}
+                    stored={trackid}
+                  />
+                ))}
+              </Card.Body>
+            ) : (
+              <Card.Body id={name} droppable="true" className="emptyTabGroup">
+                This tab group is empty. Drag a tab here to add.
+              </Card.Body>
+            )}
+          </div>
         ) : null}
       </Card>
     );

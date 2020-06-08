@@ -192,7 +192,6 @@ class Menu extends React.Component {
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
-      console.log(index);
       /** create the data to be appended to the TabGroup */
       const tabData = {
         title: tabObj.title,
@@ -249,7 +248,7 @@ class Menu extends React.Component {
     }
     /** this will keep refresh for newest number of tabs in ActiveTabs */
     this.getActiveTabs();
-    this.setInterval();
+    // this.setInterval();
   };
 
   /**
@@ -305,7 +304,7 @@ class Menu extends React.Component {
           nameCheck = false;
         } else {
           count += 1;
-          tempGroupName = groupName + count.toString();
+          tempGroupName = `${groupName} (${count.toString()})`;
         }
       }
       groupName = tempGroupName;
@@ -350,6 +349,11 @@ class Menu extends React.Component {
     const index = tabGroups.findIndex(
       (tabGroup) => tabGroup.trackid === target
     );
+    /** limit the name input to be under 30 */
+    let name = newName;
+    if (name.length > 30) {
+      name = newName.substring(0, 30);
+    }
     /** change the name only if the name is different */
     if (tabGroups[index].name !== newName) {
       /** check if there is a redundant name existed */
@@ -367,14 +371,14 @@ class Menu extends React.Component {
           break;
         } else {
           count += 1;
-          tempName = newName + count.toString();
+          tempName = `${name} (${count.toString()})`;
         }
       }
       // eslint-disable-next-line no-param-reassign
-      newName = tempName;
+      name = tempName;
     }
     /** update the new name to the corresponding TabGroup */
-    tabGroups[index].name = newName;
+    tabGroups[index].name = name;
     /** update the current state and the chrom storage */
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
@@ -401,10 +405,10 @@ class Menu extends React.Component {
   };
 
   /**
-   * @description   set up a 1000 ms to get new active tabs to render in activeTabs
+   * @description   set up a 5000 ms to get new active tabs to render in activeTabs
    */
   setInterval = () => {
-    this.setState({ interval: setInterval(this.getActiveTabs, 1000) });
+    this.setState({ interval: setInterval(this.getActiveTabs, 5000) });
   };
 
   /**

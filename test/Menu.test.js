@@ -149,9 +149,9 @@ test('prevents duplicate tabgroup names after edit', () => {
   fireEvent.change(input, { target: { value: 'Test' } });
   fireEvent.keyPress(input, { key: 'Enter', code: 13, charCode: 13 });
 
-  // expect tabgroup name to have changed to 'Test1'
+  // expect tabgroup name to have changed to 'Test (1)'
   const after = queryAllByTestId('tab-group')[1];
-  expect(after).toHaveTextContent('Test1');
+  expect(after).toHaveTextContent('Test (1)');
 });
 
 // Test 6
@@ -238,7 +238,7 @@ test('prevents duplicate tabgroup names after creation', () => {
   // expect to see tabgroup
   const after = queryAllByTestId('tab-group');
   expect(after.length).toEqual(2);
-  expect(after[1]).toHaveTextContent('Untitled1');
+  expect(after[1]).toHaveTextContent('Untitled (1)');
 });
 
 // Test 9

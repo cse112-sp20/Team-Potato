@@ -101,7 +101,7 @@ class Menu extends React.Component {
             title: tabs[i].title,
             url: tabs[i].url,
             favIconUrl: tabs[i].favIconUrl,
-            stored: tabs[i].stored,
+            stored: 'activeTabs',
           });
         }
       }

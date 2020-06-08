@@ -78,6 +78,7 @@ jobs:
             ls -a
             pwd
             ls -a project/
+            rm -r project/test
       - run:
           #set up selenium for python environment
           name: Selenium-setup
@@ -116,7 +117,7 @@ jobs:
           command: python test/tab_group_test_issue\#15.py
       - run:
           #testing for tabgroup issue 34
-          name: Tabgroup-test
+          name: Tabgroup-CRUD-test
           command: python test/tabgroup_CRUD_issue\#34.py
       - run:
           #testing for website blocking issue 73 and 62

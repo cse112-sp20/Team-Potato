@@ -78,7 +78,7 @@ jobs:
             ls -a
             pwd
             ls -a project/
-            rm -r /project/test
+            rm -r project/test
       - run:
           #set up selenium for python environment
           name: Selenium-setup

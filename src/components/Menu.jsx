@@ -196,7 +196,6 @@ class Menu extends React.Component {
       const index = tabGroups.findIndex(
         (tabGroup) => tabGroup.name === e.target.id
       );
-      console.log(index);
       /** create the data to be appended to the TabGroup */
       const tabData = {
         title: tabObj.title,

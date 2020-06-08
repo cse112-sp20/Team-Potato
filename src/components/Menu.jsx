@@ -292,7 +292,7 @@ class Menu extends React.Component {
         groupName = 'Untitled';
       }
       /** set limitation of name length */
-      if (groupName.length > 30 ){
+      if (groupName.length > 30) {
         groupName = groupName.substring(0, 30);
       }
       const { options } = e.target[1];
@@ -366,8 +366,8 @@ class Menu extends React.Component {
       (tabGroup) => tabGroup.trackid === target
     );
     /** limit the name input to be under 30 */
-    if (newName.length > 30 ){
-        newName = newName.substring(0, 30);
+    if (newName.length > 30) {
+      newName = newName.substring(0, 30);
     }
     /** change the name only if the name is different */
     if (tabGroups[index].name !== newName) {
@@ -423,7 +423,7 @@ class Menu extends React.Component {
    * @description   set up a 1000 ms to get new active tabs to render in activeTabs
    */
   setInterval = () => {
-    this.setState({ interval: setInterval(this.getActiveTabs, 100) });
+    this.setState({ interval: setInterval(this.getActiveTabs, 1000) });
   };
 
   /**
@@ -482,7 +482,7 @@ class Menu extends React.Component {
                 ))}
               </div>
             </div>
-            {savedTabs && savedTabs.length !== 0 ? (
+            {savedTabs.length !== 0 ? (
               <div className="savedTabsContainer">
                 <div className="savedTabsHeader">
                   <h5>

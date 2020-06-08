@@ -73,7 +73,7 @@ class Popup extends React.Component {
       if (obj) {
         const { tabGroups } = obj;
         /** if there is no tabgroups being created set it to an empty array */
-        if (tabGroups && tabGroups.length === 0) {
+        if (tabGroups.length === 0) {
           chrome.storage.sync.set({ tabGroups: [] });
         }
         this.setState({ tabGroups });

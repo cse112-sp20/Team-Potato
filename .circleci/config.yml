@@ -145,6 +145,7 @@ jobs:
           command: |
             ls -a
             pwd
+            rm -r project/test
       - run:
           #visual check for raw coverage report
           name: Show test coverage file

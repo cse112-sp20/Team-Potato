@@ -148,6 +148,13 @@ h5 strong {
   vertical-align: middle;
 }
 
+.emptyTabGroup {
+  text-align: center;
+  border: 4px dotted mediumseagreen;
+  color: mediumseagreen;
+  opacity: 0.6;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 8px;

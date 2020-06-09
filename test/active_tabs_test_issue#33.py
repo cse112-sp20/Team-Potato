@@ -23,7 +23,6 @@ CEND = '\033[0m'
 print(os.getcwd())
 options = webdriver.ChromeOptions()
 
-
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems

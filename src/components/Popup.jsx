@@ -169,7 +169,7 @@ class Popup extends React.Component {
                 className="menuBtn"
                 onClick={this.openMenu} /** click to open menu */
               >
-                Open Potato Tab
+                Open Flow
               </Button>
             </div>
           </div>

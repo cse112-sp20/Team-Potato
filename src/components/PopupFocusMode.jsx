@@ -222,8 +222,8 @@ class PopupFocusMode extends React.Component {
                     className="horizontal-slider"
                     thumbClassName="sliderThumb"
                     defaultValue={60}
-                    min={0.2}
-                    step={0.2}
+                    min={5}
+                    step={5}
                     max={180}
                     snapDragDisabled={false}
                     renderThumb={(props, state) => (

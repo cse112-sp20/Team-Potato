@@ -17,7 +17,8 @@ CYELLOW = '\33[33m'
 CEND = '\033[0m'
 
 print(os.getcwd())
-options = Options()
+options = webdriver.ChromeOptions()
+
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems
@@ -47,7 +48,7 @@ for i in open_tab_buttons:
     if i.text != "Start":
         open_tab_button = i
 try:
-    assert open_tab_button.text == "Open Potato Tab"
+    assert open_tab_button.text == "Open Flow"
 except AssertionError:
     print(CRED + "Test 3 Failed" + CEND)
     print(CRED + "Open Potato Tab button not rendered" + CEND)
@@ -59,7 +60,7 @@ print("-----------------------")
 '''
 Test #4
 
-Description: This test checks whether the "Open Potato Tab Menu" is working properly
+Description: This test checks whether the "Open Flow Tab Menu" is working properly
 
 '''
 print(CYELLOW + "Running Test 4" + CEND)
@@ -69,10 +70,10 @@ open_tab_button.click()
 driver.switch_to.window(driver.window_handles[-1])
 post_press_title = driver.title
 try:
-    assert post_press_title == "Potato Tab Menu"
+    assert post_press_title == "Flow Menu"
 except AssertionError:
     print(CRED +"Test 4 Failed" + CEND)
-    print("Potato Tab Menu not opened on button click")
+    print(CRED + "Flow Tab Menu not opened on button click" + CEND)
     all_tests_check = 1
 else:
     print(CGREEN + "Test 4 Passed" + CEND)

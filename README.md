@@ -1,3 +1,5 @@
+<p align="center"> <img src="/public/banner.png"> </p>
+
 [![<ORG_NAME>](https://circleci.com/gh/cse112-sp20/Team-Potato/tree/master.svg?style=svg)](https://app.circleci.com/pipelines/github/cse112-sp20/Team-Potato?branch=master) [![Test Coverage](https://api.codeclimate.com/v1/badges/69aa5056d4837a063ea6/test_coverage)](https://codeclimate.com/github/cse112-sp20/Team-Potato/test_coverage)
 
 # Flow

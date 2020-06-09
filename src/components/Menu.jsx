@@ -52,7 +52,7 @@ class Menu extends React.Component {
       savedTabs: [],
       interval: 0,
       excludeUrls: [
-        /** this is the potato tab menu page */
+        /** this is the flow menu page */
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
         /** new tab for chrome brower */
         'chrome://newtab/',
@@ -71,7 +71,7 @@ class Menu extends React.Component {
   }
 
   /**
-   * @description Method called when a component is beingb removed from the DOM
+   * @description Method called when a component is being removed from the DOM
    */
   componentWillUnmount() {
     const { interval } = this.state;
@@ -462,7 +462,7 @@ class Menu extends React.Component {
               <div
                 id="activeTabs"
                 className="activeTabs"
-                droppable="false" /** notify the drag drop algoithm that activeTabs is not droppable */
+                droppable="false" /** notify the drag drop algorithm that activeTabs is not droppable */
                 onDrop={this.drop}
                 onDragOver={this.dragOver}
                 data-testid="active-tabs"

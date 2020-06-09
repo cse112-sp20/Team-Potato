@@ -52,7 +52,7 @@ class Menu extends React.Component {
       savedTabs: [],
       interval: 0,
       excludeUrls: [
-        /** this is the potato tab menu page */
+        /** this is the flow menu page */
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
         /** new tab for chrome brower */
         'chrome://newtab/',

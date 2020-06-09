@@ -151,7 +151,7 @@ class Popup extends React.Component {
             </div>
             <div className="popupTabGroupContainer">
               {tabGroups.map((tabGroup) => (
-                /** if should display focuemode */
+                /** if should display focusmode */
                 <TabGroup
                   view="popup"
                   key={tabGroup.name}

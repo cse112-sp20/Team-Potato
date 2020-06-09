@@ -1,4 +1,4 @@
-[![<ORG_NAME>](https://circleci.com/gh/cse112-sp20/Team-Potato.svg?style=svg)](https://app.circleci.com/pipelines/github/cse112-sp20/Team-Potato)
+[![<ORG_NAME>](https://circleci.com/gh/cse112-sp20/Team-Potato/tree/master.svg?style=svg)](https://app.circleci.com/pipelines/github/cse112-sp20/Team-Potato?branch=master)
 
 # Flow
 

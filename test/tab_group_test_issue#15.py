@@ -17,10 +17,9 @@ CYELLOW = '\33[33m'
 CEND = '\033[0m'
 
 print(os.getcwd())
-options = webdriver.ChromeOptions()
-
+options = Options()
 print("loading packed extension")
-options.add_argument("load-extension=C:/Users/Computing centre/PycharmProjects/extension_testing/Team-Potato/build")
+options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems
 options.add_argument("--disable-dev-shm-usage")
 # Bypass OS security model
@@ -141,4 +140,3 @@ coverage_json_file = open("./project/.nyc_output/#15.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()
 driver.quit()
-

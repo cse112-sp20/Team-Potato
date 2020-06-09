@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlit8HfOl0wRPbUcplpFLrg8jgOarDDlKsW6YaHlVDL2rxcwyULw2NfTciyVzP0dCkgSQXkBB/O7t6M3XD36sT8V7cr9sPY1+dBfvrD8Xlk+tLtSt9sh5H13IQ5s3HL1fVrqX7v8olRbc+SrCMxlPf5AeiyBSwz7DzAajYd4wH34AopSuaVRaRResF79JCL25tUhxqHG5CSJwJ4E/RWhvBryM5qsUHmx3CzLWSjF9NKf24z/Z4pf7K8i6+zpe4zEXbrPl/etL9TNS4agkn6bZUNad/1GJtqOUWyBhkL/T29/TDQN/jWWm4MpvPadBWszgTJhLblRuVG8/ZehqH0jxOwIDAQAB",
-  "name": "PotatoTab",
+  "name": "Flow",
   "version": "1.0",
   "description": "An all-in-one tab grouper, session manager, and concentration extension",
   "icons": {
@@ -16,6 +16,7 @@
   },
   "permissions": [
     "activeTab",
+    "notifications",
     "storage",
     "tabs",
     "unlimitedStorage",

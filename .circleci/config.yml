@@ -30,10 +30,10 @@ jobs:
           #install all the packages from package.json
           name: install-dependencies
           command: sudo npm install
-      - run:
-          #audit package dependencies for security vulnerabilities
-          name: Fix Vulnerabilities
-          command: sudo npm audit fix
+      #- run:
+      #    #audit package dependencies for security vulnerabilities
+      #    name: Fix Vulnerabilities
+      #    command: sudo npm audit fix
       - run:
           #install selenium
           name: Install Selenium
@@ -62,7 +62,7 @@ jobs:
     #setup python docker and environment
     executor: python
     environment:
-      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
+      CC_TEST_REPORTER_ID: f1ce64aeaeee4334811ddc112d46eef3d3d4fca92efacadc5ce9719a6c920f2b
     steps:
       - checkout
       #attach the build repo and test-reporter from previous job
@@ -78,10 +78,11 @@ jobs:
             ls -a
             pwd
             ls -a project/
+            rm -r project/test
       - run:
           #set up selenium for python environment
           name: Selenium-setup
-          command: sudo pip install selenium
+          command: sudo pip install selenium==3.141.0
       - run:
           #notify the test reporter that test is going to start
           name: Notify CC before tests
@@ -102,21 +103,21 @@ jobs:
           #testing to see duplicate tabs or tab groups will be avoided (issue 103 105)
           name: Duplicate-prevention-test
           command: python test/no_duplicate_tabs_or_tab_groups_issue\#103_and_issue\#105.py
-      - run:
-          #testing for timer functionality issue 30
-          name: Focus-popup-timer-test
-          command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
+      #- run:
+      #testing for timer functionality issue 30
+      #   name: Focus-popup-timer-test
+      #   command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
       - run:
           #testing to see if tabs will be saved after focus mode (issue 98)
           name: Saving-tabs-test
           command: python test/saving_tabs_issue\#98.py
       - run:
           #testing on issue 15 with most uptodate tests
-          name: Tab-group-test
+          name: Tab-group-test-15
           command: python test/tab_group_test_issue\#15.py
       - run:
           #testing for tabgroup issue 34
-          name: Tabgroup-test
+          name: Tabgroup-CRUD-test
           command: python test/tabgroup_CRUD_issue\#34.py
       - run:
           #testing for website blocking issue 73 and 62
@@ -128,11 +129,11 @@ jobs:
           paths:
             - .nyc_output
 
-  upload-coverage:
+  jest-and-upload-coverage:
     #setup nodejs docker and environment
     executor: nodejs
     environment:
-      CC_TEST_REPORTER_ID: b14eab13bf27274a062247a941d6337a0b404f2fd7953dbb8885abd1bdbc07fa
+      CC_TEST_REPORTER_ID: f1ce64aeaeee4334811ddc112d46eef3d3d4fca92efacadc5ce9719a6c920f2b
     steps:
       - checkout
       #attach the nyc_output raw coverage repo from previous job
@@ -144,6 +145,7 @@ jobs:
           command: |
             ls -a
             pwd
+            rm -r project/test
       - run:
           #visual check for raw coverage report
           name: Show test coverage file
@@ -161,6 +163,14 @@ jobs:
           #attach the build repo and test-reporter from previous job
           name: Fix Vulnerabilities
           command: sudo npm audit fix
+      - run:
+          #run jest unit tests and genereate reports
+          name: Run Jest tests
+          command: sudo npm run test
+      - run:
+          #Copy the jest tests coverage file before merging report
+          name: Copy Jest coverage file
+          command: cp coverage/coverage-final.json .nyc_output/coverage-jest.json
       - run:
           #take the raw report to generate code climate report
           name: Generate coverage report
@@ -180,7 +190,7 @@ workflows:
       - test:
           requires:
             - build
-      - upload-coverage:
+      - jest-and-upload-coverage:
           requires:
             - build
             - test

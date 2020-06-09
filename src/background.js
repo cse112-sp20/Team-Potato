@@ -8,10 +8,12 @@
  */
 
 const psl = require('psl');
-
+/**
+ * add a listener to trigger the site blocker
+ */
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
   chrome.storage.sync.get('isFocusModeEnabled', (obj) => {
-    // check if Focus Mode is on
+    /** check if Focus Mode is on */
     if (obj.isFocusModeEnabled) {
       if (tab.url != null && !tab.url.startsWith('chrome://')) {
         chrome.storage.sync.get(
@@ -20,7 +22,7 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
             const allowedUrls = focusedTabGroupUrlsObj.focusedTabGroupUrls;
             const tabDomain = psl.parse(tab.url.split('/')[2]).domain;
             const hasSameDomain = (u) => u.includes(tabDomain);
-            // if current tab's url isn't in allowedDomains, block the site
+            /** if current tab's url isn't in allowedDomains, block the site */
             if (!allowedUrls.some(hasSameDomain)) {
               chrome.tabs.executeScript(tabId, {
                 file: 'siteBlocker.bundle.js',
@@ -33,16 +35,34 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
   });
 });
 
-// Timer for Focus Mode, add delays to improve runtime
+// Timer for Focus Mode
 let startTime;
 let passedTime;
+let timeOut; // Displays chrome notification
+const opt = {
+  type: 'basic',
+  title: 'Good work!',
+  message:
+    'Your focus mode session is over, open Flow to end or start a new session',
+  iconUrl: '../logo.png',
+};
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.msg === 'start') {
     startTime = Date.now();
     passedTime = 0;
+    chrome.storage.sync.get('initClockTime', (obj) => {
+      if (obj) {
+        timeOut = setTimeout(
+          () => chrome.notifications.create('fm-end', opt),
+          obj.initClockTime
+        );
+      }
+    });
   } else if (request.msg === 'get') {
     passedTime = Date.now() - startTime;
     sendResponse({ time: passedTime });
+  } else if (request.msg === 'end') {
+    window.clearTimeout(timeOut);
   }
 });
 

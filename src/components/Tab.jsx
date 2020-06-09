@@ -159,9 +159,12 @@ class Tab extends React.Component {
           key={url} /** because each url is different so we set it to be key */
           onDragStart={this.dragStart}
           onDragOver={this.dragOver}
-          data-testid="tab-container" /** for testing */
         >
-          <p className="tabTitle" onClick={() => this.openTab(url)}>
+          <p
+            className="tabTitle"
+            onClick={() => this.openTab(url)}
+            data-testid="tab-title" /** for testing */
+          >
             {favIconUrl !== '' && (
               <img
                 className="tabFavIcon"
@@ -175,9 +178,15 @@ class Tab extends React.Component {
           </p>
           <div
             className="closeButton"
-            onClick={() => removeTab(groupName, url)}
+            onClick={
+              () =>
+                removeTab(
+                  groupName,
+                  url
+                ) /** if the button is clicked then it will be removed */
+            }
           >
-            {groupName !== '' && <p>x</p>}
+            {groupName !== '' && <p data-testid="close-button">x</p>}
           </div>
         </div>
       </OverlayTrigger>

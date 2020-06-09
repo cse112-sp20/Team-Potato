@@ -70,14 +70,12 @@ class Popup extends React.Component {
     });
     /** set the state for the tabgroups */
     chrome.storage.sync.get('tabGroups', (obj) => {
-      if (obj) {
-        const { tabGroups } = obj;
-        /** if there is no tabgroups being created set it to an empty array */
-        if (tabGroups.length === 0) {
-          chrome.storage.sync.set({ tabGroups: [] });
-        }
-        this.setState({ tabGroups });
+      const { tabGroups } = obj;
+      /** if there is no tabgroups being created set it to an empty array */
+      if (tabGroups.length === 0) {
+        chrome.storage.sync.set({ tabGroups: [] });
       }
+      this.setState({ tabGroups });
     });
   }
 
@@ -146,25 +144,32 @@ class Popup extends React.Component {
           />
         ) : (
           <div>
-            {tabGroups.map((tabGroup) => (
-              /** if should display focuemode */
-              <TabGroup
-                view="popup"
-                key={tabGroup.name}
-                name={tabGroup.name}
-                id={tabGroup.id}
-                tabs={tabGroup.tabs}
-                /** update state and chrome storage */
-                displayFocusMode={this.displayFocusMode}
-              />
-            ))}
+            <div className="popupTabGroupHeader">
+              <h2>
+                <strong>Tab Groups</strong>
+              </h2>
+            </div>
+            <div className="popupTabGroupContainer">
+              {tabGroups.map((tabGroup) => (
+                /** if should display focuemode */
+                <TabGroup
+                  view="popup"
+                  key={tabGroup.name}
+                  name={tabGroup.name}
+                  id={tabGroup.id}
+                  tabs={tabGroup.tabs}
+                  /** update state and chrome storage */
+                  displayFocusMode={this.displayFocusMode}
+                />
+              ))}
+            </div>
             <div className="btnContainer">
               <Button
                 type="button"
                 className="menuBtn"
                 onClick={this.openMenu} /** click to open menu */
               >
-                Open Potato Tab
+                Open Flow
               </Button>
             </div>
           </div>

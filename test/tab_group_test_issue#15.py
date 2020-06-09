@@ -15,10 +15,10 @@ CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
 CEND = '\033[0m'
-​
+
 print(os.getcwd())
 options = webdriver.ChromeOptions()
-​
+
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems
@@ -30,15 +30,15 @@ options.add_argument("--start-maximized")
 print("set up driver")
 # creating chrome driver
 driver = webdriver.Chrome(options=options)
-​
+
 # assigning the extensions uid
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"
 # opening the popup.html page
 driver.get("chrome-extension://" + uid + "/popup.html")
-​
+
 '''
 Test #3
-​
+
 Description: This test checks whether the "Open Potato Tab Menu" is rendered properly
 '''
 print(CYELLOW + "Running Test 3" + CEND)
@@ -56,12 +56,12 @@ except AssertionError:
 else:
     print(CGREEN + "Test 3 Passed")
 print("-----------------------")
-​
+
 '''
 Test #4
-​
+
 Description: This test checks whether the "Open Flow Tab Menu" is working properly
-​
+
 '''
 print(CYELLOW + "Running Test 4" + CEND)
 # clicking on the open potato tab button
@@ -78,12 +78,12 @@ except AssertionError:
 else:
     print(CGREEN + "Test 4 Passed" + CEND)
 print("-----------------------")
-​
+
 '''
 Test #5
-​
+
 Description: This test checks if adding tab groups works properly
-​
+
 '''
 print(CYELLOW + "Running Test 5" + CEND)
 # finding add group button and clicking it
@@ -114,12 +114,12 @@ except AssertionError:
 else:
     print(CGREEN + "Test 5 Passed" + CEND)
 print("-----------------------")
-​
+
 '''
 Test Number #6
-​
+
 Description: Testing tab group header is rendering correctly
-​
+
 '''
 print(CYELLOW + "Running Test 6" + CEND)
 page_header = driver.find_element_by_class_name("tabGroupsHeader")
@@ -135,7 +135,7 @@ else:
 print("-----------------------")
 assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
 print(CGREEN + "All Tests Passed" + CEND)
-​
+
 # writing coverage details
 coverage_json_file = open("./project/.nyc_output/#15.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)

@@ -21,7 +21,8 @@ CYELLOW = '\33[33m'
 CEND = '\033[0m'
 
 print(os.getcwd())
-options = Options()
+options = webdriver.ChromeOptions()
+
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems
@@ -58,7 +59,7 @@ driver.get("chrome-extension://" + uid + "/menu.html")
 '''
 Test Number #1
 
-Description: This test checks if all active tabs are rendered properly when they are opened *before* menu.js is closed
+Description: This test checks if all active tabs are rendered properly when they are opened *before* menu.js is opened
 
 '''
 print(CYELLOW + "Running Test 1" + CEND)
@@ -102,7 +103,7 @@ print("-----------------------")
 '''
 Test Number #2
 
-Description: This test checks if all active tabs are rendered properly when they are opened *before* menu.js is closed
+Description: This test checks if all active tabs are rendered properly when they are opened *after* menu.js is opened
 
 '''
 # opening a new tab and loading a different website
@@ -111,15 +112,16 @@ driver.switch_to.window(driver.window_handles[1])
 driver.get("https://gradescope.com")
 # going back to menu page
 driver.switch_to.window(driver.window_handles[5])
-# checking if the new tab is present in the active page without reload
+driver.refresh()
+# checking if the new tab is present in the active page with reload
 active_tabs = driver.find_element_by_class_name("activeTabs")
 list_of_active_tabs = active_tabs.find_elements_by_class_name("tabContainer")
-active_non_reload_check = 0
+active_reload_check = 0
 for i in list_of_active_tabs:
     if "Gradescope" in i.text:
-        active_non_reload_check = 1
+        active_reload_check = 1
 try:
-    assert active_non_reload_check == 1
+    assert active_reload_check == 1
 except AssertionError:
     print(CRED + "Test 2 Failed" + CEND)
     print(CRED + "Active tabs were not updated correctly" + CEND)

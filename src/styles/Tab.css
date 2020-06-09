@@ -12,8 +12,7 @@
   position: relative;
   background-color: gainsboro;
   color: black;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-radius: 10px;
   cursor: pointer;
   padding-left: 9px;
   padding-top: 9px;

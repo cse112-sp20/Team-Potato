@@ -42,7 +42,6 @@ class Menu extends React.Component {
      * @type  {array} activeTabs:  current active tabs
      * @type  {array} tabGroups: tabgroups being stored
      * @type  {array} savedTabs: the tabs being saved after launch focus mdoe
-     * @type  {number} interval:  number of milisecond to get an update of activeTabs
      * @type  {array}  excludeUrls: urls not being shown on the within the active tabs
      */
     this.state = {
@@ -50,7 +49,6 @@ class Menu extends React.Component {
       activeTabs: [],
       tabGroups: [],
       savedTabs: [],
-      interval: 0,
       excludeUrls: [
         /** this is the flow menu page */
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
@@ -67,15 +65,6 @@ class Menu extends React.Component {
     this.getActiveTabs(); /** get current active tabs */
     this.getTabGroups(); /** get current saved tabgroups */
     this.getSavedTabs(); /** get current saved tabs after focus mode */
-    this.setInterval(); /** set an time of refreshing for new active tabs */
-  }
-
-  /**
-   * @description Method called when a component is being removed from the DOM
-   */
-  componentWillUnmount() {
-    const { interval } = this.state;
-    clearInterval(interval); /** stop the refreshing for new active tabs */
   }
 
   /**
@@ -173,8 +162,6 @@ class Menu extends React.Component {
    * @param {Tab} e   the tab that is being dropped
    */
   drop = (e) => {
-    /** stop the refreshing for new active tabs */
-    this.clearInterval();
     const { tabGroups } = this.state;
     /** check if the dropped target is droppable or valid */
     if (
@@ -217,7 +204,6 @@ class Menu extends React.Component {
         /** here means no redundancy */
         /** push the Tab to the corresponding TabGroup (append) */
         tabGroups[index].tabs.push(tabData);
-
         /** if the tab is originally stored in activeTabs or savedTabs
          *  when we drop this tab, we keep a copy in the activeTabs or
          *  savedTabs instead of remove it */
@@ -252,10 +238,9 @@ class Menu extends React.Component {
       chrome.storage.sync.set({ tabGroups });
       /** tell DOM to re-render to update the menu visual */
       this.setState({ tabGroups });
+      /** this will keep refresh for newest number of tabs in ActiveTabs */
+      this.getActiveTabs();
     }
-    /** this will keep refresh for newest number of tabs in ActiveTabs */
-    this.getActiveTabs();
-    this.setInterval();
   };
 
   /**
@@ -263,11 +248,7 @@ class Menu extends React.Component {
    * @param {Tab} e   the tab that is being dropped
    */
   dragOver = (e) => {
-    /** prevent the refresh of searching active tabs */
-    this.clearInterval();
     e.preventDefault();
-    /** continue the interval of searching active tabs */
-    this.setInterval();
   };
 
   /**
@@ -315,7 +296,7 @@ class Menu extends React.Component {
           nameCheck = false;
         } else {
           count += 1;
-          tempGroupName = groupName + count.toString();
+          tempGroupName = `${groupName} (${count.toString()})`;
         }
       }
       groupName = tempGroupName;
@@ -331,6 +312,8 @@ class Menu extends React.Component {
       chrome.storage.sync.set({ tabGroups }, () => {});
       /** close the modal since user submitted */
       this.modalClose();
+      /** this will keep refresh for newest number of tabs in ActiveTabs */
+      this.getActiveTabs();
     }
   };
 
@@ -353,26 +336,25 @@ class Menu extends React.Component {
    * @param {string} newName  The new name of the TabGroup
    */
   editGroup = (target, newName) => {
-    /** prevent the refresh of searching active tabs */
-    this.clearInterval();
     const { tabGroups } = this.state;
     /** find the index of the TabGroup to be renamed */
     const index = tabGroups.findIndex(
       (tabGroup) => tabGroup.trackid === target
     );
     /** limit the name input to be under 30 */
-    if (newName.length > 30) {
-      newName = newName.substring(0, 30);
+    let name = newName;
+    if (name.length > 30) {
+      name = name.substring(0, 30);
     }
     /** change the name only if the name is different */
-    if (tabGroups[index].name !== newName) {
+    if (tabGroups[index].name !== name) {
       /** check if there is a redundant name existed */
       /** constantly loop through the names of all the tabgroups
        * if there is an redundant name, append a numerical number behind
        * and reloop through. This process will continue until there is
        * no redundant names */
       let count = 0;
-      let tempName = newName;
+      let tempName = name;
       while (true) {
         // eslint-disable-next-line no-loop-func
         const i = tabGroups.findIndex((tabGroup) => tabGroup.name === tempName);
@@ -381,19 +363,18 @@ class Menu extends React.Component {
           break;
         } else {
           count += 1;
-          tempName = newName + count.toString();
+          tempName = `${name} (${count.toString()})`;
         }
       }
       // eslint-disable-next-line no-param-reassign
-      newName = tempName;
+      name = tempName;
     }
     /** update the new name to the corresponding TabGroup */
-    tabGroups[index].name = newName;
+    tabGroups[index].name = name;
     /** update the current state and the chrom storage */
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
     /** continue to search for new active tabs */
-    this.setInterval();
   };
 
   /**
@@ -412,21 +393,8 @@ class Menu extends React.Component {
     /** update the state and chrome storage */
     this.setState({ tabGroups });
     chrome.storage.sync.set({ tabGroups });
-  };
-
-  /**
-   * @description   set up a 1000 ms to get new active tabs to render in activeTabs
-   */
-  setInterval = () => {
-    this.setState({ interval: setInterval(this.getActiveTabs, 1000) });
-  };
-
-  /**
-   * @description   clear and stop the refresh interval of getActiveTabs
-   */
-  clearInterval = () => {
-    const { interval } = this.state;
-    clearInterval(interval);
+    /** this will keep refresh for newest number of tabs in ActiveTabs */
+    this.getActiveTabs();
   };
 
   /**
@@ -434,7 +402,6 @@ class Menu extends React.Component {
    */
   modalClose = () => {
     this.setState({ addGroupModal: false });
-    this.setInterval();
   };
 
   /**
@@ -522,7 +489,6 @@ class Menu extends React.Component {
                     type="button"
                     /** add a group then we set the addGroupModal to be true */
                     onClick={() => {
-                      this.clearInterval();
                       this.setState({ addGroupModal: true });
                     }}
                     data-testid="add-button" /** for testing purposes */

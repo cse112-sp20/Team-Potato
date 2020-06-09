@@ -4,7 +4,7 @@ Flow is an open-source Chrome extension by Team Portato which aims to combat onl
 Download our extension now and find your ~ f l o w ~
 
 # Users
-We appreciate you came to check us out!<br> 
+We appreciate that you came to check us out!<br> 
 But I think you're distracted :rage::triumph: <br>
 Learn how to use flow <a href="https://cse112-sp20.github.io/Team-Potato/"> here</a>. <b>Quick!</b> Then get back to work!<br>
 
@@ -14,12 +14,12 @@ Team Potato :heart:loves:heart: our open source developers!  Read below to find 
 ## Quick Setup
 To set up your work environment begin by cloning the repository
 
-```bash
+```
 git clone https://github.com/cse112-sp20/Team-Potato.git
 ```
 Next, you must build the extension.  
 
-```bash
+```
 cd Team-Potato
 npm install
 npm run build-dev

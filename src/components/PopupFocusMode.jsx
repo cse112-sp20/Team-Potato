@@ -217,14 +217,13 @@ class PopupFocusMode extends React.Component {
                   :
                   <Timer.Seconds />
                 </button>
-                {/* <br /> */}
                 {shouldDisplaySlider ? (
                   <ReactSlider
                     className="horizontal-slider"
                     thumbClassName="sliderThumb"
                     defaultValue={60}
-                    min={5}
-                    step={5}
+                    min={0.2}
+                    step={0.2}
                     max={180}
                     snapDragDisabled={false}
                     renderThumb={(props, state) => (
@@ -233,8 +232,6 @@ class PopupFocusMode extends React.Component {
                   />
                 ) : null}
               </div>
-              {/* <br /> */}
-              {/* <div className="popupFocusModeTabGroupName">{tabGroupName}</div> */}
               <div className="popupFocusModeBtnContainer">
                 <button
                   className="popupFocusModeButton btn"

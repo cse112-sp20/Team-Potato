@@ -51,7 +51,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const opt = {
           type: 'basic',
           title: 'Good work!',
-          message: `You focused for ${initTimeInMinutes} minutes. Open Flow to end focus mode`,
+          message: `You focused for ${initTimeInMinutes} minutes. \nOpen Flow to end focus mode`,
           iconUrl: 'logo.png',
         };
         timeOut = setTimeout(

@@ -50,7 +50,7 @@ class Menu extends React.Component {
       tabGroups: [],
       savedTabs: [],
       excludeUrls: [
-        /** this is the potato tab menu page */
+        /** this is the flow menu page */
         'chrome-extension://flfgpjanhbdjakbkafipakpfjcmochnp/menu.html',
         /** new tab for chrome brower */
         'chrome://newtab/',
@@ -238,9 +238,9 @@ class Menu extends React.Component {
       chrome.storage.sync.set({ tabGroups });
       /** tell DOM to re-render to update the menu visual */
       this.setState({ tabGroups });
+      /** this will keep refresh for newest number of tabs in ActiveTabs */
+      this.getActiveTabs();
     }
-    /** this will keep refresh for newest number of tabs in ActiveTabs */
-    this.getActiveTabs();
   };
 
   /**
@@ -429,7 +429,7 @@ class Menu extends React.Component {
               <div
                 id="activeTabs"
                 className="activeTabs"
-                droppable="false" /** notify the drag drop algoithm that activeTabs is not droppable */
+                droppable="false" /** notify the drag drop algorithm that activeTabs is not droppable */
                 onDrop={this.drop}
                 onDragOver={this.dragOver}
                 data-testid="active-tabs"

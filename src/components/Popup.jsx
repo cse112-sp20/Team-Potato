@@ -151,7 +151,7 @@ class Popup extends React.Component {
             </div>
             <div className="popupTabGroupContainer">
               {tabGroups.map((tabGroup) => (
-                /** if should display focuemode */
+                /** if should display focusmode */
                 <TabGroup
                   view="popup"
                   key={tabGroup.name}
@@ -169,7 +169,7 @@ class Popup extends React.Component {
                 className="menuBtn"
                 onClick={this.openMenu} /** click to open menu */
               >
-                Open Potato Tab
+                Open Flow
               </Button>
             </div>
           </div>

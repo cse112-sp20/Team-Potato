@@ -13,6 +13,7 @@ from time import sleep
 import json
 import os
 
+all_tests_check = 0
 CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
@@ -86,6 +87,7 @@ try:
 except AssertionError:
     print(CRED + "Test 10 Failed" + CEND)
     print(CRED + "New tab group was not created" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 10 Passed" + CEND)
 print("-----------------------")
@@ -113,6 +115,7 @@ try:
 except AssertionError:
     print(CRED + "Test 11 Failed" + CEND)
     print(CRED + "No tab group with name 'Test Group" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 11 Passed" + CEND)
 print("-----------------------")
@@ -147,6 +150,7 @@ try:
 except AssertionError:
     print(CRED + "Test 12 Failed" + CEND)
     print(CRED + "Some or all tabs not added to tab group" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 12 Passed" + CEND)
 print("-----------------------")
@@ -166,6 +170,7 @@ try:
 except AssertionError:
     print(CRED + "Test 13 Failed" + CEND)
     print(CRED + "Either delete or edit button not rendering" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 13 Passed" + CEND)
 print("-----------------------")
@@ -205,6 +210,7 @@ try:
 except AssertionError:
     print(CRED+"Test 14 Failed" + CEND)
     print(CRED + "Editing name did not work properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 14 Passed" + CEND)
 print("-----------------------")
@@ -237,6 +243,7 @@ try:
 except AssertionError:
     print(CRED+"Test 15 Failed" + CEND)
     print(CRED + "Re-editing name did not work properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 15 Passed" + CEND)
 print("-----------------------")
@@ -261,9 +268,11 @@ try:
 except AssertionError:
     print(CRED + "Test 16 Failed" + CEND)
     print(CRED + "Delete button not working" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 16 Passed" + CEND)
 print("-----------------------")
+assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
 print(CGREEN + "All Tests Passed" + CEND)
 
 # writing coverage report

@@ -14,7 +14,7 @@ from time import sleep
 import json
 import os
 
-
+all_tests_check = 0
 CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
@@ -97,6 +97,7 @@ try:
 except AssertionError:
     print(CRED + "Test 17 Failed" + CEND)
     print(CRED + "Tab group is not rendering on popup page" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 17 PASSED" + CEND)
 print("-----------------------")
@@ -134,6 +135,7 @@ except AssertionError:
         print(CRED + "Focus mode title did not render properly" + CEND)
     if second_check == 1:
         print(CRED + "Tab groups title did not render properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 18 Passed" + CEND)
 print("-----------------------")
@@ -155,6 +157,7 @@ try:
 except AssertionError:
     print(CRED + "Test 19 Failed" + CEND)
     print(CRED + "Start button not rendered properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 19 Passed" + CEND)
 print("-----------------------")
@@ -181,6 +184,7 @@ try:
 except AssertionError:
     print(CRED + "Test 20 Failed" + CEND)
     print(CRED + "Button did not change to 'End' upon starting focus mode" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 20 Passed" + CEND)
 print("-----------------------")
@@ -191,6 +195,7 @@ Test Number #21
 Description: Checking if end button takes us back to the original view of popup.html
 
 '''
+print(CYELLOW + "Running Test 21" + CEND)
 # click end focus button found in previous test
 end_focus.click()
 # Checking if tabs are still present after clicking end focus
@@ -205,6 +210,7 @@ try:
 except AssertionError:
     print(CRED + "Test 21 Failed" + CEND)
     print(CRED + "Enc focus does not make popup.html go to its original state"+CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 21 Passed" + CEND)
 print("-----------------------")
@@ -236,6 +242,7 @@ try:
 except AssertionError:
     print(CRED + "Test 22 Failed" + CEND)
     print(CRED + "Timer not changing properly with slider" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 22 Passed" + CEND)
 print("-----------------------")
@@ -256,6 +263,7 @@ try:
 except AssertionError:
     print(CRED + "Test 23 Failed" + CEND)
     print(CRED + "Max time not correct" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 23 Passed" + CEND)
 print("-----------------------")
@@ -276,6 +284,7 @@ try:
 except AssertionError:
     print(CRED + "Test 24 Failed" + CEND)
     print(CRED +"Min time not correct" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 24 Passed" + CEND)
 print("-----------------------")
@@ -291,22 +300,24 @@ print(CYELLOW + "Running Test 25" + CEND)
 # clicking start button
 start_button = driver.find_element_by_class_name("popupFocusModeButton")
 start_button.click()
-# re-opening the popup extension (this takes 4-6 seconds)
+# re-opening the popup extension (this takes 1-10 seconds)
 driver.switch_to.window(driver.window_handles[4])
 driver.get("chrome-extension://" + uid + "/popup.html")
 sleep(5)
-# checking if time elapsed on the timer is between 9-11 seconds
+# checking if time elapsed on the timer is between 6-16 seconds
 final_time = driver.find_element_by_class_name("popupFocusModeTimer").text
 try:
-    assert "0:04:50" in final_time or "0:04:51" in final_time or "0:04:49" in final_time
+    assert "0:04:50" in final_time or "0:04:51" in final_time or "0:04:49" in final_time or "0:04:48" in final_time or \
+           "0:04:46" in final_time or "0:04:47" in final_time or "0:04:52" in final_time or "0:04:53" in final_time
 except AssertionError:
     print(CRED + "Test 25 Failed" + CEND)
     print(CRED + "Timer counting down properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 25 Passed" + CEND)
 print("-----------------------")
+assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
 print(CGREEN + "All Tests Passed" + CEND)
-
 # writing coverage report
 coverage_json_file = open("./project/.nyc_output/#30_#36.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)

@@ -12,7 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 import json
 import os
-
+all_tests_check = 0
 CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
@@ -76,6 +76,7 @@ try:
 except AssertionError:
     print(CRED + "Test 7 Failed" + CEND)
     print(CRED + "Duplicate active tabs were rendered" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 7 Passed" + CEND)
 print("-----------------------")
@@ -116,6 +117,7 @@ except AssertionError:
         print(CRED + "Active tabs were not rendered correctly" + CEND)
     if facebook_count == 0:
         print(CRED + "Duplicate active tabs were rendered" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 8 Passed" + CEND)
 assert facebook_tab == 1 and insta_tab == 1 and facebook_second_count == 1
@@ -196,10 +198,12 @@ try:
 except AssertionError:
     print(CRED+"Test 9 failed" + CEND)
     print(CRED+"Duplicate tab groups were rendered"+CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 9 Passed" + CEND)
 print("-----------------------")
-print(CGREEN+"All Tests Passed"+CEND)
+assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
+print(CGREEN + "All Tests Passed" + CEND)
 
 # writing coverage details
 coverage_json_file = open("./project/.nyc_output/#103_#105.json","w+")

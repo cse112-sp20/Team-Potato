@@ -13,14 +13,15 @@ import json
 import os
 from time import sleep
 
+all_tests_check = 0
+
 CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
 CEND = '\033[0m'
 
 print(os.getcwd())
-options = webdriver.ChromeOptions()
-
+options = Options()
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems
@@ -91,6 +92,8 @@ try:
 except AssertionError:
     print(CRED + "Test 1 Failed" + CEND)
     print(CRED + "Active tabs were not rendered correctly" + CEND)
+    all_tests_check = 1
+
 else:
     print(CGREEN + "Test 1 Passed" + CEND)
 
@@ -120,9 +123,12 @@ try:
 except AssertionError:
     print(CRED + "Test 2 Failed" + CEND)
     print(CRED + "Active tabs were not updated correctly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 2 Passed" + CEND)
+
 print("-----------------------")
+assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
 print(CGREEN + "All Tests Passed" + CEND)
 
 # writing coverage details

@@ -30,10 +30,10 @@ jobs:
           #install all the packages from package.json
           name: install-dependencies
           command: sudo npm install
-      #- run:
-      #    #audit package dependencies for security vulnerabilities
-      #    name: Fix Vulnerabilities
-      #    command: sudo npm audit fix
+      - run:
+          #audit package dependencies for security vulnerabilities
+          name: Fix Vulnerabilities
+          command: sudo npm audit fix
       - run:
           #install selenium
           name: Install Selenium

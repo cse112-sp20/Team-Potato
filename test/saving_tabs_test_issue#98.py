@@ -17,6 +17,7 @@ CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
 CEND = '\033[0m'
+all_tests_check = 0
 
 print(os.getcwd())
 options = Options()
@@ -118,6 +119,7 @@ try:
 except AssertionError:
     print(CRED + "Test 33 Failed" + CEND)
     print(CRED + "Saved tabs component is not rendered" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 33 Passed" + CEND)
 print("-----------------------")
@@ -144,6 +146,7 @@ try:
 except:
     print(CRED + "Test 34 Failed" + CEND)
     print(CRED + "Saved Tab Header is not rendered" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 34 Passed" + CEND)
 print("-----------------------")
@@ -171,6 +174,7 @@ try:
 except AssertionError:
     print(CRED + "Test 25 Failed" + CEND)
     print(CRED + "Title for saved tabs not rendered" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 35 Passed" + CEND)
 print("-----------------------")
@@ -207,6 +211,7 @@ except:
         print(CRED + "Delete all button did not render properly" + CEND)
     if open_all_check == 0:
         print(CRED + "Open all button did not render properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 36 Passed" + CEND)
 print("-----------------------")
@@ -242,6 +247,7 @@ try:
 except AssertionError:
     print(CRED + "Test 37 Failed" + CEND)
     print(CRED + "All previous tabs not rendered" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 37 Passed" + CEND)
 print("-----------------------")
@@ -271,16 +277,18 @@ try:
 except AssertionError:
     print(CRED + "Test 38 Failed" + CEND)
     print(CRED + "Saved Tabs not deleted" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 38 Passed" + CGREEN)
 print("-----------------------")
+assert all_tests_check == 0
+assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
 print(CGREEN + "All Tests Passed" + CEND)
 
 # writing coverage report
 coverage_json_file = open("./project/.nyc_output/#98.json","w+")
 json.dump(driver.execute_script("return window.__coverage__;"), coverage_json_file)
 coverage_json_file.close()
-print("All Tests Passed")
 driver.quit()
 
 

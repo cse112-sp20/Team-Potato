@@ -10,15 +10,14 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import json
 import os
-
+all_tests_check = 0
 CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
 CEND = '\033[0m'
 
 print(os.getcwd())
-options = webdriver.ChromeOptions()
-
+options = Options()
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems
@@ -52,6 +51,7 @@ try:
 except AssertionError:
     print(CRED + "Test 3 Failed" + CEND)
     print(CRED + "Open Potato Tab button not rendered" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 3 Passed")
 print("-----------------------")
@@ -73,6 +73,7 @@ try:
 except AssertionError:
     print(CRED +"Test 4 Failed" + CEND)
     print("Potato Tab Menu not opened on button click")
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 4 Passed" + CEND)
 print("-----------------------")
@@ -108,6 +109,7 @@ try:
 except AssertionError:
     print(CRED + "Test 5 Failed" + CEND)
     print(CRED + "New tab group was not created" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 5 Passed" + CEND)
 print("-----------------------")
@@ -126,9 +128,11 @@ try:
 except AssertionError:
     print(CRED + "Test 6 Failed" + CEND)
     print(CRED + "Header text not rendering properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 6 Passed" + CEND)
 print("-----------------------")
+assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
 print(CGREEN + "All Tests Passed" + CEND)
 
 # writing coverage details

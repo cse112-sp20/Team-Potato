@@ -14,6 +14,8 @@ from time import sleep
 import json
 import os
 
+all_tests_check = 0
+
 CRED = '\033[91m'
 CGREEN = '\33[32m'
 CYELLOW = '\33[33m'
@@ -93,6 +95,7 @@ try:
 except AssertionError:
     print(CRED + "Test 26 Failed" + CEND)
     print(CRED + "Tab group not persistent on popup.html" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 26 Passed" + CEND)
 print("-----------------------")
@@ -136,6 +139,7 @@ try:
 except AssertionError:
     print(CRED + "Test 28 Failed" + CEND)
     print(CRED + "Google is not whitelisted" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 28 Passed" + CEND)
 print("-----------------------")
@@ -168,6 +172,7 @@ try:
 except AssertionError:
     print(CRED + "Test 29 Failed" + CEND)
     print(CRED + "Website not blocked" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 29 Passed" + CEND)
 print("-----------------------")
@@ -188,6 +193,7 @@ try:
 except AssertionError:
     print(CRED + "Test 30 Failed" + CEND)
     print(CRED + "Allow button not rendering text properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 30 Passed" + CEND)
 print("-----------------------")
@@ -214,6 +220,7 @@ try:
 except AssertionError:
     print(CRED + "Test 31 Failed" + CEND)
     print(CRED + "Close button text rendering properly" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 31 Passed" + CEND)
 print("-----------------------")
@@ -248,10 +255,12 @@ try:
 except:
     print(CRED + "Test 32 Failed" + CEND)
     print(CRED + "Allow website button not working" + CEND)
+    all_tests_check = 1
 else:
     print(CGREEN + "Test 32 Passed" + CEND)
 print("-----------------------")
 
+assert all_tests_check == 0, CRED + "Some Tests Failed" + CEND
 print(CGREEN + "All Tests Passed" + CEND)
 
 # writing coverage report

@@ -8,8 +8,8 @@ import json
 
 options = webdriver.ChromeOptions()
 
-print("loading packed extension")
-
+print(os.getcwd())
+options = Options()
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
 # overcome limited resource problems

@@ -39,19 +39,21 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
 let startTime;
 let passedTime;
 let timeOut; // Displays chrome notification
-const opt = {
-  type: 'basic',
-  title: 'Good work!',
-  message:
-    'Your focus mode session is over, open Flow to end or start a new session',
-  iconUrl: '../logo.png',
-};
+let initTimeInMinutes;
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.msg === 'start') {
     startTime = Date.now();
     passedTime = 0;
     chrome.storage.sync.get('initClockTime', (obj) => {
       if (obj) {
+        initTimeInMinutes = obj.initClockTime / 60000;
+        const opt = {
+          type: 'basic',
+          title: 'Good work!',
+          message: `You focused for ${initTimeInMinutes} minutes. \nOpen Flow to end focus mode`,
+          iconUrl: 'logo.png',
+        };
         timeOut = setTimeout(
           () => chrome.notifications.create('fm-end', opt),
           obj.initClockTime
@@ -66,6 +68,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+// Blocking logic
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
     case 'close':

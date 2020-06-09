@@ -1,19 +1,19 @@
 .popupFocusMode {
-  font-family: 'Lato', sans-serif;
   text-align: center;
 }
 
 .popupFocusModeTitle {
-  font-size: 26px;
-  margin-top: 26px;
+  background: mediumseagreen;
+  color: white;
+  padding-top: 15px;
+  height: 70px;
 }
 
 .popupFocusModeTimer {
   border-radius: 2em;
-  font-family: 'Lucida Console', 'Monaco', 'monospace';
-  font-size: 40px;
+  font-size: 60px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 20px;
   outline: none;
 }
 
@@ -22,8 +22,8 @@
 }
 
 .popupFocusModeTabGroupName {
-  font-size: 26px;
-  margin-bottom: 20px;
+  font-size: 20px;
+  margin-top: 40px;
 }
 
 .popupFocusModeButton {
@@ -51,6 +51,42 @@
   width: 20px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(36, 149, 255, 0.876);
+  background: mediumseagreen;
   cursor: pointer;
+}
+
+.popupFocusModeBtnContainer {
+  text-align: center;
+  margin: 10px;
+  bottom: 0;
+  right: 20%;
+  left: 20%;
+}
+
+.popupFocusModeButton {
+  height: 50px;
+  width: 100%;
+  background-color: mediumseagreen !important;
+  color: white !important;
+  border: none !important;
+}
+
+.popupFocusModeButton:hover {
+  background-color: limegreen !important;
+}
+
+.popupFocusModeBackButton {
+  width: 100%;
+  background-color: lightslategrey !important;
+  color: white !important;
+  border: none !important;
+}
+
+.popupFocusModeBackButton:hover {
+  background-color: grey !important;
+}
+
+.popupFocusModeBodyContainer {
+  width: 300px;
+  height: 210px;
 }

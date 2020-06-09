@@ -30,10 +30,10 @@ jobs:
           #install all the packages from package.json
           name: install-dependencies
           command: sudo npm install
-      #- run:
-      #    #audit package dependencies for security vulnerabilities
-      #    name: Fix Vulnerabilities
-      #    command: sudo npm audit fix
+      - run:
+          #audit package dependencies for security vulnerabilities
+          name: Fix Vulnerabilities
+          command: sudo npm audit fix
       - run:
           #install selenium
           name: Install Selenium
@@ -78,6 +78,7 @@ jobs:
             ls -a
             pwd
             ls -a project/
+            rm -r project/test
       - run:
           #set up selenium for python environment
           name: Selenium-setup
@@ -97,31 +98,31 @@ jobs:
       - run:
           #testing to see active tab works with issue 33
           name: Activetab-test
-          command: python test/active_tabs_issue\#33.py
+          command: python test/active_tabs_test_issue\#33.py
       - run:
-          #testing to see duplicate tabs or tab groups will be avoided (issue 103 105)
+          #testing to see duplicate tabs or tab groups will be avoided (issue 103 105) ~
           name: Duplicate-prevention-test
-          command: python test/no_duplicate_tabs_or_tab_groups_issue\#103_and_issue\#105.py
-      #- run:
-      #testing for timer functionality issue 30
-      #   name: Focus-popup-timer-test
-      #   command: python test/popup_focus_mode_timer_issue\#36_issue\#30.py
+          command: python test/no_duplicates_test_issue\#103_issue\#105.py
       - run:
-          #testing to see if tabs will be saved after focus mode (issue 98)
+          #testing for timer functionality issue 30 ~
+          name: Focus-popup-timer-test
+          command: python test/focus_mode_timer_test_issue\#36_issue\#30.py
+      - run:
+          #testing to see if tabs will be saved after focus mode (issue 98) ~
           name: Saving-tabs-test
-          command: python test/saving_tabs_issue\#98.py
+          command: python test/saving_tabs_test_issue\#98.py
       - run:
-          #testing on issue 15 with most uptodate tests
-          name: Tab-group-test
+          #testing on issue 15 with most uptodate tests ~
+          name: Tab-group-test-15
           command: python test/tab_group_test_issue\#15.py
       - run:
-          #testing for tabgroup issue 34
-          name: Tabgroup-test
-          command: python test/tabgroup_CRUD_issue\#34.py
+          #testing for tabgroup issue 34 ~
+          name: Tabgroup-CRUD-test
+          command: python test/tabgroup_CRUD_test_issue\#34.py
       - run:
-          #testing for website blocking issue 73 and 62
+          #testing for website blocking issue 73 and 62 ~
           name: Website-blocking-test
-          command: python test/website_blocking_issue\#73_and_\#62.py
+          command: python test/website_blocking_test_issue\#73_issue\#62.py
       - persist_to_workspace:
           #save the nyc_output raw coverage repo to cache
           root: /home/circleci/project/project
@@ -144,6 +145,7 @@ jobs:
           command: |
             ls -a
             pwd
+            rm -r project/test
       - run:
           #visual check for raw coverage report
           name: Show test coverage file

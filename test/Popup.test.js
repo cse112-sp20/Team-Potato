@@ -38,7 +38,7 @@ test('renders popup correctly', () => {
   expect(tabGroups.length).toEqual(1);
 
   // expect to see Open Menu button
-  const menuButton = getByRole('button', { name: 'Open Potato Tab' });
+  const menuButton = getByRole('button', { name: 'Open Flow' });
   expect(menuButton).toBeInTheDocument();
 });
 
@@ -52,7 +52,7 @@ test('opens menu page when button clicked', () => {
   const { getByRole } = render(<Popup />);
 
   // click Open Menu button
-  const menuButton = getByRole('button', { name: 'Open Potato Tab' });
+  const menuButton = getByRole('button', { name: 'Open Flow' });
   fireEvent.click(menuButton);
 
   // expect menu page file to have been passed to getURL() method

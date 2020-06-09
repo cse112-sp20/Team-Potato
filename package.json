@@ -1,5 +1,5 @@
 {
-  "name": "potato-tab",
+  "name": "flow",
   "version": "1.0.0",
   "description": "A tab management chrome extension build by the Potato team.",
   "scripts": {

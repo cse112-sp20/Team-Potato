@@ -45,7 +45,7 @@ options.add_argument("--ignore-certificate-errors")
 
 print("set up driver")
 # creating chrome driver
-driver = webdriver.Chrome('test/chromedriver', options=options)
+driver = webdriver.Chrome(options=options)
 
 # assigning the extensions uid
 uid = "flfgpjanhbdjakbkafipakpfjcmochnp"

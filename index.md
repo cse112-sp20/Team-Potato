@@ -23,13 +23,13 @@ layout: default
 
 <br/><br/>
 
-# Potato Tabs -- Your Best Choice
+# Flow -- Your Best Choice
 
 - This extension is essentially a merge between focus mode and tab grouping extensions, allowing users to divide extensions into groups and activate focus mode within that group. Essentially, all tabs outside of that group become blocked and unavailable to use for a certain amount of time, and only the tabs within the active group will be available to the user, preventing distractions in the process and, as a result, potential increase in productivity.
 
 <!-- ![background](/assets/background.PNG){:height="300px" width="4000px"} -->
 
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/>
 
 ---
 
@@ -44,9 +44,9 @@ layout: default
 5.  Type in `chrome://extension` on search bar of your chrome.
 6.  Toggle on Developer Mode by clicking the toggle switch on the top right corner of the page. (You should be able to see an extra white bar show up right below the blue bar)
 7.  Click on the `Load Unpacked` button and select the `../Team-Potato/build` folder of the file.
-8.  Potato Tab is ready to go!
+8.  Flow is ready to go!
     <!-- ![background](/assets/background.PNG){:height="250px" width="4000px"} -->
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/>
 
 ---
 
@@ -54,14 +54,14 @@ layout: default
 
 # Get Started with Our Extension
 
-- Click on the icon of our lovely potato
+- Click on the icon of our logo
 
-- Open Potato Tab
+- Open Flow
 
 - Be ready for a whole new experience
 
-![open potato tabs](/assets/tab1.PNG){:height="250px" width="275px"}
-![active tabs](/assets/tab2 active tabs.PNG){:height="250px" width="250px"}
+![open potato tabs](/assets/tab1.PNG){:height="300px" width="200px"}
+![active tabs](/assets/tab2.PNG){:height="300px" width="450px"}
 
 <!-- ![background](/assets/background.PNG){:height="100px" width="4000px"} -->
 
@@ -73,7 +73,7 @@ layout: default
 
 # Organize Your Tabs into Groups
 
-- Click the `+` icon at the bottom right
+- Click the `+` icon
 
 - Type in the best group name you can think of
 
@@ -81,7 +81,7 @@ layout: default
 
 - Or…. (to be continue)
 
-![create group](/assets/tab4 create group.PNG){:height="350px" width="450px"}
+![create group](/assets/tab4.PNG){:height="350px" width="450px"}
 
 <!-- ![background](/assets/background.PNG){:height="100px" width="4000px"} -->
 
@@ -95,9 +95,9 @@ layout: default
 
 - What if you want to add new tabs into a group?
 
-- We got you covered with easy to use drag and drop function!
+- We got you covered with easy-to-use drag-and-drop function!
 
-![drag & drop](/assets/grouped tabs 2.PNG){:height="350px" width="400px"}
+![drag & drop](/assets/grouped tabs.PNG){:height="400px" width="630px"}
 
 <!-- ![background](/assets/background.PNG){:height="100px" width="4000px"} -->
 
@@ -114,8 +114,8 @@ layout: default
 - Set the timer and click `start focus`
 - Now you can concentrate on your job, awesome!
 
-![focus1](/assets/small window.PNG){:height="270px" width="270px"}
-![focus2](/assets/focus mode.PNG){:height="270px" width="270px"}
+![focus1](/assets/small window.PNG){:height="450px" width="270px"}
+![focus2](/assets/focus mode.PNG){:height="450px" width="270px"}
 
 <br/><br/><br/><br/><br/><br/>
 
@@ -126,13 +126,13 @@ layout: default
 # Trying to Open New Tabs?
 
 - Different websites, different choices.
-- When you open up a new tab, a prompt will give three choices
+- When you open up a new tab, a prompt will give two choices
 
-1.  `Close Tab` - this will close the new tab immediately and thus prevent distraction. Close YouTube now!
-2.  `Unblock Once` - this will allow the tab to open for this time, but prompt will show up again if the website is opened again in the future. Maybe just a short video?
-3.  `Add to Group` - this will allow you to use the website and add it to your group. We need Github to study!
+1.  `Close Tab` - this will close the new tab immediately and thus prevent distraction. Close YouTube now and go back to study!
 
-![focus3](/assets/focus youtube.PNG){:height="270px" width="270px"}
+2.  `Add to Group` - this will allow you to use the website and add it to your group. Please, I need Github to study!
+
+![focus3](/assets/focus youtube.PNG){:height="270px" width="300px"}
 ![focus4](/assets/focus github.PNG){:height="270px" width="270px"}
 
 <br/><br/><br/><br/><br/><br/>
@@ -144,15 +144,15 @@ layout: default
 # After Focus
 
 - You can see `GitHub` is now in the `study` group.
-- If you want to recover the tab that was closed by starting focus mode, follow the instruction below.
+- If you want to recover the tab that was closed when starting focus mode, follow the instructions below.
 
-1.  Navigate to the potato tab menu page.
+1.  Navigate to the Flow menu page.
 2.  Find the `Saved Tabs` on the bottom left of the menu.
 3.  Choose the site you want to recover by clicking on them or simply recover all of them by using `Open All` button
 4.  Or, you can click on `Delete All` if you don't want them any more.
 
-![saved tabs](/assets/saced tabs.PNG){:height="270px" width="170px"}
-![new study group](/assets/study group with github.PNG){:height="270px" width="370px"}
+![saved tabs](/assets/saved tabs.PNG){:height="250px" width="155px"}
+![new study group](/assets/study group with github.PNG){:height="270px" width="530px"}
 
 <br/><br/><br/><br/><br/><br/>
 

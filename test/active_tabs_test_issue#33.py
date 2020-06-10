@@ -23,6 +23,7 @@ CEND = '\033[0m'
 print(os.getcwd())
 options = webdriver.ChromeOptions()
 
+print("loading packed extension")
 options.add_argument("load-extension=/Users/dwei/Desktop/Team-Potato/build/")
 # overcome limited resource problems
 options.add_argument("--disable-dev-shm-usage")
@@ -31,15 +32,12 @@ options.add_argument("--no-sandbox")
 # starting window maximized to prevent any scrolling issues
 options.add_argument("--start-maximized")
 
-options.add_argument("--start-maximized")
-options.add_argument("disable-infobars")
+#options.add_argument("--headless")
 options.add_argument("--disable-gpu")
 options.add_argument("--ignore-certificate-errors")
-options.add_argument("--test-type")
-options.add_argument("test-type")
-options.add_argument("--window-size=1920,1080")
-options.add_argument("--enable-precise-memory-info")
-options.add_argument("test-type=browser")
+options.add_argument("--allow-insecure-localhost")
+options.add_argument("--allow-running-insecure-content")
+
 
 print("set up driver")
 # creating chrome driver

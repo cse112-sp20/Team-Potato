@@ -23,8 +23,19 @@ CEND = '\033[0m'
 print(os.getcwd())
 options = webdriver.ChromeOptions()
 
+'''
 print("loading packed extension")
-options.add_argument("load-extension=/Users/dwei/Desktop/Team-Potato/build/")
+options.add_argument("load-extension=./project/build/")
+# overcome limited resource problems
+options.add_argument("--disable-dev-shm-usage")
+# Bypass OS security model
+options.add_argument("--no-sandbox")
+# starting window maximized to prevent any scrolling issues
+options.add_argument("--start-maximized")
+'''
+
+print("loading packed extension")
+options.add_argument("load-extension=./project/build/")
 # Bypass OS security model
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-setuid-sandbox") 

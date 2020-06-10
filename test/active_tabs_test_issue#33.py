@@ -23,9 +23,7 @@ CEND = '\033[0m'
 print(os.getcwd())
 options = webdriver.ChromeOptions()
 
-print("loading packed extension")
-options.add_argument("load-extension=./project/build/")
-options.add_argument('--headless')
+options.add_argument("load-extension=/Users/dwei/Desktop/Team-Potato/build/")
 # overcome limited resource problems
 options.add_argument("--disable-dev-shm-usage")
 # Bypass OS security model
@@ -38,10 +36,7 @@ options.add_argument("--test-type")
 options.add_argument("test-type")
 options.add_argument("--window-size=1920,1080")
 options.add_argument("--enable-precise-memory-info")
-options.add_argument("--disable-popup-blocking")
-options.add_argument("--disable-default-apps")
 options.add_argument("test-type=browser")
-options.add_argument("--incognito")
 
 print("set up driver")
 # creating chrome driver

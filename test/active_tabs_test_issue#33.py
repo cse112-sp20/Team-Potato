@@ -25,7 +25,7 @@ options = webdriver.ChromeOptions()
 
 print("loading packed extension")
 options.add_argument("load-extension=./project/build/")
-optimes.add_argument('--headless')
+options.add_argument('--headless')
 # overcome limited resource problems
 options.add_argument("--disable-dev-shm-usage")
 # Bypass OS security model

@@ -31,7 +31,9 @@ options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
 # starting window maximized to prevent any scrolling issues
 options.add_argument("--start-maximized")
-options.add_argument("--headless")
+# applicable to windows os only
+options.add_argument("--disable-gpu")
+
 print("set up driver")
 # creating chrome driver
 driver = webdriver.Chrome(options=options)

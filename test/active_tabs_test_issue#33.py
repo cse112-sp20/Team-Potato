@@ -37,6 +37,7 @@ options.add_argument("--disable-gpu")
 options.add_argument("--ignore-certificate-errors")
 options.add_argument("--allow-insecure-localhost")
 options.add_argument("--allow-running-insecure-content")
+options.add_argument("--remote-debugging-port=9222")
 
 
 print("set up driver")

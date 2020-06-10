@@ -32,8 +32,16 @@ options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
 # starting window maximized to prevent any scrolling issues
 options.add_argument("--start-maximized")
-# applicable to windows os only
-#options.add_argument("--disable-gpu")
+
+options.add_argument("--ignore-certificate-errors")
+options.add_argument("--test-type")
+options.add_argument("test-type")
+options.add_argument("--window-size=1920,1080")
+options.add_argument("--enable-precise-memory-info")
+options.add_argument("--disable-popup-blocking")
+options.add_argument("--disable-default-apps")
+options.add_argument("test-type=browser")
+options.add_argument("--incognito")
 
 print("set up driver")
 # creating chrome driver

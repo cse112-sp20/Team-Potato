@@ -90,7 +90,7 @@
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "better-docs": "^2.0.1",
     "bootstrap": "^4.5.0",
-    "chromedriver": "^81.0.0",
+    "chromedriver": "^119.0.1",
     "debug": "^4.1.1",
     "gulp": "^4.0.2",
     "gulp-shell": "^0.8.0",
